@@ -1,3 +1,0 @@
-fos_user_override_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: FOSUserOverrideBundle:Default:index }

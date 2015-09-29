@@ -40,7 +40,7 @@ class RegistrationController extends BaseController
         }
 
         $form = $formFactory->createForm();
-//        $form->add('submit', 'submit', array('label' => 'Sign Up', 'attr' => ['class' => 'btn btn-info']));
+        $form->add('submit', 'submit', array('label' => 'Sign Up', 'attr' => ['class' => 'btn btn-info']));
         $form->setData($user);
 
         $form->handleRequest($request);
