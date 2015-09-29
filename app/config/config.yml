@@ -71,6 +71,15 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+#        entity_managers:
+#            default:
+#                mappings:
+#                    P5Model:
+#                        type: annotation
+#                        is_bundle: false
+#                        dir: %kernel.root_dir%/../src/P5/Model
+#                        prefix: P5\Model
+#                        alias: P5
 
 # Swiftmailer Configuration
 swiftmailer:
