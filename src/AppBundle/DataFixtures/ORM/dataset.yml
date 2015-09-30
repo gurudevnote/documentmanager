@@ -1,0 +1,25 @@
+users:
+  admin:
+    email: admin@rr404.loc
+    enabled: true
+    password: 123456
+    roles: 
+      - ROLE_SUPER_ADMIN
+  thoangtrong:
+    email: thoangtrong@pentalog.fr
+    enabled: true
+    password: 123456
+    roles:
+      - ROLE_USER
+  tnguyenle:
+    email: thinh1011@gmail.com
+    enabled: true
+    password: 123456
+    roles:
+      - ROLE_USER
+  hnguyenhuu:
+    email: hnguyenhuu@pentalog.fr
+    enabled: true
+    password: 123456
+    roles:
+      - ROLE_USER
