@@ -21,8 +21,15 @@ security:
             pattern: ^/
             form_login:
                 provider: fos_userbundle
+                remember_me:    true
                 csrf_provider: security.csrf.token_manager # Use form.csrf_provider instead for Symfony <2.4
-
+            remember_me:
+                key: %secret%
+                lifetime: 31536000
+                path: ~
+                domain: ~
+                remember_me_parameter: _remember_me
+                always_remember_me: true
             logout:       true
             anonymous:    true
 
