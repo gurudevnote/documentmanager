@@ -1,0 +1,38 @@
+===== PROJECT DESCRIPTION =====
+
+1. Project information
+
+- Project name: Symfony document management
+- GIT: https://bitbucket.org/pentalog/symfony-demo-app
+
+2. Modules and functionalities
+
+2.1. User
+- Create a new user
+- Login & Logout
+- Forgot password
+- Show / Edit the details of a user
+- List of users
+
+2.2. Group
+- List of groups
+- Create a new group
+- Add / Remove a user to / from a group
+- Update the permission of a group
+
+2.3. Document management
+- List of documents (all documents / documents in a folder)
+- Show my documents (owner)
+- Show shared documents (shared by others)
+- Upload a document
+- Search / filter a document by name / author / modified date
+- Show the information of a document (author, upload date, last modified date, members)
+- Share a document for others
+- Set permission per each user
+- Download / Show a document
+- Remove a document from server
+
+2.4. Folder management
+- List of folders
+- Create / remove a folder
+- Move / remove documents into / from a folder
