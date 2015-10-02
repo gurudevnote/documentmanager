@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="P5\Repository\FolderRepository")
  * @ORM\Table(name="folder")
  */
 class Folder
@@ -33,4 +33,8 @@ class Folder
      * @ORM\OneToMany(targetEntity="Document", mappedBy="folder")
      */
     private $documents;
+
+    public function setName($value) {
+        $this->name = $value;
+    }
 }
