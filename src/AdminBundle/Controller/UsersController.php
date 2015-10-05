@@ -98,7 +98,7 @@ class UsersController extends Controller {
             'validation_groups' => array('admin_edit_user')
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Update', 'attr' => ['class' => 'btn btn-primary']));
 
         return $form;
     }
@@ -166,6 +166,39 @@ class UsersController extends Controller {
         return $this->redirect($this->generateUrl('admin_user'));
     }
 
+
+    /**
+     * @param string $id
+     * @param string $format
+     * @return url
+     * @Route("/{id}/enable.{format}", name="admin_user_set_enable")
+     */
+    public function changeEnable($id, $format = 'html') {
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->findUserBy(['id' => $id]);
+        if ($user->isEnabled()) {
+            $value = false;
+        } else {
+            $value = true;
+        }
+        $user->setEnabled($value);
+        $userManager->updateUser($user);
+//        die(var_dump($user->toArray()));
+
+        if ($format == 'json') {
+            $data = array(
+                'enable' => $user->isEnabled(),
+            );
+
+            $response = new JsonResponse($data);
+
+            return $response;
+        }
+        $url = $this->generateUrl('admin_user_list');
+
+        return $this->redirect($url);
+    }
+
     /**
      * Creates a form to delete a User entity by id.
      *
@@ -178,7 +211,7 @@ class UsersController extends Controller {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_user_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'Delete this user', 'attr' => ['class' => 'btn btn-outline btn-link']))
             ->getForm()
             ;
     }
