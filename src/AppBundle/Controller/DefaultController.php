@@ -18,4 +18,12 @@ class DefaultController extends Controller
             'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
         ));
     }
+
+    /**
+     * Default menu
+     */
+    public function menuAction()
+    {
+        return $this->render('@App/default/menu.html.twig');
+    }
 }

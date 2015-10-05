@@ -1,3 +1,27 @@
-{% for folder in folders  %}
-    <p>{{folder.name}}</p>
-{% endfor %}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-4">
+            &nbsp;
+        </div>
+        <div class="col-md-4">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Folder name</th>
+                    <th>Author</th>
+                    <th>last modified</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for folder in folders  %}
+                <tr>
+                    <td>{{folder.name}}</td>
+                    <td>thaiht</td>
+                    <td>action</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

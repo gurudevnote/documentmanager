@@ -5,6 +5,7 @@ namespace V3d\Bundle\ApplicationBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use P5\Model\Document;
 use P5\Model\Folder;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -79,7 +80,8 @@ class LoadBasicData implements FixtureInterface, ContainerAwareInterface
         $usersObject = $dataset["users"];
         $this->injectUsers($usersObject);
         $this->injectFolders($dataset['folders']);
-        $this->em->flush();
+        $this->injectDocuments($dataset['documents']);
+        //$this->em->flush();
     }
 
     private function injectUsers($data)
@@ -107,6 +109,7 @@ class LoadBasicData implements FixtureInterface, ContainerAwareInterface
             $this->userManager->updateUser($user);
             $this->em->persist($user);
         }
+        $this->em->flush();
     }
     private  function injectFolders($data) {
         $folderRepository = $this->em->getRepository('P5:Folder');
@@ -120,7 +123,29 @@ class LoadBasicData implements FixtureInterface, ContainerAwareInterface
             $folder->setName($folderName);
             $this->em->persist($folder);
         }
+        $this->em->flush();
     }
+
+    private function injectDocuments($data){
+        $documentRepository = $this->em->getRepository('P5:Document');
+        $folderRepository = $this->em->getRepository('P5:Folder');
+
+        foreach($data as $documentName=>$documentData){
+            $document = $documentRepository->findOneByFilename($documentName);
+            if(!$document){
+                $document = new Document();
+            }
+            $document->setFilename($documentName);
+            $folder = $folderRepository->findOneByName($documentData['folder']);
+            $document->setFolder($folder);
+            $document->setUploadDate(new \DateTime(isset($documentData["upload_date"])?$documentData["upload_date"]:"2014-01-01 10:00:00"));
+            $document->setLastModified(new \DateTime(isset($documentData["last_modified"])?$documentData["last_modified"]:"2014-01-01 10:00:00"));
+            $document->setUser($this->userManager->findUserByUsername($documentData['creator']));
+            $this->em->persist($document);
+        }
+        $this->em->flush();
+    }
+
     private function arrayHasValue($array, $key){
         $result = true;
         if(!isset($array)) {

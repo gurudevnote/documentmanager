@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% form_theme uploadForm '@App/Form/form_layout.html.twig'  %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-2">
+            &nbsp;
+        </div>
+        <div class="col-md-8">
+            {{ form(uploadForm, {attr:{class:'form-inline', novalidate: 'novalidate'}}) }}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>File name</th>
+                    <th>Author</th>
+                    <th>Folder</th>
+                    <th>upload date</th>
+                    <th>last modified</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for document in documents  %}
+                <tr>
+                    <td>{{document.filename}}</td>
+                    <td>{{document.user.username}}</td>
+                    <td>{{document.folder.name}}</td>
+                    <td>{{document.uploadDate | date('Y-m-d')}}</td>
+                    <td>{{document.lastModified | date('Y-m-d H:i:s')}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
