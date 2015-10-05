@@ -10,6 +10,7 @@
                 <tr>
                     <th>Folder name</th>
                     <th>Author</th>
+                    <th>Number documents</th>
                     <th>last modified</th>
                 </tr>
                 </thead>
@@ -18,6 +19,7 @@
                 <tr>
                     <td>{{folder.name}}</td>
                     <td>thaiht</td>
+                    <td>{{ folder.documents | length }}</td>
                     <td>action</td>
                 </tr>
                 {% endfor %}

@@ -34,6 +34,22 @@ class Folder
      */
     private $documents;
 
+    /**
+     * @return mixed
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
+    }
+
+    /**
+     * @param mixed $documents
+     */
+    public function setDocuments(Document $documents)
+    {
+        $this->documents = $documents;
+    }
+
     public function setName($value) {
         $this->name = $value;
     }
