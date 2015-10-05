@@ -2,3 +2,5 @@ P5\Model\Document:
   properties:
     filename:
       - NotBlank: ~
+    folder:
+      - NotBlank: ~

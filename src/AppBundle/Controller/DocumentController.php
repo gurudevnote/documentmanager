@@ -21,6 +21,7 @@ class DocumentController extends Controller
         $folderRepository = $this->getDoctrine()->getManager()->getRepository("P5:Folder");
         $folders = $folderRepository->findAll();
         $optFolder = array();
+        $optFolder[''] = '-- select a folder --';
         foreach($folders as $folder){
             $optFolder[$folder->getId()] = $folder->getName();
         }
@@ -30,8 +31,20 @@ class DocumentController extends Controller
             ->add('filename', 'text')
             ->add('folder', 'choice', array('choices'=>$optFolder))
             ->add('save', 'submit', array('label' => 'Upload', 'attr'=>array('class'=>'btn-primary')))
-            ->setAction($this->generateUrl('upload_document'))
+            ->setAction($this->generateUrl('documents'))
             ->getForm();
+        $form->handleRequest($request);
+        if($form->isValid()){
+            $document->setUser($this->getUser());
+            $document->setFolder($folderRepository->find($document->getFolder()));
+            $document->setUploadDate(new \DateTime());
+            $document->setLastModified(new \DateTime());
+
+            $this->get('doctrine.orm.entity_manager')->persist($document);
+            $this->get('doctrine.orm.entity_manager')->flush();
+
+            return $this->redirect($this->generateUrl('documents'));
+        }
 
         return array(
             'documents' => $documentRepository->findAll(),
@@ -61,6 +74,10 @@ class DocumentController extends Controller
 
             $this->get('doctrine.orm.entity_manager')->persist($document);
             $this->get('doctrine.orm.entity_manager')->flush();
+        }else {
+            if($request->isMethod('POST')){
+                $request->getSession()->set('upload_form', $form);
+            }
         }
 
         return $this->redirect($this->generateUrl('documents'));
