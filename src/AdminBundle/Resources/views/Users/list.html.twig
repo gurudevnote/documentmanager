@@ -24,7 +24,7 @@
 
                 <tr>
                     <th scope="row">{{ user.id }}</th>
-                    <td>{{ user.username }}</td>
+                    <td><a href="{{ path('admin_user_edit', {'id': user.id}) }}">{{ user.username }}</a></td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.enabled }}</td>
                     <td>action</td>

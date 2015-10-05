@@ -1,0 +1,9 @@
+P5\Model\User:
+    properties:
+        email:
+            - NotBlank: ~
+            - Email:
+                message: The email "{{ value }}" is not a valid email.
+                checkMX: true
+            - Groups:
+                - edit_user

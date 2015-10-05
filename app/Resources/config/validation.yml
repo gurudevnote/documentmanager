@@ -1,0 +1,4 @@
+P5\Model\User:
+    properties:
+        email:
+            - Email: { groups: [edit_user, registration], message: 'This is not valid email' }

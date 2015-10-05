@@ -1,0 +1,20 @@
+{% extends('::admin.html.twig') %}
+{% form_theme edit_form 'bootstrap_3_horizontal_layout.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">User edit</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Basic infomation</div>
+                <div class="panel-body">
+                    {{ form(edit_form, {'attr': {'novalidate':'novalidate'}}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
