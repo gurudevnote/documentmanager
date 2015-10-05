@@ -4,6 +4,7 @@ namespace P5\Model;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -23,10 +24,15 @@ class User extends BaseUser
      */
     private $address;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Document", mappedBy="user")
+     */
+    private $documents;
+
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+        $this->documents = new ArrayCollection();
     }
 
     /**

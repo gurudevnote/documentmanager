@@ -5,6 +5,7 @@ namespace V3d\Bundle\ApplicationBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use P5\Model\Folder;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -77,6 +78,7 @@ class LoadBasicData implements FixtureInterface, ContainerAwareInterface
 
         $usersObject = $dataset["users"];
         $this->injectUsers($usersObject);
+        $this->injectFolders($dataset['folders']);
         $this->em->flush();
     }
 
@@ -106,7 +108,19 @@ class LoadBasicData implements FixtureInterface, ContainerAwareInterface
             $this->em->persist($user);
         }
     }
+    private  function injectFolders($data) {
+        $folderRepository = $this->em->getRepository('P5:Folder');
 
+        foreach($data as $folderName) {
+            $folder = $folderRepository->findOneByName($folderName);
+            if(!$folder) {
+                $folder = new Folder();
+            }
+
+            $folder->setName($folderName);
+            $this->em->persist($folder);
+        }
+    }
     private function arrayHasValue($array, $key){
         $result = true;
         if(!isset($array)) {
