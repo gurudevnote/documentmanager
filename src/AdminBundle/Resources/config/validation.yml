@@ -1,0 +1,16 @@
+P5\Model\User:
+    properties:
+        email:
+            - NotBlank:
+                message: The email could not be blank
+                groups:
+                    - admin_edit_user
+            - Email:
+                message: The email "{{ value }}" is not a valid email.
+                groups:
+                    - admin_edit_user
+        username:
+            - NotBlank:
+                message: The username could not be blank
+                groups:
+                    - admin_edit_user
