@@ -95,6 +95,7 @@ class UsersController extends Controller {
         $form = $this->createForm(new UserType(), $user, array(
             'action' => $this->generateUrl('admin_user_edit', array('id' => $user->getId())),
             'method' => 'PUT',
+            'validation_groups' => array('admin_edit_user')
         ));
 
         $form->add('submit', 'submit', array('label' => 'Update'));
@@ -112,11 +113,11 @@ class UsersController extends Controller {
 
         $user = $em->getRepository('P5:User')->find($id);
 
-        $formFactory = $this->get('fos_user.registration.form.factory');
-        $form = $formFactory->createForm(array('validation_groups'=> array('edit_user')));
-        $form->add('submit', 'submit', array('label' => 'Sign Up', 'attr' => ['class' => 'btn btn-info']));
-        $form->remove('plainPassword');
-        $form->setData($user);
+//        $formFactory = $this->get('fos_user.registration.form.factory');
+//        $form = $formFactory->createForm(array('validation_groups'=> array('edit_user')));
+//        $form->add('submit', 'submit', array('label' => 'Sign Up', 'attr' => ['class' => 'btn btn-info']));
+//        $form->remove('plainPassword');
+//        $form->setData($user);
 
         if (!$user) {
             throw $this->createNotFoundException('Unable to find Event entity.');
@@ -136,7 +137,7 @@ class UsersController extends Controller {
 
         return array(
             'user'      => $user,
-            'edit_form'   => $form->createView(),
+            'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
