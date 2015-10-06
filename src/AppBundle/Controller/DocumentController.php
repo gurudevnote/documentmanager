@@ -17,19 +17,12 @@ class DocumentController extends Controller
     public function indexAction(Request $request)
     {
         $documentRepository = $this->getDoctrine()->getManager()->getRepository("P5:Document");
-
         $folderRepository = $this->getDoctrine()->getManager()->getRepository("P5:Folder");
         $folders = $folderRepository->findAll();
-        $optFolder = array();
-        $optFolder[''] = '-- select a folder --';
-        foreach($folders as $folder){
-            $optFolder[$folder->getId()] = $folder->getName();
-        }
-
         $document = new Document();
         $form = $this->createFormBuilder($document)
             ->add('filename', 'text')
-            ->add('folder', 'choice', array('choices'=>$optFolder))
+            ->add('folder', 'entity', array('choices' => $folders, 'class' => 'P5\Model\Folder', 'property' => 'name', 'placeholder' => '--Choose a folder--'))
             ->add('save', 'submit', array('label' => 'Upload', 'attr'=>array('class'=>'btn-primary')))
             ->setAction($this->generateUrl('documents'))
             ->getForm();
