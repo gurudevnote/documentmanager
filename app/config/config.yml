@@ -93,3 +93,6 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: P5\Model\User
+    registration:
+        form:
+            type: admin_user_registration
