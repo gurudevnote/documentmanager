@@ -46,9 +46,14 @@ class DocumentController extends Controller
             return $this->redirect($this->generateUrl('documents'));
         }
 
+        $authors = $documentRepository->getAllAuthors();
+        $folders = $documentRepository->getAllFolders();
+
         return array(
             'documents' => $documentRepository->findAll(),
             'uploadForm' => $form->createView(),
+            'authors' => $authors,
+            'folders' => $folders,
         );
     }
 
