@@ -35,6 +35,7 @@ class DocumentController extends Controller
             ->getForm();
         $form->handleRequest($request);
         if($form->isValid()){
+
             $document->setUser($this->getUser());
             $document->setFolder($folderRepository->find($document->getFolder()));
             $document->setUploadDate(new \DateTime());
@@ -46,8 +47,11 @@ class DocumentController extends Controller
             return $this->redirect($this->generateUrl('documents'));
         }
 
+        $documents = $documentRepository->getMyDocuments($this->getUser());
+//        die(var_dump($this->getUser()));
+
         return array(
-            'documents' => $documentRepository->findAll(),
+            'documents' => $documents,
             'uploadForm' => $form->createView(),
         );
     }
