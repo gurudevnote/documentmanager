@@ -8,10 +8,17 @@
 
 namespace P5\Repository;
 
-use Doctrine\ORM\EntityRepository as DoctrineORMEntityRepository;
+use Doctrine\ORM\EntityRepository;
 
-class DocumentRepository extends DoctrineORMEntityRepository
+class DocumentRepository extends EntityRepository
 {
+    public function getMyDocuments($user) {
+        return $this->createQueryBuilder('d')
+            ->where("d.user = :user")
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->execute();
+    }
     /*
      * Get all authors in the document table
      */

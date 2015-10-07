@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class DocumentController extends Controller
 {
@@ -16,8 +17,11 @@ class DocumentController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $documentRepository = $this->getDoctrine()->getManager()->getRepository("P5:Document");
-        $folderRepository = $this->getDoctrine()->getManager()->getRepository("P5:Folder");
+        $em = $this->getDoctrine()->getManager();
+
+        $documentRepository = $em->getRepository("P5:Document");
+        $folderRepository = $em->getRepository("P5:Folder");
+
         $folders = $folderRepository->findAll();
         $document = new Document();
         $form = $this->createFormBuilder($document)
@@ -28,6 +32,7 @@ class DocumentController extends Controller
             ->getForm();
         $form->handleRequest($request);
         if($form->isValid()){
+
             $document->setUser($this->getUser());
             $document->setFolder($folderRepository->find($document->getFolder()));
             $document->setUploadDate(new \DateTime());
@@ -39,14 +44,57 @@ class DocumentController extends Controller
             return $this->redirect($this->generateUrl('documents'));
         }
 
+        $documents = $documentRepository->getMyDocuments($this->getUser());
         $authors = $documentRepository->getAllAuthors();
         $folders = $documentRepository->getAllFolders();
 
         return array(
-            'documents' => $documentRepository->findAll(),
+            'documents' => $documents,
             'uploadForm' => $form->createView(),
             'authors' => $authors,
             'folders' => $folders,
+        );
+    }
+
+    /**
+     * @var int $id
+     * @return link
+     * @Route("/{id}/sharing", name="document_sharing")
+     * @Template()
+     */
+    public function sharingAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $userRepository = $em->getRepository("P5:User");
+        $documentRepository = $em->getRepository("P5:Document");
+
+        $sharingForm = $this->createFormBuilder()
+            ->add('user', 'entity', array(
+                'class' => 'P5:User',
+                'property'     => 'username',
+                'multiple'     => true
+            ))
+            ->add('docId', 'hidden')
+            ->getForm();
+        $sharingForm->handleRequest($request);
+        if ($sharingForm->isValid()) {
+            $data = $request->request->get('form');
+            $doc = $documentRepository->find($data['docId']);
+            foreach($data['user'] as $value) {
+                $user = $userRepository->find($value);
+                if (!$doc->hasSharingUsers($user)) {
+                    $doc->getSharingUsers()->add($user);
+                }
+            }
+            $em->persist($doc);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('documents'));
+        }
+
+        return array(
+            'sharingForm' => $sharingForm->createView(),
         );
     }
 

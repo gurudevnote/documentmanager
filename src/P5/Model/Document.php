@@ -9,6 +9,7 @@
 namespace P5\Model;
 
 use Doctrine\ORM\Mapping as ORM;
+use P5\Model\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -48,6 +49,20 @@ class Document
      * @ORM\Column(name="last_modified", type="datetime")
      */
     private $lastModified;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="P5\Model\User")
+     * @ORM\JoinTable(
+     *      joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
+     * )
+     */
+    protected $sharing_users;
+
+    public function __construct()
+    {
+        $this->sharing_users = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -127,5 +142,33 @@ class Document
     public function setLastModified($lastModified)
     {
         $this->lastModified = $lastModified;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSharingUsers() {
+        return $this->sharing_users;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function hasSharingUsers(User $user) {
+        return $this->getSharingUsers()->contains($user);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id) {
+        $this->id = $id;
     }
 }

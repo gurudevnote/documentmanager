@@ -2,10 +2,7 @@
 {% form_theme uploadForm '@App/Form/form_layout.html.twig'  %}
 {% block body %}
     <div class="row">
-        <div class="col-md-2">
-            &nbsp;
-        </div>
-        <div class="col-md-8">
+        <div class="col-md-12">
             {{ form(uploadForm, {attr:{class:'form-inline', novalidate: 'novalidate'}}) }}
             <table class="table table-hover">
                 <thead>
@@ -35,7 +32,7 @@
                     </th>
                     <th>upload date</th>
                     <th>last modified</th>
-                    <th></th>
+                    <th>Share</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -51,7 +48,9 @@
                             <span class="glyphicon glyphicon-option-vertical" type="button" id="dropdownMenu1" data-toggle="dropdown"></span>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                 <li><a href="#">Download</a></li>
-                                <li><a href="#">Share</a></li>
+                                <li><a href="{{ path('document_sharing', {'id': document.id}) }}" class="btn-share" data-doc-id="{{ document.id }}" data-toggle="modal" data-target="#shareModal">
+                                        Share
+                                    </a></li>
                                 <li><a href="#">Rename</a></li>
                                 <li><a href="#">Remove</a></li>
                             </ul>
@@ -62,6 +61,9 @@
             </table>
         </div>
     </div>
+
+    <!-- Modal -->
+
 {% endblock %}
 {% block internaljs %}
     {% javascripts
