@@ -18,7 +18,18 @@
     </head>
     <body>
         {{ render(controller('AppBundle:Default:menu')) }}
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+
+        {% block javascripts %}
+            {% javascripts
+                'bundles/fosuseroverride/js/main_jquery-1.10.2.min_1.js'
+                'bundles/fosuseroverride/js/main_bootstrap.min_2.js'
+                output='js/compiled/main-front.js'
+            %}
+            <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
     </body>
 </html>

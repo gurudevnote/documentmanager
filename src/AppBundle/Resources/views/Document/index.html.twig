@@ -2,10 +2,7 @@
 {% form_theme uploadForm '@App/Form/form_layout.html.twig'  %}
 {% block body %}
     <div class="row">
-        <div class="col-md-2">
-            &nbsp;
-        </div>
-        <div class="col-md-8">
+        <div class="col-md-8 col-md-offset-2">
             {{ form(uploadForm, {attr:{class:'form-inline', novalidate: 'novalidate'}}) }}
             <table class="table table-striped">
                 <thead>
@@ -15,6 +12,7 @@
                     <th>Folder</th>
                     <th>upload date</th>
                     <th>last modified</th>
+                    <th>Share</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -25,9 +23,17 @@
                     <td>{{document.folder.name}}</td>
                     <td>{{document.uploadDate | date('Y-m-d')}}</td>
                     <td>{{document.lastModified | date('Y-m-d H:i:s')}}</td>
+                    <td>
+                        <a href="{{ path('document_sharing', {'id': document.id}) }}" type="button" class="btn btn-outline btn-link btn-share" data-doc-id="{{ document.id }}" data-toggle="modal" data-target="#shareModal">
+                            Share
+                        </a>
+                    </td>
                 </tr>
                 {% endfor %}
             </table>
         </div>
     </div>
+
+    <!-- Modal -->
+
 {% endblock %}
