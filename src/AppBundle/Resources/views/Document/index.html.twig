@@ -2,14 +2,34 @@
 {% form_theme uploadForm '@App/Form/form_layout.html.twig'  %}
 {% block body %}
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12">
             {{ form(uploadForm, {attr:{class:'form-inline', novalidate: 'novalidate'}}) }}
-            <table class="table table-striped">
+            <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>File name</th>
-                    <th>Author</th>
-                    <th>Folder</th>
+                    <th width="400">File name</th>
+                    <th width="100">
+                        <div class="dropdown">
+                            <a href="javascript:void(0);" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Author <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0);" onclick="filterDocuments('all')">All</a></li>
+                                {% for author in authors %}
+                                <li><a href="javascript:void(0);" onclick="filterDocuments('{{ author.username }}')">{{ author.username }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="dropdown">
+                            <a href="javascript:void(0);" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Folder <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0);" onclick="filterDocuments('all')">All</a></li>
+                                {% for folder in folders %}
+                                    <li><a href="javascript:void(0);" onclick="filterDocuments('{{ folder.name }}')">{{ folder.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </th>
                     <th>upload date</th>
                     <th>last modified</th>
                     <th>Share</th>
@@ -17,16 +37,24 @@
                 </thead>
                 <tbody>
                 {% for document in documents  %}
-                <tr>
+                <tr class="document-row">
                     <td>{{document.filename}}</td>
-                    <td>{{document.user.username}}</td>
-                    <td>{{document.folder.name}}</td>
+                    <td class="document-username">{{document.user.username}}</td>
+                    <td class="document-folder">{{document.folder.name}}</td>
                     <td>{{document.uploadDate | date('Y-m-d')}}</td>
                     <td>{{document.lastModified | date('Y-m-d H:i:s')}}</td>
                     <td>
-                        <a href="{{ path('document_sharing', {'id': document.id}) }}" type="button" class="btn btn-outline btn-link btn-share" data-doc-id="{{ document.id }}" data-toggle="modal" data-target="#shareModal">
-                            Share
-                        </a>
+                        <div class="dropdown">
+                            <span class="glyphicon glyphicon-option-vertical" type="button" id="dropdownMenu1" data-toggle="dropdown"></span>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="#">Download</a></li>
+                                <li><a href="{{ path('document_sharing', {'id': document.id}) }}" class="btn-share" data-doc-id="{{ document.id }}" data-toggle="modal" data-target="#shareModal">
+                                        Share
+                                    </a></li>
+                                <li><a href="#">Rename</a></li>
+                                <li><a href="#">Remove</a></li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}
@@ -36,4 +64,12 @@
 
     <!-- Modal -->
 
+{% endblock %}
+{% block internaljs %}
+    {% javascripts
+        '@AppBundle/Resources/public/js/document.js'
+        output='js/complied/document.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

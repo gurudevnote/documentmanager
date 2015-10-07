@@ -12,12 +12,36 @@ use Doctrine\ORM\EntityRepository;
 
 class DocumentRepository extends EntityRepository
 {
-    public function getMyDocuments($user)
-    {
+    public function getMyDocuments($user) {
         return $this->createQueryBuilder('d')
             ->where("d.user = :user")
             ->setParameter('user', $user)
             ->getQuery()
             ->execute();
+    }
+    /*
+     * Get all authors in the document table
+     */
+    public function getAllAuthors(){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $results = $qb->select('u.id, u.username')->distinct(true)
+            ->from('P5\Model\User', 'u')
+            ->join('P5\Model\Document', 'd', 'WITH', 'd.user=u')
+            ->getQuery()->getArrayResult();
+
+        return $results;
+    }
+
+    /*
+     * Get all folder in the document table
+     */
+    public function getAllFolders(){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $results = $qb->select('f.id, f.name')->distinct(true)
+            ->from('P5\Model\Folder', 'f')
+            ->join('P5\Model\Document', 'd', 'WITH', 'd.folder=f')
+            ->getQuery()->getArrayResult();
+
+        return $results;
     }
 }

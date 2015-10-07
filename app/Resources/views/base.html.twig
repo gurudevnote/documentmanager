@@ -2,18 +2,20 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Document management{% endblock %}</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
         {% stylesheets
-            'bundles/fosuseroverride/css/bootstrap.min.css'
-            'bundles/fosuseroverride/css/main.css'
+            '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
+            '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css'
+            'bundles/app/css/main.css'
             filter='cssrewrite'
         %}
         <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
+
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
@@ -24,12 +26,13 @@
 
         {% block javascripts %}
             {% javascripts
-                'bundles/fosuseroverride/js/main_jquery-1.10.2.min_1.js'
-                'bundles/fosuseroverride/js/main_bootstrap.min_2.js'
-                output='js/compiled/main-front.js'
+            '//code.jquery.com/jquery-1.11.3.min.js'
+            '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'
+            output='js/compiled/main.js'
             %}
             <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}
+        {% block internaljs %}{% endblock %}
     </body>
 </html>

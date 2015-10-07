@@ -22,18 +22,11 @@ class DocumentController extends Controller
         $documentRepository = $em->getRepository("P5:Document");
         $folderRepository = $em->getRepository("P5:Folder");
 
-
         $folders = $folderRepository->findAll();
-        $optFolder = array();
-        $optFolder[''] = '-- select a folder --';
-        foreach($folders as $folder){
-            $optFolder[$folder->getId()] = $folder->getName();
-        }
-
         $document = new Document();
         $form = $this->createFormBuilder($document)
             ->add('filename', 'text')
-            ->add('folder', 'choice', array('choices'=>$optFolder))
+            ->add('folder', 'entity', array('choices' => $folders, 'class' => 'P5\Model\Folder', 'property' => 'name', 'placeholder' => '--Choose a folder--'))
             ->add('save', 'submit', array('label' => 'Upload', 'attr'=>array('class'=>'btn-primary')))
             ->setAction($this->generateUrl('documents'))
             ->getForm();
@@ -51,17 +44,21 @@ class DocumentController extends Controller
             return $this->redirect($this->generateUrl('documents'));
         }
 
-
         $documents = $documentRepository->getMyDocuments($this->getUser());
+        $authors = $documentRepository->getAllAuthors();
+        $folders = $documentRepository->getAllFolders();
 
         return array(
             'documents' => $documents,
             'uploadForm' => $form->createView(),
+            'authors' => $authors,
+            'folders' => $folders,
         );
     }
 
     /**
      * @var int $id
+     * @return link
      * @Route("/{id}/sharing", name="document_sharing")
      * @Template()
      */
