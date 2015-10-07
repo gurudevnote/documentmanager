@@ -51,17 +51,17 @@ class Document
     private $lastModified;
 
     /**
-     * @ORM\ManyToMany(targetEntity="P5\Model\User")
+     * @ORM\ManyToMany(targetEntity="P5\Model\User", inversedBy="sharingDocuments")
      * @ORM\JoinTable(
      *      joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
      *      inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
      * )
      */
-    protected $sharing_users;
+    protected $sharingUsers;
 
     public function __construct()
     {
-        $this->sharing_users = new ArrayCollection();
+        $this->sharingUsers = new ArrayCollection();
     }
 
     /**
@@ -148,7 +148,7 @@ class Document
      * @return mixed
      */
     public function getSharingUsers() {
-        return $this->sharing_users;
+        return $this->sharingUsers;
     }
 
     /**
