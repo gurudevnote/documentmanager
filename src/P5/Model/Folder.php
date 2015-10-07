@@ -35,6 +35,11 @@ class Folder
     private $documents;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="folders")
+     */
+    private $user;
+
+    /**
      * @return mixed
      */
     public function getDocuments()
@@ -72,5 +77,21 @@ class Folder
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
     }
 }

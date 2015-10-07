@@ -40,7 +40,11 @@
                     <td colspan="6"><h4>My documents ({{ documents | length }})</h4></td>
                 </tr>
                 {% for document in documents  %}
-                <tr class="document-row">
+                {% set defaultClass = '' %}
+                {% if document.shared%}
+                    {% set defaultClass = 'success' %}
+                {% endif %}
+                <tr class="document-row {{ defaultClass }}">
                     <td>{{document.filename}}</td>
                     <td class="document-username">{{document.user.username}}</td>
                     <td class="document-folder">{{document.folder.name}}</td>

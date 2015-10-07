@@ -4,6 +4,7 @@ namespace V3d\Bundle\ApplicationBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use P5\Model\Document;
 use P5\Model\Folder;
@@ -11,12 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
-use V3d\Model\Account;
-use V3d\Model\Fair;
-use V3d\Model\Booth;
-use V3d\Model\FairEvent;
-use V3d\Model\Media;
-use V3d\Bundle\ApplicationBundle\Utility\Flag\V3dItemBindingRoleFlag;
+
 
 /**
  * Fixture exécutée lors d'un : php app/console doctrine:fixtures:load
@@ -114,13 +110,14 @@ class LoadBasicData implements FixtureInterface, ContainerAwareInterface
     private  function injectFolders($data) {
         $folderRepository = $this->em->getRepository('P5:Folder');
 
-        foreach($data as $folderName) {
+        foreach($data as $folderName => $folderData) {
             $folder = $folderRepository->findOneByName($folderName);
             if(!$folder) {
                 $folder = new Folder();
             }
 
             $folder->setName($folderName);
+            $folder->setUser($this->userManager->findUserByUsername($folderData['creator']));
             $this->em->persist($folder);
         }
         $this->em->flush();
@@ -141,6 +138,13 @@ class LoadBasicData implements FixtureInterface, ContainerAwareInterface
             $document->setUploadDate(new \DateTime(isset($documentData["upload_date"])?$documentData["upload_date"]:"2014-01-01 10:00:00"));
             $document->setLastModified(new \DateTime(isset($documentData["last_modified"])?$documentData["last_modified"]:"2014-01-01 10:00:00"));
             $document->setUser($this->userManager->findUserByUsername($documentData['creator']));
+            if($this->arrayHasValue($documentData, 'shareToUsers')) {
+                $shareUsers = new ArrayCollection();
+                foreach($documentData['shareToUsers'] as $shareUsername) {
+                    $shareUsers->add($this->userManager->findUserByUsername($shareUsername));
+                }
+                $document->setSharingUsers($shareUsers);
+            }
             $this->em->persist($document);
         }
         $this->em->flush();

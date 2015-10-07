@@ -26,9 +26,14 @@ class User extends BaseUser
     private $address;
 
     /**
-     * @ORM\OneToMany(targetEntity="Document", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="P5\Model\Document", mappedBy="user")
      */
     private $documents;
+
+    /**
+     * @ORM\OneToMany(targetEntity="P5\Model\Folder", mappedBy="user")
+     */
+    private $folders;
 
     /**
      * @ORM\ManyToMany(targetEntity="P5\Model\Document", mappedBy="sharingUsers")
@@ -44,6 +49,7 @@ class User extends BaseUser
         parent::__construct();
         $this->documents = new ArrayCollection();
         $this->sharingDocuments = new ArrayCollection();
+        $this->folders = new ArrayCollection();
     }
 
     /**
@@ -73,4 +79,53 @@ class User extends BaseUser
     public function hasSharingDocuments(Document $sharingDocuments) {
         $this->getSharingDocuments()->contains($sharingDocuments);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
+    }
+
+    /**
+     * @param mixed $documents
+     */
+    public function setDocuments($documents)
+    {
+        $this->documents = $documents;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFolders()
+    {
+        return $this->folders;
+    }
+
+    /**
+     * @param mixed $folders
+     */
+    public function setFolders($folders)
+    {
+        $this->folders = $folders;
+    }
+
 }

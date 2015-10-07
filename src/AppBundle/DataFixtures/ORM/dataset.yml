@@ -30,17 +30,143 @@ users:
     roles:
       - ROLE_USER
 folders:
-  - ebooks
-  - softwares
-  - bookmarks
+  ebooks:
+    creator: hnguyenhuu
+  softwares:
+    creator: thoangtrong
+  bookmarks:
+    creator: tnguyenle
 documents:
  PHP / symfony basic:
   creator: thoangtrong
   upload_date: "2015-10-01 00:00:00"
   last_modified: "2015-10-01 00:00:00"
   folder: ebooks
+  shareToUsers:
+     - hnguyenhuu
  Software development 2015:
    creator: hnguyenhuu
    upload_date: "2015-10-03 00:00:00"
    last_modified: "2015-10-03 00:00:00"
    folder: softwares
+   shareToUsers:
+     - hnguyenhuu
+ Extending symfony2 web application framework:
+   creator: tnguyenle
+   upload_date: "2015-10-03 00:00:00"
+   last_modified: "2015-10-03 00:00:00"
+   folder: softwares
+ "Addison Wesley - Knuth - Concrete Mathematics.pdf":
+   creator: hnguyenhuu
+   upload_date: "2015-10-03 00:00:00"
+   last_modified: "2015-10-03 00:00:00"
+   folder: ebooks
+ Algorithms from and for Nature and Life.pdf:
+   creator: hnguyenhuu
+   upload_date: "2015-10-03 00:00:00"
+   last_modified: "2015-10-03 00:00:00"
+   folder: ebooks
+ Application Architecture Guide v2.pdf:
+   creator: hnguyenhuu
+   upload_date: "2015-10-03 00:00:00"
+   last_modified: "2015-10-03 00:00:00"
+   folder: ebooks
+ Beginning PHP5, Apache, And MySQL Web Development (2005).pdf:
+   creator: hnguyenhuu
+   upload_date: "2015-10-03 00:00:00"
+   last_modified: "2015-10-03 00:00:00"
+   folder: ebooks
+   shareToUsers:
+     - admin
+     - tnguyenle
+     - thoangtrong
+     - huuhuy
+ Exam Ref 70-482- Advanced Windows Store App Development Using HTML5 and JavaScript.pdf:
+   creator: hnguyenhuu
+   upload_date: "2015-10-03 00:00:00"
+   last_modified: "2015-10-03 00:00:00"
+   folder: ebooks
+   shareToUsers:
+     - admin
+     - tnguyenle
+     - thoangtrong
+     - huuhuy
+ Sun Certified Enterprise Architect for Java EE Study Guide.pdf:
+   creator: hnguyenhuu
+   upload_date: "2015-10-03 00:00:00"
+   last_modified: "2015-10-03 00:00:00"
+   folder: ebooks
+   shareToUsers:
+     - admin
+     - tnguyenle
+     - thoangtrong
+     - huuhuy
+ Theories of Programming and Formal Methods.pdf:
+   creator: hnguyenhuu
+   upload_date: "2015-10-03 00:00:00"
+   last_modified: "2015-10-03 00:00:00"
+   folder: ebooks
+   shareToUsers:
+     - admin
+     - tnguyenle
+     - thoangtrong
+     - huuhuy
+ michalewicz z. genetic algorithms + data structures evolution programs (3ed).pdf:
+   creator: hnguyenhuu
+   upload_date: "2015-10-03 00:00:00"
+   last_modified: "2015-10-03 00:00:00"
+   folder: ebooks
+   shareToUsers:
+     - admin
+     - tnguyenle
+     - thoangtrong
+     - huuhuy
+ programming asp.net mvc 4.pdf:
+   creator: hnguyenhuu
+   upload_date: "2015-10-03 00:00:00"
+   last_modified: "2015-10-03 00:00:00"
+   folder: ebooks
+   shareToUsers:
+     - admin
+     - tnguyenle
+     - thoangtrong
+     - huuhuy
+ "[Frank_Klawonn] Introduction to Computer Graphics(BookFi.org).pdf":
+   creator: hnguyenhuu
+   upload_date: "2015-10-03 00:00:00"
+   last_modified: "2015-10-03 00:00:00"
+   folder: ebooks
+   shareToUsers:
+     - admin
+     - tnguyenle
+     - thoangtrong
+     - huuhuy
+ "[Derek_Chen-Becker,_Tyler_Weir,_Marius_Danciu]_The Definitive Guide to Lift A Scala-Based Web Framework(BookFi.org).pdf":
+   creator: hnguyenhuu
+   upload_date: "2015-10-03 00:00:00"
+   last_modified: "2015-10-03 00:00:00"
+   folder: ebooks
+   shareToUsers:
+     - admin
+     - tnguyenle
+     - thoangtrong
+     - huuhuy
+ "[Dan_Rahmel] Beginning Joomla(BookFi.org).pdf":
+   creator: hnguyenhuu
+   upload_date: "2015-10-03 00:00:00"
+   last_modified: "2015-10-03 00:00:00"
+   folder: ebooks
+   shareToUsers:
+     - admin
+     - tnguyenle
+     - thoangtrong
+ "[Frank_Klawonn]_Introduction_to_Computer_Graphics(BookFi.org).pdf":
+   creator: hnguyenhuu
+   upload_date: "2015-10-03 00:00:00"
+   last_modified: "2015-10-03 00:00:00"
+   folder: ebooks
+   shareToUsers:
+    - admin
+    - tnguyenle
+    - thoangtrong
+    - huuhuy

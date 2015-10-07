@@ -151,6 +151,10 @@ class Document
         return $this->sharingUsers;
     }
 
+    public function isShared(){
+        return count($this->sharingUsers) > 0;
+    }
+
     /**
      * @param mixed $user
      */
@@ -171,4 +175,14 @@ class Document
     public function setId($id) {
         $this->id = $id;
     }
+
+    /**
+     * @param mixed $sharingUsers
+     */
+    public function setSharingUsers($sharingUsers)
+    {
+        $this->sharingUsers = $sharingUsers;
+    }
+
+
 }

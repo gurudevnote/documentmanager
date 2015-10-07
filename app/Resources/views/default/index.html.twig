@@ -3,30 +3,13 @@
 {% block body %}
     <div id="wrapper">
         <div id="container">
-            <div id="welcome">
-                <h1><span>Welcome to</span> Symfony {{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION') }}</h1>
+            {% if app.user %}
+            <div>
+                <p>Number my folder: {{ app.user.folders | length }}</p>
+                <p>Number my document: {{ app.user.documents | length }}</p>
+                <p>Number shared documents to me: {{ app.user.sharingDocuments | length }}</p>
             </div>
-            <div id="status">
-                <p>
-                    Your application is ready to start working on it at:
-                    <code>{{ base_dir }}/</code>
-                </p>
-            </div>
-            <div id="link">
-                {% if app.user %}
-                    <a href="{{ path('fos_user_security_logout') }}" class="status">Disconnect</a>
-                    <br/>
-                    <a href="{{ path('fos_user_profile_show') }}" class="status">Show profile</a>
-                    <br/>
-                    <a href="{{ path('folders') }}" class="status">Folders</a>
-                    <br/>
-                    <a href="{{ path('documents') }}" class="status">Documents</a>
-                {% else%}
-                    <a href="{{ path('fos_user_security_login') }}" class="status">Login</a>
-                    <br/>
-                    <a href="{{ path('fos_user_registration_register') }}" class="status">Signup</a>
-                {% endif %}
-            </div>
+            {% endif  %}
         </div>
     </div>
 {% endblock %}
