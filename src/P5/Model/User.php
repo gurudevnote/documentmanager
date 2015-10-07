@@ -5,6 +5,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
+use P5\Model\Document;
 
 /**
  * @ORM\Entity
@@ -29,10 +30,20 @@ class User extends BaseUser
      */
     private $documents;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="P5\Model\Document", mappedBy="sharingUsers")
+     * @ORM\JoinTable(
+     *      joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
+     * )
+     */
+    protected $sharingDocuments;
+
     public function __construct()
     {
         parent::__construct();
         $this->documents = new ArrayCollection();
+        $this->sharingDocuments = new ArrayCollection();
     }
 
     /**
@@ -47,5 +58,19 @@ class User extends BaseUser
      */
     public function setAddress($address) {
         $this->address = $address;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSharingDocuments() {
+        return $this->sharingDocuments;
+    }
+
+    /**
+     * @param mixed $sharingDocuments
+     */
+    public function hasSharingDocuments(Document $sharingDocuments) {
+        $this->getSharingDocuments()->contains($sharingDocuments);
     }
 }

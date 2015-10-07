@@ -1,4 +1,28 @@
-<div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel">
+<link rel="stylesheet" href="{{ asset('bundles/app/css/select2.css') }}"/>
+
+<div>
+    {{ form_start(sharingForm) }}
+    <div class="modal-header">
+        <h3 class="modal-title" id="shareModalLabel">Sharing document</h3>
+    </div>
+    <div class="modal-body">
+        {{ form_rest(sharingForm) }}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="parent.$.colorbox.close()">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+    {{ form_end(sharingForm) }}
+</div>
+
+<script src="{{ asset('bundles/app/js/select2.min.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.multi-select').select2();
+    })
+</script>
+{#
+<div class="modal" id="shareModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             {{ form_start(sharingForm) }}
@@ -16,4 +40,4 @@
             {{ form_end(sharingForm) }}
         </div>
     </div>
-</div>
+</div>#}

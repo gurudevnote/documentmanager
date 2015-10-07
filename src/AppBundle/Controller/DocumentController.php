@@ -62,26 +62,31 @@ class DocumentController extends Controller
      * @Route("/{id}/sharing", name="document_sharing")
      * @Template()
      */
-    public function sharingAction($id)
+    public function sharingAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $userRepository = $em->getRepository("P5:User");
         $documentRepository = $em->getRepository("P5:Document");
 
-        $sharingForm = $this->createFormBuilder()
-            ->add('user', 'entity', array(
+        $doc = $documentRepository->find($id);
+
+        $sharingForm = $this->createFormBuilder($doc)
+            ->add('sharing_users', 'entity', array(
                 'class' => 'P5:User',
                 'property'     => 'username',
-                'multiple'     => true
+                'multiple'     => true,
+                'attr'      => array(
+                    'class'     => 'multi-select'
+                ),
             ))
-            ->add('docId', 'hidden')
+            ->setAction($this->generateUrl('document_sharing', array('id'=>$id)))
             ->getForm();
         $sharingForm->handleRequest($request);
         if ($sharingForm->isValid()) {
             $data = $request->request->get('form');
-            $doc = $documentRepository->find($data['docId']);
-            foreach($data['user'] as $value) {
+
+            foreach($data['sharing_users'] as $value) {
                 $user = $userRepository->find($value);
                 if (!$doc->hasSharingUsers($user)) {
                     $doc->getSharingUsers()->add($user);
@@ -89,6 +94,8 @@ class DocumentController extends Controller
             }
             $em->persist($doc);
             $em->flush();
+
+            $this->get('session')->getFlashBag()->add('success','Sharing document success!');
 
             return $this->redirect($this->generateUrl('documents'));
         }
