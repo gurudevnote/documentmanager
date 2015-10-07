@@ -10,22 +10,23 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand active" href="{{ path('homepage') }}">Home</a>
     </div>
     <div class="navbar-collapse collapse navbar-responsive-collapse">
         <ul class="nav navbar-nav">
-            <li class="active"> {{ menuLink.link('folders', 'Folders') }}</li>
-            <li>{{ menuLink.link('documents', 'Documents') }}</li>
+            {{ knp_menu_render('AppBundle:Builder:navbarMenu',  {'template': 'AppBundle:Menu:knp_menu.html.twig', 'currentClass' : 'active'}) }}
         </ul>
         <form class="navbar-form navbar-left">
             <input type="text" class="form-control col-lg-8" placeholder="Search">
         </form>
         <ul class="nav navbar-nav navbar-right">
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
             <li>{{ menuLink.link('admin_homepage', 'Administrator') }}</li>
+            {% endif %}
             {% if app.user %}
             <li>{{ menuLink.link('fos_user_security_logout', 'Logout') }}</li>
+            {% else %}
+            <li>{{ menuLink.link('fos_user_security_login', 'Login') }}</li>
             {% endif %}
         </ul>
     </div>
 </div>
-{#{{ knp_menu_render('AppBundle:Builder:mainMenu') }}#}
