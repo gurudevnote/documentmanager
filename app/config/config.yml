@@ -67,8 +67,6 @@ doctrine:
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #     path:     "%database_path%"
-        types:
-            json: Sonata\Doctrine\Types\JsonType
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -83,8 +81,6 @@ doctrine:
                         dir: %kernel.root_dir%/../src/P5/Model
                         prefix: P5\Model
                         alias: P5
-                    SonataNotificationBundle: ~
-                    # ApplicationSonataNotificationBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
