@@ -31,6 +31,11 @@ class User extends BaseUser
     private $documents;
 
     /**
+     * @ORM\OneToMany(targetEntity="P5\Model\Message", mappedBy="user")
+     */
+    private $messages;
+
+    /**
      * @ORM\OneToMany(targetEntity="P5\Model\Folder", mappedBy="user")
      */
     private $folders;
@@ -44,12 +49,22 @@ class User extends BaseUser
      */
     protected $sharingDocuments;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="P5\Model\Message", mappedBy="receivedUsers")
+     * @ORM\JoinTable(
+     *      joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
+     * )
+     */
+    protected $receivedMessages;
+
     public function __construct()
     {
         parent::__construct();
         $this->documents = new ArrayCollection();
         $this->sharingDocuments = new ArrayCollection();
         $this->folders = new ArrayCollection();
+        $this->receivedMessages = new ArrayCollection();
     }
 
     /**
@@ -126,6 +141,38 @@ class User extends BaseUser
     public function setFolders($folders)
     {
         $this->folders = $folders;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
+    /**
+     * @param mixed $messages
+     */
+    public function setMessages($messages)
+    {
+        $this->messages = $messages;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReceivedMessages()
+    {
+        return $this->receivedMessages;
+    }
+
+    /**
+     * @param mixed $receivedMessages
+     */
+    public function setReceivedMessages($receivedMessages)
+    {
+        $this->receivedMessages = $receivedMessages;
     }
 
 }

@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new AdminBundle\AdminBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new P5NotificationBundle\P5NotificationBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
