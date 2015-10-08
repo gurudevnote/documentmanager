@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Collections\ArrayCollection;
+use P5\Model\Message;
 
 class DocumentController extends Controller
 {
@@ -21,6 +22,7 @@ class DocumentController extends Controller
 
         $documentRepository = $em->getRepository("P5:Document");
         $folderRepository = $em->getRepository("P5:Folder");
+        $userRepository = $em->getRepository("P5:User");
 
         $folders = $folderRepository->findAll();
         $document = new Document();
@@ -40,6 +42,20 @@ class DocumentController extends Controller
 
             $this->get('doctrine.orm.entity_manager')->persist($document);
             $this->get('doctrine.orm.entity_manager')->flush();
+
+            $message = new Message();
+            $message->setUser($this->getUser());
+            $message->setType('document');
+            $message->setContent('A new document was uploaded by ' . $this->getUser()->getEmail());
+            $message->setSentTime(new \DateTime());
+            $users = $userRepository->findAll();
+            foreach($users as $user){
+                if($user->getEmail() != $this->getUser()->getEmail()){
+                    $message->getReceivedUsers()->add($user);
+                }
+            }
+            $messageCenter = $this->get('p5notification.messagecenter');
+            $messageCenter->pushMessage($message);
 
             return $this->redirect($this->generateUrl('documents'));
         }

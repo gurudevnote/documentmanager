@@ -20,7 +20,10 @@
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "stof/doctrine-extensions-bundle": "^1.2",
         "doctrine/doctrine-fixtures-bundle": "^2.2",
-        "knplabs/knp-menu-bundle": "~2"
+        "knplabs/knp-menu-bundle": "~2",
+        "sonata-project/notification-bundle": "^2.3",
+        "videlalvaro/php-amqplib": "^2.6",
+        "liip/monitor-bundle": "^2.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

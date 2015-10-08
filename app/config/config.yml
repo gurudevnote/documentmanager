@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: "@P5NotificationBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -66,6 +67,8 @@ doctrine:
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #     path:     "%database_path%"
+        types:
+            json: Sonata\Doctrine\Types\JsonType
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -80,6 +83,8 @@ doctrine:
                         dir: %kernel.root_dir%/../src/P5/Model
                         prefix: P5\Model
                         alias: P5
+                    SonataNotificationBundle: ~
+                    # ApplicationSonataNotificationBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -96,3 +101,4 @@ fos_user:
     registration:
         form:
             type: admin_user_registration
+
