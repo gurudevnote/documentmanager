@@ -64,10 +64,10 @@
                 </tr>
                 {% endfor %}
                 <tr>
-                    <td colspan="6"><h4>Sharing with me ({{ app.user.sharingDocuments | length }})</h4></td>
+                    <td colspan="6"><h4>Sharing with me (<span id="number-of-shared"></span>)</h4></td>
                 </tr>
                 {% for document in app.user.sharingDocuments  %}
-                    <tr class="document-row">
+                    <tr class="document-row shared-document">
                         <td>{{document.filename}}</td>
                         <td class="document-username">{{document.user.username}}</td>
                         <td class="document-folder">{{document.folder.name}}</td>
@@ -104,6 +104,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('.btn-share').colorbox({'width': '600px'});
+            $('#number-of-shared').html($('.shared-document').length);
         })
     </script>
     {% endjavascripts %}

@@ -26,6 +26,11 @@ class User extends BaseUser
     private $address;
 
     /**
+     * @ORM\Column(name="avatar", type="string", length=255, nullable = true)
+     */
+    private $avatar;
+
+    /**
      * @ORM\OneToMany(targetEntity="P5\Model\Document", mappedBy="user")
      */
     private $documents;
@@ -173,6 +178,22 @@ class User extends BaseUser
     public function setReceivedMessages($receivedMessages)
     {
         $this->receivedMessages = $receivedMessages;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param mixed $avatar
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
     }
 
 }

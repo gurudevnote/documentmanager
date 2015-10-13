@@ -14,23 +14,38 @@ class Builder extends ContainerAware
         $menu->addChild('Home', array('route' => 'homepage'));
         $menu->addChild('Documents', array('route' => 'documents'));
         $menu->addChild('Folders', array('route' => 'folders'));
+        return $menu;
+    }
+
+    public function rightMenu(FactoryInterface $factory, array $options)
+    {
+        $authorizationChecker = $this->container->get('security.authorization_checker');
+        $menu = $factory->createItem('root');
 
         // create another menu item
         if ($authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY') || $authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $mc = $this->container->get('p5notification.messagecenter');
-            $menu->addChild('About Me', array('uri' => '#'));
-            $notiLabel = 'Notifications ('.$mc->getNotificationNumber().')';
-            $menu->addChild($notiLabel, array('uri' => '#'));
+            $menu->addChild('notification', array('extras'=>array('number_notification'=>$mc->getNotificationNumber())));
             $messages = $mc->getNotifications();
             if(count($messages) > 0){
                 foreach($messages as $value){
-                    $menu[$notiLabel]->addChild($value->getContent(), array('uri' => '#'));
+                    $menu['notification']->addChild($value->getContent(), array('uri' => '#'));
                 }
             }
-            // you can also add sub level's to your menu's as follows
-            $menu['About Me']->addChild('My profile', array('route' => 'fos_user_profile_show'));
-            $menu['About Me']->addChild('Edit profile', array('route' => 'fos_user_profile_edit'));
+
+            $user = $this->container->get('security.token_storage')->getToken()->getUser();
+            if ($authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
+                $menu->addChild('Administrator', array('route'=>'admin_homepage'));
+            }
+            $menu->addChild('avatar', array('uri'=>$user->getAvatar(), 'extras'=>array('avatar_text'=>$user->getEmail())));
+            $menu['avatar']->addChild('My profile', array('route' => 'fos_user_profile_show'));
+            $menu['avatar']->addChild('Edit profile', array('route' => 'fos_user_profile_edit'));
+            $menu['avatar']->addChild('Logout', array('route' => 'fos_user_security_logout'));
         }
+        else{
+            $menu->addChild('Login', array('route'=>'fos_user_security_login'));
+        }
+
         return $menu;
     }
 }
