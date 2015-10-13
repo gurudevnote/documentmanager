@@ -19,14 +19,7 @@
             <input type="text" class="form-control col-lg-8" placeholder="Search">
         </form>
         <ul class="nav navbar-nav navbar-right">
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <li>{{ menuLink.link('admin_homepage', 'Administrator') }}</li>
-            {% endif %}
-            {% if app.user %}
-            <li>{{ menuLink.link('fos_user_security_logout', 'Logout') }}</li>
-            {% else %}
-            <li>{{ menuLink.link('fos_user_security_login', 'Login') }}</li>
-            {% endif %}
+            {{ knp_menu_render('AppBundle:Builder:rightMenu',  {'template': 'AppBundle:Menu:knp_menu.html.twig', 'currentClass' : 'active'}) }}
         </ul>
     </div>
 </div>

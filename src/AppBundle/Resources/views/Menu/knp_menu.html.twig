@@ -24,6 +24,16 @@
     <a href="{{ item.uri }}" {{ knp_menu.attributes(attributes) }}>{{ block('label') }} <b class="caret"></b></a>
 {% endblock %}
 
+{% block avatarElement %}
+    {%- set attributes = item.linkAttributes|merge({'class' : 'dropdown-toggle', 'data-target' : '#', 'data-toggle' : 'dropdown'}) %}
+    <a href="#" {{ knp_menu.attributes(attributes) }}><img src="{{ item.uri }}"{{ knp_menu.attributes(item.linkAttributes) }} class="img-circle nav-avatar"/> {{ item.extras.avatar_text }}</a>
+{% endblock %}
+
+{% block notificationElement %}
+    {%- set attributes = item.linkAttributes|merge({'class' : 'dropdown-toggle', 'data-target' : '#', 'data-toggle' : 'dropdown'}) %}
+    <a href="#" {{ knp_menu.attributes(attributes) }}><span class="glyphicon glyphicon-bell"></span><span class="badge">{{ item.extras.number_notification }}</span></a>
+{% endblock %}
+
 {% block item %}
     {% if item.displayed %}
         {# building the class of the item #}
@@ -56,11 +66,15 @@
         {# displaying the item #}
         <li{{ knp_menu.attributes(attributes) }}>
             {%- if item.uri is not empty and (not matcher.isCurrent(item) or options.currentAsLink) %}
-                {% if item.hasChildren %}
+                {% if item.label == 'avatar' %}
+                    {{ block('avatarElement') }}
+                {% elseif item.hasChildren %}
                     {{ block('linkElementDropDown') }}
                 {% else %}
                     {{ block('linkElement') }}
                 {% endif %}
+            {% elseif item.label == 'notification' %}
+                {{ block('notificationElement') }}
             {%- else %}
                 {{ block('spanElement') }}
             {%- endif %}

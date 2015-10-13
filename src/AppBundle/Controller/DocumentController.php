@@ -22,7 +22,6 @@ class DocumentController extends Controller
 
         $documentRepository = $em->getRepository("P5:Document");
         $folderRepository = $em->getRepository("P5:Folder");
-        $userRepository = $em->getRepository("P5:User");
 
         $folders = $folderRepository->findAll();
         $document = new Document();
@@ -43,19 +42,8 @@ class DocumentController extends Controller
             $this->get('doctrine.orm.entity_manager')->persist($document);
             $this->get('doctrine.orm.entity_manager')->flush();
 
-            $message = new Message();
-            $message->setUser($this->getUser());
-            $message->setType('document');
-            $message->setContent('A new document was uploaded by ' . $this->getUser()->getEmail());
-            $message->setSentTime(new \DateTime());
-            $users = $userRepository->findAll();
-            foreach($users as $user){
-                if($user->getEmail() != $this->getUser()->getEmail()){
-                    $message->getReceivedUsers()->add($user);
-                }
-            }
             $messageCenter = $this->get('p5notification.messagecenter');
-            $messageCenter->pushMessage($message);
+            $messageCenter->pushMessage($this->getUser(), 'A new document was uploaded by ' . $this->getUser()->getEmail(), 'document');
 
             return $this->redirect($this->generateUrl('documents'));
         }
@@ -110,6 +98,10 @@ class DocumentController extends Controller
             }
             $em->persist($doc);
             $em->flush();
+
+            //push notification
+            $messageCenter = $this->get('p5notification.messagecenter');
+            $messageCenter->pushMessage($this->getUser(), 'A document was shared to you by ' . $this->getUser()->getEmail(), 'document', $doc->getSharingUsers());
 
             $this->get('session')->getFlashBag()->add('success','Sharing document success!');
 
