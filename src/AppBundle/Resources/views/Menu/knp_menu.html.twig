@@ -26,7 +26,7 @@
 
 {% block avatarElement %}
     {%- set attributes = item.linkAttributes|merge({'class' : 'dropdown-toggle', 'data-target' : '#', 'data-toggle' : 'dropdown'}) %}
-    <a href="#" {{ knp_menu.attributes(attributes) }}><img src="{{ item.uri }}"{{ knp_menu.attributes(item.linkAttributes) }} class="img-circle nav-avatar"/> {{ item.extras.avatar_text }}</a>
+    <a href="#" {{ knp_menu.attributes(attributes) }} style="padding-bottom: 0; padding-top: 9px;"><img src="{{ item.uri }}" class="img-circle nav-avatar" style="max-height: 32px;"/></a>
 {% endblock %}
 
 {% block notificationElement %}
