@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManager;
 use P5\Model\Message;
 use P5\Model\User;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class MessageCenter
 {
@@ -29,18 +30,13 @@ class MessageCenter
         $message->setContent($content);
         $message->setType($type);
         if(count($to) > 0){
-            foreach($to as $receiver){
-                $message->getReceivedUsers()->add($receiver);
-            }
+            $message->setReceivedUsers($to);
         }
         else{
             $userRepository = $this->em->getRepository('P5:User');
             $users = $userRepository->findAll();
-            foreach($users as $user){
-                if($user->getEmail() != $from->getEmail()){
-                    $message->getReceivedUsers()->add($user);
-                }
-            }
+            $toUsers = new ArrayCollection($users);
+            $message->setReceivedUsers($toUsers);
         }
 
         $message->setSentTime(new \DateTime());
