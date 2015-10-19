@@ -29,7 +29,7 @@ class Builder extends ContainerAware
             $messages = $mc->getNotifications();
             if(count($messages) > 0){
                 foreach($messages as $value){
-                    $menu['notification']->addChild($value->getContent(), array('uri' => '#'));
+                    $menu['notification']->addChild($value->getMessage()->getContent(), array('uri' => '#'));
                 }
             }
 
