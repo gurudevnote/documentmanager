@@ -142,4 +142,14 @@ class Folder
     {
         $this->user = $user;
     }
+
+    public function __toString()
+    {
+        $prefix = "";
+        for ($i=2; $i<= $this->lvl; $i++){
+            $prefix .= "&nbsp;&nbsp;&nbsp;&nbsp;";
+            //$prefix .= "----";
+        }
+        return $prefix . $this->name ."(".count($this->documents).")";
+    }
 }

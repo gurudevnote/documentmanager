@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-8">
             &nbsp;
         </div>
-        <div class="col-md-4">
+        <div class="col-md-8">
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -17,7 +17,7 @@
                 <tbody>
                 {% for folder in folders  %}
                 <tr>
-                    <td>{{folder.name}}</td>
+                    <td>{{folder.__toString | raw }}</td>
                     <td>{{ folder.user.username }}</td>
                     <td>{{ folder.documents | length }}</td>
                     <td>action</td>
