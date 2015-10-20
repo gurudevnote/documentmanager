@@ -1,10 +1,13 @@
 {% extends 'base.html.twig' %}
+{% form_theme form '@App/Form/form_layout.html.twig'  %}
 {% block body %}
     <div class="row">
-        <div class="col-md-8">
-            &nbsp;
+        <div class="col-md-12">
+            {{ form(form, {attr:{class:'form-inline', novalidate: 'novalidate'}}) }}
         </div>
-        <div class="col-md-8">
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <table class="table table-bordered">
                 <thead>
                 <tr>
