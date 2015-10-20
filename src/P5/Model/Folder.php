@@ -111,6 +111,16 @@ class Folder
         return $this->name;
     }
 
+    public function getNameHierarchy()
+    {
+        $prefix = "";
+        for ($i=2; $i<= $this->lvl; $i++){
+            //$prefix .= "&nbsp;&nbsp;&nbsp;&nbsp;";
+            $prefix .= "----";
+        }
+        return $prefix . $this->name ."(".count($this->documents).")";
+    }
+
     /**
      * @return mixed
      */
