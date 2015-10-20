@@ -30,13 +30,20 @@ class MessageCenter
         $message->setUser($from);
         $message->setContent($content);
         $message->setType($type);
+        $toUsers = new ArrayCollection();
         if(count($to) > 0){
-            $message->setReceivedUsers($to);
+            foreach($to as $u) {
+                $messageUser = new MessageUser();
+                $messageUser->setToUser($u);
+                $messageUser->setMessage($message);
+                $messageUser->setStatus(false);
+                $this->em->persist($messageUser);
+                $toUsers->add($messageUser);
+            }
         }
         else{
             $userRepository = $this->em->getRepository('P5:User');
             $users = $userRepository->findAll();
-            $toUsers = new ArrayCollection();
             foreach($users as $u) {
                 $messageUser = new MessageUser();
                 $messageUser->setToUser($u);
@@ -45,9 +52,8 @@ class MessageCenter
                 $this->em->persist($messageUser);
                 $toUsers->add($messageUser);
             }
-            $message->setReceivedUsers($toUsers);
         }
-
+        $message->setReceivedUsers($toUsers);
         $message->setSentTime(new \DateTime());
         $this->em->persist($message);
         $this->em->flush();
