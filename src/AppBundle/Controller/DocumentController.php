@@ -22,8 +22,10 @@ class DocumentController extends Controller
 
         $documentRepository = $em->getRepository("P5:Document");
         $folderRepository = $em->getRepository("P5:Folder");
-
-        $folders = $folderRepository->findAll();
+        $query = $folderRepository->createQueryBuilder('f')
+            ->select('f')
+            ->orderBy('f.root, f.lft', 'ASC');
+        $folders = $query->getQuery()->getResult();
         $document = new Document();
         $form = $this->createFormBuilder($document)
             ->add('filename', 'text')

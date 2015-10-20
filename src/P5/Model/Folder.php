@@ -114,7 +114,7 @@ class Folder
     public function getNameHierarchy()
     {
         $prefix = "";
-        for ($i=2; $i<= $this->lvl; $i++){
+        for ($i=1; $i<= $this->lvl; $i++){
             //$prefix .= "&nbsp;&nbsp;&nbsp;&nbsp;";
             $prefix .= "----";
         }
@@ -156,7 +156,7 @@ class Folder
     public function __toString()
     {
         $prefix = "";
-        for ($i=2; $i<= $this->lvl; $i++){
+        for ($i=1; $i<= $this->lvl; $i++){
             $prefix .= "&nbsp;&nbsp;&nbsp;&nbsp;";
             //$prefix .= "----";
         }
