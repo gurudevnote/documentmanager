@@ -52,7 +52,7 @@ class FolderController extends Controller
             return $this->redirect($this->generateUrl('folders'));
         }
         return array(
-            'folders' => $em->findAll(),
+            'folders' => $folders,
             'form' => $form->createView(),
         );
     }
