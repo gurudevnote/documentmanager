@@ -65,11 +65,21 @@ class Folder
     private $root;
 
     /**
+     * @ORM\Column(name="upload_date", type="datetime")
+     */
+    private $uploadDate;
+
+    /**
+     * @ORM\Column(name="last_modified", type="datetime")
+     */
+    private $lastModified;
+
+    /**
      * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="Folder", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $parent;
+    private $parent = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="Folder", mappedBy="parent")
@@ -161,5 +171,33 @@ class Folder
             //$prefix .= "----";
         }
         return $prefix . $this->name ."(".count($this->documents).")";
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUploadDate() {
+        return $this->uploadDate;
+    }
+
+    /**
+     * @param mixed $uploadDate
+     */
+    public function setUploadDate($uploadDate) {
+        $this->uploadDate = $uploadDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastModified() {
+        return $this->lastModified;
+    }
+
+    /**
+     * @param mixed $lastModified
+     */
+    public function setLastModified($lastModified) {
+        $this->lastModified = $lastModified;
     }
 }
