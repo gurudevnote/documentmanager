@@ -107,9 +107,8 @@ class LoadBasicData implements FixtureInterface, ContainerAwareInterface
         }
         $this->em->flush();
     }
-    private  function injectFolders($data) {
+    private  function injectFolders($data, $parent = null) {
         $folderRepository = $this->em->getRepository('P5:Folder');
-
         foreach($data as $folderName => $folderData) {
             $folder = $folderRepository->findOneByName($folderName);
             if(!$folder) {
@@ -118,7 +117,16 @@ class LoadBasicData implements FixtureInterface, ContainerAwareInterface
 
             $folder->setName($folderName);
             $folder->setUser($this->userManager->findUserByUsername($folderData['creator']));
-            $this->em->persist($folder);
+            if($parent != null) {
+                $folder->setParent($parent);
+            }
+
+            $folderRepository->persistAsFirstChild($folder);
+
+            //find all childrent;
+            if($this->arrayHasValue($folderData, 'children')) {
+                $this->injectFolders($folderData['children'], $folder);
+            }
         }
         $this->em->flush();
     }

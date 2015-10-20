@@ -32,6 +32,33 @@ users:
 folders:
   ebooks:
     creator: hnguyenhuu
+    children:
+      programming:
+        creator: hnguyenhuu
+        children:
+          php:
+            creator: admin
+          c#:
+            creator: admin
+          nodejs:
+            creator: admin
+          javascript:
+            creator: admin
+          java:
+            creator: admin
+      economics:
+        creator: hnguyenhuu
+      arts & photography:
+        creator: hnguyenhuu
+        children:
+          architecture:
+            creator: hnguyenhuu
+          Business of Art:
+            creator: hnguyenhuu
+          "Collections, Catalogs & Exhibitions" :
+            creator: hnguyenhuu
+          Drawing:
+            creator: hnguyenhuu
   softwares:
     creator: thoangtrong
   bookmarks:
