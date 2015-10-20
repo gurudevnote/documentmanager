@@ -150,6 +150,6 @@ class Folder
             $prefix .= "&nbsp;&nbsp;&nbsp;&nbsp;";
             //$prefix .= "----";
         }
-        return $prefix . $this->name;
+        return $prefix . $this->name ."(".count($this->documents).")";
     }
 }
