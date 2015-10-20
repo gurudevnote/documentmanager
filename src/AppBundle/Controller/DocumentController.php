@@ -27,7 +27,7 @@ class DocumentController extends Controller
         $document = new Document();
         $form = $this->createFormBuilder($document)
             ->add('filename', 'text')
-            ->add('folder', 'entity', array('choices' => $folders, 'class' => 'P5\Model\Folder', 'property' => 'name', 'placeholder' => '--Choose a folder--'))
+            ->add('folder', 'entity', array('choices' => $folders, 'class' => 'P5\Model\Folder', 'property' => 'nameHierarchy', 'placeholder' => '--Choose a folder--'))
             ->add('save', 'submit', array('label' => 'Upload', 'attr'=>array('class'=>'btn-primary')))
             ->setAction($this->generateUrl('documents'))
             ->getForm();
