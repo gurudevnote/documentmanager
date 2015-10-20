@@ -55,13 +55,9 @@ class User extends BaseUser
     protected $sharingDocuments;
 
     /**
-     * @ORM\ManyToMany(targetEntity="P5\Model\Message", mappedBy="receivedUsers")
-     * @ORM\JoinTable(
-     *      joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
-     *      inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
-     * )
+     * @ORM\OneToMany(targetEntity="P5\Model\MessageUser", mappedBy="toUser")
      */
-    protected $receivedMessages;
+    private $receivedMessages;
 
     public function __construct()
     {
@@ -69,7 +65,6 @@ class User extends BaseUser
         $this->documents = new ArrayCollection();
         $this->sharingDocuments = new ArrayCollection();
         $this->folders = new ArrayCollection();
-        $this->receivedMessages = new ArrayCollection();
     }
 
     /**

@@ -46,13 +46,9 @@ class Message
     private $sentTime;
 
     /**
-     * @ORM\ManyToMany(targetEntity="P5\Model\User", inversedBy="receivedMessages")
-     * @ORM\JoinTable(
-     *      joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
-     *      inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
-     * )
+     * @ORM\OneToMany(targetEntity="P5\Model\MessageUser", mappedBy="message")
      */
-    protected $receivedUsers;
+    private $receivedUsers;
 
     public function __construct()
     {

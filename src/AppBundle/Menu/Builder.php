@@ -29,7 +29,7 @@ class Builder extends ContainerAware
             $messages = $mc->getNotifications();
             if(count($messages) > 0){
                 foreach($messages as $value){
-                    $menu['notification']->addChild($value->getContent(), array('uri' => '#'));
+                    $menu['notification']->addChild($value->getMessage()->getContent(), array('uri' => '#'));
                 }
             }
 
@@ -37,8 +37,12 @@ class Builder extends ContainerAware
             if ($authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
                 $menu->addChild('Administrator', array('route'=>'admin_homepage'));
             }
+            $avatar = $user->getAvatar();
+            if($avatar == null || $avatar == '') {
+                $avatar =  $this->container->get('templating.helper.assets')->getUrl('bundles/app/images/avatarDefault.png');
+            }
             $menu->addChild($user->getEmail(), array('uri' => '#'));
-            $menu->addChild('avatar', array('uri'=>$user->getAvatar()));
+            $menu->addChild('avatar', array('uri'=> $avatar));
             $menu['avatar']->addChild('My profile', array('route' => 'fos_user_profile_show'));
             $menu['avatar']->addChild('Edit profile', array('route' => 'fos_user_profile_edit'));
             $menu['avatar']->addChild('Logout', array('route' => 'fos_user_security_logout'));

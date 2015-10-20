@@ -11,8 +11,10 @@ namespace P5NotificationBundle\DependencyInjection;
 
 use Doctrine\ORM\EntityManager;
 use P5\Model\Message;
+use P5\Model\MessageUser;
 use P5\Model\User;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class MessageCenter
 {
@@ -28,21 +30,30 @@ class MessageCenter
         $message->setUser($from);
         $message->setContent($content);
         $message->setType($type);
+        $toUsers = new ArrayCollection();
         if(count($to) > 0){
-            foreach($to as $receiver){
-                $message->getReceivedUsers()->add($receiver);
+            foreach($to as $u) {
+                $messageUser = new MessageUser();
+                $messageUser->setToUser($u);
+                $messageUser->setMessage($message);
+                $messageUser->setStatus(false);
+                $this->em->persist($messageUser);
+                $toUsers->add($messageUser);
             }
         }
         else{
             $userRepository = $this->em->getRepository('P5:User');
             $users = $userRepository->findAll();
-            foreach($users as $user){
-                if($user->getEmail() != $from->getEmail()){
-                    $message->getReceivedUsers()->add($user);
-                }
+            foreach($users as $u) {
+                $messageUser = new MessageUser();
+                $messageUser->setToUser($u);
+                $messageUser->setMessage($message);
+                $messageUser->setStatus(false);
+                $this->em->persist($messageUser);
+                $toUsers->add($messageUser);
             }
         }
-
+        $message->setReceivedUsers($toUsers);
         $message->setSentTime(new \DateTime());
         $this->em->persist($message);
         $this->em->flush();
