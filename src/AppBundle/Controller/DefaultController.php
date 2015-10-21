@@ -24,6 +24,9 @@ class DefaultController extends Controller
      */
     public function menuAction()
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $folderRespository = $em->getRepository('P5:Folder');
         return $this->render('@App/default/menu.html.twig');
     }
 }

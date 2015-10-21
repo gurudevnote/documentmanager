@@ -1,3 +1,4 @@
+{#
 {% import _self as menuLink %}
 {% macro link(hrefLink, text) %}
     <a href="{{ path(hrefLink) }}" class="">{{ text }}</a>
@@ -21,5 +22,10 @@
         <ul class="nav navbar-nav navbar-right">
             {{ knp_menu_render('AppBundle:Builder:rightMenu',  {'template': 'AppBundle:Menu:knp_menu.html.twig', 'currentClass' : 'active'}) }}
         </ul>
+    </div>
+</div>#}
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        menu left building ...
     </div>
 </div>
