@@ -23,7 +23,14 @@
         "knplabs/knp-menu-bundle": "~2"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "phpunit/phpunit": "^5.0",
+        "behat/behat": "^3.0",
+        "phploc/phploc": "^2.1",
+        "phpmd/phpmd": "^2.3",
+        "squizlabs/php_codesniffer": "^2.3",
+        "sebastian/phpcpd": "^2.0",
+        "sebastian/phpdcd": "^1.0"
     },
     "scripts": {
         "post-install-cmd": [
