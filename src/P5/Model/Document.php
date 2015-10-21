@@ -204,6 +204,4 @@ class Document
     {
         $this->type = $type;
     }
-
-
 }

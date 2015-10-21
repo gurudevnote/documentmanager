@@ -25,13 +25,15 @@ class Builder extends ContainerAware
         // create another menu item
         if ($authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY') || $authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $mc = $this->container->get('p5notification.messagecenter');
-            $menu->addChild('notification', array('extras'=>array('number_notification'=>$mc->getNotificationNumber())));
             $messages = $mc->getNotifications();
+            $notifications = array();
             if(count($messages) > 0){
                 foreach($messages as $value){
-                    $menu['notification']->addChild($value->getMessage()->getContent(), array('uri' => '#'));
+                    $notifications[] = $value->getMessage()->getContent();
                 }
             }
+            $menu->addChild('notification', array('extras'=>array('number_notification'=>$mc->getNotificationNumber(), 'subitems'=>$notifications)));
+
 
             $user = $this->container->get('security.token_storage')->getToken()->getUser();
             if ($authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {

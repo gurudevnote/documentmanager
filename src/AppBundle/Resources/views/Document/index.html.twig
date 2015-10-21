@@ -17,7 +17,7 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th width="400">File name</th>
+                    <th width="500">File name</th>
                     <th width="100">
                         <div class="dropdown">
                             <a href="javascript:void(0);" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Author <b class="caret"></b></a>
@@ -40,7 +40,6 @@
                             </ul>
                         </div>
                     </th>
-                    <th>Type</th>
                     <th>Upload date</th>
                     <th>Last modified</th>
                     <th>Action</th>
@@ -56,10 +55,10 @@
                     {% set defaultClass = 'success' %}
                 {% endif %}
                 <tr class="document-row {{ defaultClass }}">
-                    <td>{{document.filename}}</td>
+                    {% set image = 'bundles/app/images/' ~ document.type | lower ~ '.png' %}
+                    <td><img src="{{ asset(image) }}" /> {{document.filename}}</td>
                     <td class="document-username">{{document.user.username}}</td>
                     <td class="document-folder">{{document.folder.name}}</td>
-                    <td>{{document.type}}</td>
                     <td>{{document.uploadDate | date('Y-m-d')}}</td>
                     <td>{{document.lastModified | date('Y-m-d H:i:s')}}</td>
                     <td>
@@ -80,10 +79,10 @@
                 </tr>
                 {% for document in app.user.sharingDocuments  %}
                     <tr class="document-row">
-                        <td>{{document.filename}}</td>
+                        {% set image = 'bundles/app/images/' ~ document.type | lower ~ '.png' %}
+                        <td><img src="{{ asset(image) }}" /> {{document.filename}}</td>
                         <td class="document-username">{{document.user.username}}</td>
                         <td class="document-folder">{{document.folder.name}}</td>
-                        <td>{{document.type}}</td>
                         <td>{{document.uploadDate | date('Y-m-d')}}</td>
                         <td>{{document.lastModified | date('Y-m-d H:i:s')}}</td>
                         <td>
