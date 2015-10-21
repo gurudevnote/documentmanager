@@ -29,6 +29,7 @@ class DocumentController extends Controller
         $document = new Document();
         $form = $this->createFormBuilder($document)
             ->add('filename', 'text')
+            ->add('type', 'choice', array('choices' => $this->getParameter('document_types'), 'placeholder' => '--Choose a type--'))
             ->add('folder', 'entity', array('choices' => $folders, 'class' => 'P5\Model\Folder', 'property' => 'nameHierarchy', 'placeholder' => '--Choose a folder--'))
             ->add('save', 'submit', array('label' => 'Upload', 'attr'=>array('class'=>'btn-primary')))
             ->setAction($this->generateUrl('documents'))
@@ -47,6 +48,11 @@ class DocumentController extends Controller
             $messageCenter = $this->get('p5notification.messagecenter');
             $messageCenter->pushMessage($this->getUser(), 'A new document was uploaded by ' . $this->getUser()->getEmail(), 'document');
 
+            $this->addFlash(
+                'success',
+                'Your document was uploaded successfully!'
+            );
+
             return $this->redirect($this->generateUrl('documents'));
         }
 
@@ -59,6 +65,7 @@ class DocumentController extends Controller
             'uploadForm' => $form->createView(),
             'authors' => $authors,
             'folders' => $folders,
+            'document_types' => $this->getParameter('document_types'),
         );
     }
 
@@ -144,5 +151,20 @@ class DocumentController extends Controller
         }
 
         return $this->redirect($this->generateUrl('documents'));
+    }
+
+    /**
+     * @var int $id
+     * @Route("/remove_document/{id}", name="remove_document")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function removeAction($id, Request $request){
+        $em = $this->getDoctrine()->getEntityManager();
+        $documentRepository = $em->getRepository('P5:Document');
+        $document = $documentRepository->find($id);
+        $em->remove($document);
+        $em->flush();
+        $this->get('session')->getFlashBag()->add('success','The document was removed sucessfully!');
+        return $this->redirectToRoute('documents');
     }
 }

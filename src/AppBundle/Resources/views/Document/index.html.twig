@@ -3,11 +3,21 @@
 {% block body %}
     <div class="row">
         <div class="col-md-12">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="alert alert-danger" role="alert">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
             {{ form(uploadForm, {attr:{class:'form-inline', novalidate: 'novalidate'}}) }}
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th width="400">File name</th>
+                    <th width="500">File name</th>
                     <th width="100">
                         <div class="dropdown">
                             <a href="javascript:void(0);" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Author <b class="caret"></b></a>
@@ -30,9 +40,9 @@
                             </ul>
                         </div>
                     </th>
-                    <th>upload date</th>
-                    <th>last modified</th>
-                    <th>Share</th>
+                    <th>Upload date</th>
+                    <th>Last modified</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -45,7 +55,8 @@
                     {% set defaultClass = 'success' %}
                 {% endif %}
                 <tr class="document-row {{ defaultClass }}">
-                    <td>{{document.filename}}</td>
+                    {% set image = 'bundles/app/images/' ~ document.type | lower ~ '.png' %}
+                    <td><img src="{{ asset(image) }}" /> {{document.filename}}</td>
                     <td class="document-username">{{document.user.username}}</td>
                     <td class="document-folder">{{document.folder.name}}</td>
                     <td>{{document.uploadDate | date('Y-m-d')}}</td>
@@ -57,7 +68,7 @@
                                 <li><a href="#">Download</a></li>
                                 <li><a href="{{ path('document_sharing', {'id': document.id}) }}" class="btn-share">Share</a></li>
                                 <li><a href="#">Rename</a></li>
-                                <li><a href="#">Remove</a></li>
+                                <li><a href="{{ path('remove_document', {'id': document.id}) }}">Remove</a></li>
                             </ul>
                         </div>
                     </td>
@@ -68,7 +79,8 @@
                 </tr>
                 {% for document in app.user.sharingDocuments  %}
                     <tr class="document-row">
-                        <td>{{document.filename}}</td>
+                        {% set image = 'bundles/app/images/' ~ document.type | lower ~ '.png' %}
+                        <td><img src="{{ asset(image) }}" /> {{document.filename}}</td>
                         <td class="document-username">{{document.user.username}}</td>
                         <td class="document-folder">{{document.folder.name}}</td>
                         <td>{{document.uploadDate | date('Y-m-d')}}</td>
