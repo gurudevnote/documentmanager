@@ -14,10 +14,11 @@
                 </div>
             {% endfor %}
             {{ form(uploadForm, {attr:{class:'form-inline', novalidate: 'novalidate'}}) }}
-            <table class="table table-hover">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                 <thead>
                 <tr>
-                    <th width="500">File name</th>
+                    <th width="50"></th>
+                    <th width="500" class="mdl-data-table__cell--non-numeric">File name</th>
                     <th width="100">
                         <div class="dropdown">
                             <a href="javascript:void(0);" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Author <b class="caret"></b></a>
@@ -47,7 +48,7 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td colspan="6"><h4>My documents ({{ documents | length }})</h4></td>
+                    <td colspan="7" class="mdl-data-table__cell--non-numeric"><h5>My documents ({{ documents | length }})</h5></td>
                 </tr>
                 {% for document in documents  %}
                 {% set defaultClass = '' %}
@@ -56,7 +57,8 @@
                 {% endif %}
                 <tr class="document-row {{ defaultClass }}">
                     {% set image = 'bundles/app/images/' ~ document.type | lower ~ '.png' %}
-                    <td><img src="{{ asset(image) }}" /> {{document.filename}}</td>
+                    <td><img src="{{ asset(image) }}" /></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{document.filename}}</td>
                     <td class="document-username">{{document.user.username}}</td>
                     <td class="document-folder">{{document.folder.name}}</td>
                     <td>{{document.uploadDate | date('Y-m-d')}}</td>
@@ -74,13 +76,15 @@
                     </td>
                 </tr>
                 {% endfor %}
+
                 <tr>
-                    <td colspan="6"><h4>Sharing with me ({{ app.user.sharingDocuments | length }})</h4></td>
+                    <td colspan="7" class="mdl-data-table__cell--non-numeric"><h5>Sharing with me ({{ app.user.sharingDocuments | length }})</h5></td>
                 </tr>
                 {% for document in app.user.sharingDocuments  %}
                     <tr class="document-row">
                         {% set image = 'bundles/app/images/' ~ document.type | lower ~ '.png' %}
-                        <td><img src="{{ asset(image) }}" /> {{document.filename}}</td>
+                        <td><img src="{{ asset(image) }}" /></td>
+                        <td class="mdl-data-table__cell--non-numeric">{{document.filename}}</td>
                         <td class="document-username">{{document.user.username}}</td>
                         <td class="document-folder">{{document.folder.name}}</td>
                         <td>{{document.uploadDate | date('Y-m-d')}}</td>
@@ -89,7 +93,7 @@
                         </td>
                     </tr>
                 {% endfor %}
-
+                </tbody>
             </table>
         </div>
     </div>

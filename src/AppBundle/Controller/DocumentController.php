@@ -28,10 +28,10 @@ class DocumentController extends Controller
         $folders = $query->getQuery()->getResult();
         $document = new Document();
         $form = $this->createFormBuilder($document)
-            ->add('filename', 'text')
+            ->add('filename', 'text', array('label'=>'Filename'))
             ->add('type', 'choice', array('choices' => $this->getParameter('document_types'), 'placeholder' => '--Choose a type--'))
             ->add('folder', 'entity', array('choices' => $folders, 'class' => 'P5\Model\Folder', 'property' => 'nameHierarchy', 'placeholder' => '--Choose a folder--'))
-            ->add('save', 'submit', array('label' => 'Upload', 'attr'=>array('class'=>'btn-primary')))
+            ->add('save', 'submit', array('label' => 'Upload', 'attr'=>array('class'=>'mdl-button mdl-js-button mdl-button--raised mdl-button--accent')))
             ->setAction($this->generateUrl('documents'))
             ->getForm();
         $form->handleRequest($request);
