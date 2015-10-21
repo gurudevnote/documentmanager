@@ -3,6 +3,16 @@
 {% block body %}
     <div class="row">
         <div class="col-md-12">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="alert alert-danger" role="alert">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
             {{ form(uploadForm, {attr:{class:'form-inline', novalidate: 'novalidate'}}) }}
             <table class="table table-hover">
                 <thead>
@@ -30,9 +40,10 @@
                             </ul>
                         </div>
                     </th>
-                    <th>upload date</th>
-                    <th>last modified</th>
-                    <th>Share</th>
+                    <th>Type</th>
+                    <th>Upload date</th>
+                    <th>Last modified</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,6 +59,7 @@
                     <td>{{document.filename}}</td>
                     <td class="document-username">{{document.user.username}}</td>
                     <td class="document-folder">{{document.folder.name}}</td>
+                    <td>{{document.type}}</td>
                     <td>{{document.uploadDate | date('Y-m-d')}}</td>
                     <td>{{document.lastModified | date('Y-m-d H:i:s')}}</td>
                     <td>
@@ -57,7 +69,7 @@
                                 <li><a href="#">Download</a></li>
                                 <li><a href="{{ path('document_sharing', {'id': document.id}) }}" class="btn-share">Share</a></li>
                                 <li><a href="#">Rename</a></li>
-                                <li><a href="#">Remove</a></li>
+                                <li><a href="{{ path('remove_document', {'id': document.id}) }}">Remove</a></li>
                             </ul>
                         </div>
                     </td>
@@ -71,6 +83,7 @@
                         <td>{{document.filename}}</td>
                         <td class="document-username">{{document.user.username}}</td>
                         <td class="document-folder">{{document.folder.name}}</td>
+                        <td>{{document.type}}</td>
                         <td>{{document.uploadDate | date('Y-m-d')}}</td>
                         <td>{{document.lastModified | date('Y-m-d H:i:s')}}</td>
                         <td>
