@@ -16,6 +16,7 @@
         <mkdir dir="${basedir}/build/phpcpd" />
         <mkdir dir="${basedir}/build/phpcs" />
         <mkdir dir="${basedir}/build/phploc" />
+        <mkdir dir="${basedir}/build/phpmetrics" />
     </target>
 
     <target name="phploc">
@@ -33,6 +34,12 @@
     <target name="phpmd">
         <exec dir="${basedir}" executable="./bin/phpmd${bat}" failonerror="false">
             <arg line="./src html codesize,cleancode,design --reportfile ${basedir}/build/phpmd/index.html" />
+        </exec>
+    </target>
+
+    <target name="phpmetrics">
+        <exec dir="${basedir}" executable="./bin/phpmetrics${bat}" failonerror="false">
+            <arg line="--report-html=${basedir}/build/phpmetrics/myreport.html src" />
         </exec>
     </target>
  
@@ -91,6 +98,7 @@
             <antcall target="phploc" />
             <antcall target="phpcs" />
             <antcall target="phpmd" />
+            <antcall target="phpmetrics" />
             <!-- <antcall target="phpcpd" /> -->
             <antcall target="pdepend" />
         </parallel>
