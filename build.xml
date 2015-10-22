@@ -22,7 +22,7 @@
 
     <target name="phploc">
         <exec dir="${basedir}" executable="./bin/phploc${bat}" failonerror="false" output="${basedir}/build/phploc/index.html">
-            <arg line="./src --log-xml=${basedir}/build/phploc/phploc.xml" />
+            <arg line="./src --log-xml=${basedir}/build/logs/phploc.xml" />
         </exec>
     </target>
  
@@ -34,7 +34,7 @@
  
     <target name="phpmd">
         <exec dir="${basedir}" executable="./bin/phpmd${bat}" failonerror="false">
-            <arg line="./src html codesize,cleancode,design --reportfile ${basedir}/build/phpmd/index.html" />
+            <arg line="./src xml codesize,cleancode,design --reportfile ${basedir}/build/logs/phpmd.xml" />
         </exec>
     </target>
 
