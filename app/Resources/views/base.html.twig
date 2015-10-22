@@ -10,6 +10,8 @@
             {% stylesheets
                 '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
                 '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css'
+                'https://storage.googleapis.com/code.getmdl.io/1.0.5/material.blue-red.min.css'
+                'https://fonts.googleapis.com/icon?family=Material+Icons'
                 '@AppBundle/Resources/public/css/main.css'
                 filter='cssrewrite'
             %}
@@ -29,6 +31,7 @@
             {% javascripts
             '//code.jquery.com/jquery-1.11.3.min.js'
             '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'
+            'https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js'
             output='js/compiled/main.js'
             %}
             <script src="{{ asset_url }}"></script>
