@@ -16,6 +16,7 @@
         <mkdir dir="${basedir}/build/phpcpd" />
         <mkdir dir="${basedir}/build/phpcs" />
         <mkdir dir="${basedir}/build/phploc" />
+        <mkdir dir="${basedir}/build/docblox" />
         <mkdir dir="${basedir}/build/phpmetrics" />
     </target>
 
@@ -71,7 +72,7 @@
  
     <target name="phpcb">
         <exec dir="${basedir}" executable="./bin/phpcb${bat}" failonerror="false">
-            <arg line="--log ${basedir}/build/logs --extensions=php --source ${basedir}/src --output ${basedir}/build/codebrowser" />
+            <arg line="--log ${basedir}/build/logs --extensions=php --source ${basedir}/src/P5 --output ${basedir}/build/codebrowser" />
         </exec>
     </target>
   
@@ -104,5 +105,5 @@
         </parallel>
     </target>
  
-    <target name="build" depends="clean,prepare,parallel,phpcpd,phpcb,documentation" />
+    <target name="build" depends="clean,prepare,parallel,phpcpd,documentation,phpcb" />
 </project>
