@@ -15,11 +15,18 @@
         <mkdir dir="${basedir}/build/phpmd" />
         <mkdir dir="${basedir}/build/phpcpd" />
         <mkdir dir="${basedir}/build/phpcs" />
+        <mkdir dir="${basedir}/build/phploc" />
+    </target>
+
+    <target name="phploc">
+        <exec dir="${basedir}" executable="./bin/phploc${bat}" failonerror="false" output="${basedir}/build/phploc/index.html">
+            <arg line="./src --log-xml=${basedir}/build/phploc/phploc.xml" />
+        </exec>
     </target>
  
     <target name="phpcs">
         <exec dir="${basedir}" executable="./bin/phpcs${bat}" failonerror="false" output="${basedir}/build/phpcs/index.html">
-            <arg line="./src -p --extensions=php --ignore=build/*,tests/*,vendor,app/cache --standard=Zend --tab-width=4 --report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml ." />
+            <arg line="./src -p -s --extensions=php --standard=Zend --tab-width=4 --report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml" />
         </exec>
     </target>
  
@@ -36,9 +43,9 @@
                        --exclude tests
                        ./src" />
         </exec>
-        <exec dir="${basedir}/build/logs" executable="./bin/xsltproc" failonerror="false" output="${basedir}/build/phpcpd/index.html">
-            <arg line="/var/bamboo-home/cpdhtml.xslt ${basedir}/build/logs/pmd.xml" />
-        </exec>
+        <!--<exec dir="${basedir}/build/logs" executable="./bin/xsltproc" failonerror="false" output="${basedir}/build/phpcpd/index.html">-->
+            <!--<arg line="/var/bamboo-home/cpdhtml.xslt ${basedir}/build/logs/pmd.xml" />-->
+        <!--</exec>-->
     </target>
  
     <target name="pdepend">
@@ -57,7 +64,7 @@
  
     <target name="phpcb">
         <exec dir="${basedir}" executable="./bin/phpcb${bat}" failonerror="false">
-            <arg line="--log ${basedir}/build/logs --source ${basedir}src --output ${basedir}/build/codebrowser" />
+            <arg line="--log ${basedir}/build/logs --extensions=php --source ${basedir}/src --output ${basedir}/build/codebrowser" />
         </exec>
     </target>
   
@@ -68,19 +75,20 @@
     </target> -->
 
     <target name="documentation" depends="prepare">
-        <exec dir="${basedir}" executable="./bin/phpdoc" failonerror="false">
+        <exec dir="${basedir}" executable="./bin/phpdoc${bat}" failonerror="false">
             <arg line="run -d ${basedir}/src -t ${basedir}/build/docblox" />
         </exec>
     </target>
 
-    <target name="copy_doc" depends="documentation">
-        <copy todir="/var/www/vhosts/api.visimmo3d.loc/httpdocs/">
-            <fileset dir="${basedir}/build/docblox"/>
-        </copy>
-    </target>
+    <!--<target name="copy_doc" depends="documentation">-->
+        <!--<copy todir="/var/www/vhosts/api.visimmo3d.loc/httpdocs/">-->
+            <!--<fileset dir="${basedir}/build/docblox"/>-->
+        <!--</copy>-->
+    <!--</target>-->
  
     <target name="parallel">
         <parallel>
+            <antcall target="phploc" />
             <antcall target="phpcs" />
             <antcall target="phpmd" />
             <!-- <antcall target="phpcpd" /> -->
@@ -88,5 +96,5 @@
         </parallel>
     </target>
  
-    <target name="build" depends="clean,prepare,parallel,phpcpd,phpcb,documentation,copy_doc" />
+    <target name="build" depends="clean,prepare,parallel,phpcpd,phpcb,documentation" />
 </project>
