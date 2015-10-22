@@ -117,11 +117,14 @@ class LoadBasicData implements FixtureInterface, ContainerAwareInterface
 
             $folder->setName($folderName);
             $folder->setUser($this->userManager->findUserByUsername($folderData['creator']));
+            $folder->setUploadDate(new \DateTime());
+            $folder->setLastModified(new \DateTime());
             if($parent != null) {
                 $folder->setParent($parent);
             }
 
-            $folderRepository->persistAsFirstChild($folder);
+            //$folderRepository->persistAsFirstChild($folder);
+            $this->em->persist($folder);
 
             //find all childrent;
             if($this->arrayHasValue($folderData, 'children')) {
@@ -134,6 +137,7 @@ class LoadBasicData implements FixtureInterface, ContainerAwareInterface
     private function injectDocuments($data){
         $documentRepository = $this->em->getRepository('P5:Document');
         $folderRepository = $this->em->getRepository('P5:Folder');
+        $messageCenter = $this->container->get('p5notification.messagecenter');
 
         foreach($data as $documentName=>$documentData){
             $document = $documentRepository->findOneByFilename($documentName);
@@ -141,16 +145,20 @@ class LoadBasicData implements FixtureInterface, ContainerAwareInterface
                 $document = new Document();
             }
             $document->setFilename($documentName);
+            $creator = $this->userManager->findUserByUsername($documentData['creator']);
             $folder = $folderRepository->findOneByName($documentData['folder']);
             $document->setFolder($folder);
             $document->setUploadDate(new \DateTime(isset($documentData["upload_date"])?$documentData["upload_date"]:"2014-01-01 10:00:00"));
             $document->setLastModified(new \DateTime(isset($documentData["last_modified"])?$documentData["last_modified"]:"2014-01-01 10:00:00"));
-            $document->setUser($this->userManager->findUserByUsername($documentData['creator']));
+            $document->setUser($creator);
+            $document->setType($documentData['type']);
             if($this->arrayHasValue($documentData, 'shareToUsers')) {
                 $shareUsers = new ArrayCollection();
+                //push notification
                 foreach($documentData['shareToUsers'] as $shareUsername) {
                     $shareUsers->add($this->userManager->findUserByUsername($shareUsername));
                 }
+                $messageCenter->pushMessage($creator, 'A document was shared to you by ' . $creator->getEmail(), 'document', $shareUsers->getValues());
                 $document->setSharingUsers($shareUsers);
             }
             $this->em->persist($document);

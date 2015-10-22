@@ -18,6 +18,6 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
     document_types:
-        - DOC
-        - EXCEL
-        - PDF
+        DOC: DOC
+        EXCEL: EXCEL
+        PDF: PDF

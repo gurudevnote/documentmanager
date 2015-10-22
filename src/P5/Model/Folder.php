@@ -79,7 +79,7 @@ class Folder
      * @ORM\ManyToOne(targetEntity="Folder", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $parent = 0;
+    private $parent;
 
     /**
      * @ORM\OneToMany(targetEntity="Folder", mappedBy="parent")
