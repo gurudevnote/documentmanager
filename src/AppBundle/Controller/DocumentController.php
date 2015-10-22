@@ -36,11 +36,11 @@ class DocumentController extends Controller
             ->getForm();
         $form->handleRequest($request);
         if($form->isValid()){
-
             $document->setUser($this->getUser());
             $document->setFolder($folderRepository->find($document->getFolder()));
             $document->setUploadDate(new \DateTime());
             $document->setLastModified(new \DateTime());
+            $document->setDescription('Upload by ' . $this->getUser()->getEmail());
 
             $em->persist($document);
             $em->flush();
