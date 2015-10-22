@@ -31,7 +31,7 @@
 
 {% block notificationElement %}
     {%- set attributes = item.linkAttributes|merge({'class' : 'dropdown-toggle', 'data-target' : '#', 'data-toggle' : 'dropdown'}) %}
-    <a href="#" {{ knp_menu.attributes(attributes) }}><span class="glyphicon glyphicon-bell"></span><span class="badge">{{ item.extras.number_notification }}</span></a>
+    <a href="#" {{ knp_menu.attributes(attributes) }} style="padding-bottom: 6px;"><span><i class="material-icons">notifications</i></span><span class="badge">{{ item.extras.number_notification }}</span></a>
     {% if item.extras.subitems %}
         <ul class="dropdown-menu">
             {% for item in item.extras.subitems %}

@@ -10,15 +10,15 @@
             {% stylesheets
                 '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
                 '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css'
-                'https://storage.googleapis.com/code.getmdl.io/1.0.5/material.blue-red.min.css'
-                'https://fonts.googleapis.com/icon?family=Material+Icons'
+                '//storage.googleapis.com/code.getmdl.io/1.0.5/material.blue-red.min.css'
+                'bundles/app/css/colorbox.css'
                 '@AppBundle/Resources/public/css/main.css'
                 filter='cssrewrite'
             %}
             <link rel="stylesheet" href="{{ asset_url }}"/>
             {% endstylesheets %}
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
         {% endblock %}
-
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
@@ -32,6 +32,7 @@
             '//code.jquery.com/jquery-1.11.3.min.js'
             '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'
             'https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js'
+            'bundles/app/js/jquery.colorbox-min.js'
             output='js/compiled/main.js'
             %}
             <script src="{{ asset_url }}"></script>
