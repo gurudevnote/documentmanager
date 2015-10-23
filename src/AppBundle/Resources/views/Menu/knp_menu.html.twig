@@ -26,12 +26,12 @@
 
 {% block avatarElement %}
     {%- set attributes = item.linkAttributes|merge({'class' : 'dropdown-toggle', 'data-target' : '#', 'data-toggle' : 'dropdown'}) %}
-    <a href="#" {{ knp_menu.attributes(attributes) }} style="padding-bottom: 0; padding-top: 9px;"><img src="{{ item.uri }}" class="img-circle nav-avatar" style="max-height: 32px;"/></a>
+    <a href="#" {{ knp_menu.attributes(attributes) }} style="padding-bottom: 0; padding-top: 9px;"><img src="{{ item.uri }}" class="img-circle nav-avatar" style="max-height: 40px;"/></a>
 {% endblock %}
 
 {% block notificationElement %}
     {%- set attributes = item.linkAttributes|merge({'class' : 'dropdown-toggle', 'data-target' : '#', 'data-toggle' : 'dropdown'}) %}
-    <a href="#" {{ knp_menu.attributes(attributes) }} style="padding-bottom: 6px;"><span><i class="material-icons">notifications</i></span><span class="badge">{{ item.extras.number_notification }}</span></a>
+    <a href="#" {{ knp_menu.attributes(attributes) }}><i class="material-icons">notifications</i><span class="badge">{{ item.extras.number_notification }}</span></a>
     {% if item.extras.subitems %}
         <ul class="dropdown-menu">
             {% for item in item.extras.subitems %}

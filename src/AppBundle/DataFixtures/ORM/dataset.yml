@@ -37,15 +37,15 @@ folders:
         creator: hnguyenhuu
         children:
           php:
-            creator: admin
+            creator: hnguyenhuu
           c#:
-            creator: admin
+            creator: hnguyenhuu
           nodejs:
-            creator: admin
+            creator: hnguyenhuu
           javascript:
-            creator: admin
+            creator: hnguyenhuu
           java:
-            creator: admin
+            creator: hnguyenhuu
       economics:
         creator: hnguyenhuu
       arts & photography:
