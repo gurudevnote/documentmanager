@@ -25,8 +25,47 @@ class DefaultController extends Controller
     public function menuAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $folderRepository = $em->getRepository('P5:Folder');
+        $query = $folderRepository->createQueryBuilder('f')
+            ->select('f')
+            ->where('f.user = :user')
+            ->setParameter('user', $this->getUser())
+            ->orderBy('f.root, f.lft', 'ASC');
 
-        $folderRespository = $em->getRepository('P5:Folder');
-        return $this->render('@App/default/menu.html.twig');
+        $options = array(
+            'decorate' => true,
+            'rootOpen' => function($tree) {
+                $class = 'nav-second-level';
+                if ($tree['0']['lvl'] == 1) {
+                    $class = 'nav-third-level';
+                }
+                if ($tree['0']['lvl'] == 2) {
+                    $class = 'nav-fourth-level';
+                }
+                if ($tree['0']['lvl'] == 3) {
+                    $class = 'nav-fifth-level';
+                }
+                return '<ul class="nav '.$class.'">';
+            },
+            'rootClose' => '</ul>',
+            'childOpen' => '<li>',
+            'childClose' => '</li>',
+            'nodeDecorator' => function($node) {
+                $html = '<a href="/documents/'.$node['id'].'">'.$node['name'];
+                if (count($node['__children']) > 0) {
+                    $html .= '<span class="fa arrow"></span></a>';
+                } else {
+                    $html .= '</a>';
+                }
+                return $html;
+            }
+        );
+        $folders = $query->getQuery()->getArrayResult();
+//        die(var_dump($folders));
+        $foldersHtml = $folderRepository->buildTree($folders, $options);
+//        $foldersHtml = $folderRepository->childrenHierarchy(null, false, $options);
+        return $this->render('@App/default/menu.html.twig', [
+            'foldersHtml' => $foldersHtml
+        ]);
     }
 }

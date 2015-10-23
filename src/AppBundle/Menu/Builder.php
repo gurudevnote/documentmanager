@@ -53,4 +53,33 @@ class Builder extends ContainerAware
 
         return $menu;
     }
+
+    public function leftMenu(FactoryInterface $factory, array $options) {
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+        $em = $this->container->get('doctrine')->getManager();
+        $folderRepository = $em->getRepository('P5:Folder');
+        $query = $folderRepository->createQueryBuilder('f')
+            ->select('f')
+            ->where('f.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('f.root, f.lft', 'ASC');
+        $folders = $query->getQuery()->getResult();
+
+        $menu = $factory->createItem('root');
+        $menu->addChild('My docs', ['route' => 'documents']);
+        foreach($folders as $key => $folder) {
+            $parentName[$folder->getLvl()] = $folder->getName();
+            $parentMenu = $menu['My docs'];
+            if ($folder->getParent() != null) {
+                for ($i = 0; $i < $folder->getLvl(); $i++) {
+                    $parentMenu = $parentMenu[$parentName[$i]];
+                }
+            }
+
+            $parentMenu->addChild($folder->getName(), ['extras' => ['lvl' => $folder->getLvl()], 'route' => 'fos_user_profile_show']);
+        }
+        $menu->addChild('Share with me', ['route' => 'fos_user_profile_show']);
+
+        return $menu;
+    }
 }

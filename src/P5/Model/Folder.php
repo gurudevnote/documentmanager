@@ -131,6 +131,12 @@ class Folder
         return $prefix . $this->name ."(".count($this->documents).")";
     }
 
+    public function getParentName()
+    {
+        $parent = $this->getParent();
+        return $parent->getName();
+    }
+
     /**
      * @return mixed
      */
@@ -199,5 +205,19 @@ class Folder
      */
     public function setLastModified($lastModified) {
         $this->lastModified = $lastModified;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLvl() {
+        return $this->lvl;
+    }
+
+    /**
+     * @param mixed $lvl
+     */
+    public function setLvl($lvl) {
+        $this->lvl = $lvl;
     }
 }
