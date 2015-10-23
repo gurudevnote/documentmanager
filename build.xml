@@ -75,6 +75,11 @@
             <arg line="--log ${basedir}/build/logs --extensions=php --source ${basedir}/src/P5 --output ${basedir}/build/codebrowser" />
         </exec>
     </target>
+    <target name="phpunit">
+        <exec dir="${basedir}" executable="./bin/phpunit${bat}" failonerror="false">
+            <arg line="-c app --coverage-html= ${basedir}/build/coverage" />
+        </exec>
+    </target>
   
     <!-- <target name="documentation" depends="prepare">
         <exec dir="${basedir}" executable="docblox" failonerror="false">
@@ -105,5 +110,5 @@
         </parallel>
     </target>
  
-    <target name="build" depends="clean,prepare,parallel,phpcpd,documentation,phpcb" />
+    <target name="build" depends="clean,prepare,parallel,phpcpd,documentation,phpcb,phpunit" />
 </project>
