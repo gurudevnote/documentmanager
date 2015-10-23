@@ -41,6 +41,11 @@ class Message
     private $content;
 
     /**
+     * @ORM\Column(name="parameters", type="text", nullable=true)
+     */
+    private $parameters;
+
+    /**
      * @ORM\Column(name="sent_time", type="datetime")
      */
     private $sentTime;
@@ -133,5 +138,37 @@ class Message
     public function setReceivedUsers($receivedUsers)
     {
         $this->receivedUsers = $receivedUsers;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParameters()
+    {
+        return json_decode($this->parameters);
+    }
+
+    /**
+     * @param mixed $parameters
+     */
+    public function setParameters($parameters = array())
+    {
+        $this->parameters = json_encode($parameters);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 }

@@ -48,7 +48,12 @@ class DocumentController extends Controller
             $em->flush();
 
             $messageCenter = $this->get('p5notification.messagecenter');
-            $messageCenter->pushMessage($this->getUser(), 'A new document was uploaded by ' . $this->getUser()->getEmail(), 'document');
+            $messageCenter->pushMessage(
+                $this->getUser(),
+                'A new document was uploaded by ' . $this->getUser()->getEmail(),
+                'document',
+                array('id'=>$document->getId())
+            );
 
             $this->addFlash(
                 'success',
