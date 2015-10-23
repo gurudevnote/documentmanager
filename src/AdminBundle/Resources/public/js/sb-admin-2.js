@@ -1,6 +1,9 @@
 $(function() {
 
-    $('#side-menu').metisMenu();
+    $('#side-menu').metisMenu({
+        iconSelect: true
+        //doubleTapToGo: true
+    });
 
 });
 
