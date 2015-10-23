@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Document management{% endblock %}</title>
-
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>{% block title %}Document management{% endblock %}</title>
 
         {% block stylesheets %}
             {% stylesheets
-                '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
-                '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css'
-                '//storage.googleapis.com/code.getmdl.io/1.0.5/material.blue-red.min.css'
-                'bundles/app/css/colorbox.css'
-                '@AppBundle/Resources/public/css/main.css'
-                filter='cssrewrite'
+            'bundles/admin/plugin/bootstrap/dist/css/bootstrap.min.css'
+            'bundles/admin/plugin/metisMenu/dist/metisMenu.min.css'
+            'bundles/admin/css/timeline.css'
+            'bundles/admin/css/sb-admin-2.css'
+            'bundles/admin/plugin/morrisjs/morris.css'
+            'bundles/admin/plugin/font-awesome/css/font-awesome.min.css'
+            '//storage.googleapis.com/code.getmdl.io/1.0.5/material.blue-red.min.css'
+            'bundles/app/css/colorbox.css'
+            'bundles/app/css/main.css'
+            filter='cssrewrite'
             %}
             <link rel="stylesheet" href="{{ asset_url }}"/>
             {% endstylesheets %}
@@ -22,22 +29,65 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {{ render(controller('AppBundle:Default:menu')) }}
-        <div class="container-fluid">
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ path('admin_homepage') }}">Docs Management</a>
+            </div>
+            <!-- /.navbar-header -->
+
+
+
+            <ul class="nav navbar-top-links navbar-right">
+                {{ knp_menu_render('AppBundle:Builder:rightMenu',  {'template': 'AppBundle:Menu:knp_menu.html.twig', 'currentClass' : 'active'}) }}
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            {{ render(controller('AppBundle:Default:menu')) }}
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12" style="margin-top: 10px;">
+                    {% if app.session.flashbag.has('success') %}
+                        <div class="alert alert-warning alert-dismissable" style="margin-bottom: 10px;">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            {% for msg in app.session.flashbag.get('success') %}
+                                {{ msg }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
             {% block body %}{% endblock %}
         </div>
+        <!-- /#page-wrapper -->
 
-        {% block javascripts %}
-            {% javascripts
-            '//code.jquery.com/jquery-1.11.3.min.js'
-            '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'
-            'https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js'
-            'bundles/app/js/jquery.colorbox-min.js'
-            output='js/compiled/main.js'
-            %}
-            <script src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% endblock %}
+    </div>
+    <!-- /#wrapper -->
+    {% block javascripts %}
+        {% javascripts
+        'bundles/admin/plugin/jquery/dist/jquery.min.js'
+        'bundles/admin/plugin/bootstrap/dist/js/bootstrap.min.js'
+        'https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js'
+        '//raw.githubusercontent.com/thinh2010/metisMenu/master/dist/metisMenu.js'
+        'bundles/admin/plugin/raphael/raphael-min.js'
+        'bundles/admin/js/sb-admin-2.js'
+        'bundles/app/js/jquery.colorbox-min.js'
+        output='js/compiled/main-admin.js'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}
 
     </body>
 </html>

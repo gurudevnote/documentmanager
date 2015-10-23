@@ -24,6 +24,8 @@ class DocumentController extends Controller
         $folderRepository = $em->getRepository("P5:Folder");
         $query = $folderRepository->createQueryBuilder('f')
             ->select('f')
+            ->where('f.user = :user')
+            ->setParameter('user', $this->getUser())
             ->orderBy('f.root, f.lft', 'ASC');
         $folders = $query->getQuery()->getResult();
         $document = new Document();

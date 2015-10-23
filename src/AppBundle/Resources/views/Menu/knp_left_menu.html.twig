@@ -12,33 +12,34 @@
 {% endblock %}
 
 {% block list %}
+    {% set class = 'nav-second-level' %}
+    {% if item.extras.lvl is defined %}
+        {% if item.extras.lvl == 0 %}
+            {% set class = 'nav-third-level' %}
+        {% endif %}
+        {% if item.extras.lvl > 1 %}
+            {% set class = 'nav-fourth-level' %}
+        {% endif %}
+    {% endif %}
     {% if item.hasChildren and options.depth is not same as(0) and item.displayChildren %}
-        <ul class="dropdown-menu">
+        <ul class="nav {{ class }}">
             {{ block('children') }}
         </ul>
     {% endif %}
 {% endblock %}
 
 {% block linkElementDropDown %}
-    {%- set attributes = item.linkAttributes|merge({'class' : 'dropdown-toggle', 'data-target' : '#', 'data-toggle' : 'dropdown'}) %}
-    <a href="{{ item.uri }}" {{ knp_menu.attributes(attributes) }}>{{ block('label') }} <b class="caret"></b></a>
+    <a href="{{ item.uri }}" {{ knp_menu.attributes(attributes) }}>{{ block('label') }} <span class="fa arrow icon-select"></span></a>
 {% endblock %}
 
 {% block avatarElement %}
     {%- set attributes = item.linkAttributes|merge({'class' : 'dropdown-toggle', 'data-target' : '#', 'data-toggle' : 'dropdown'}) %}
-    <a href="#" {{ knp_menu.attributes(attributes) }} style="padding-bottom: 0; padding-top: 9px;"><img src="{{ item.uri }}" class="img-circle nav-avatar" style="max-height: 40px;"/></a>
+    <a href="#" {{ knp_menu.attributes(attributes) }} style="padding-bottom: 0; padding-top: 9px;"><img src="{{ item.uri }}" class="img-circle nav-avatar" style="max-height: 32px;"/></a>
 {% endblock %}
 
 {% block notificationElement %}
     {%- set attributes = item.linkAttributes|merge({'class' : 'dropdown-toggle', 'data-target' : '#', 'data-toggle' : 'dropdown'}) %}
-    <a href="#" {{ knp_menu.attributes(attributes) }}><i class="material-icons">notifications</i><span class="badge">{{ item.extras.number_notification }}</span></a>
-    {% if item.extras.subitems %}
-        <ul class="dropdown-menu">
-            {% for item in item.extras.subitems %}
-                <li><a href="#">{{ item }}</a></li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <a href="#" {{ knp_menu.attributes(attributes) }}><span class="glyphicon glyphicon-bell"></span><span class="badge">{{ item.extras.number_notification }}</span></a>
 {% endblock %}
 
 {% block item %}
@@ -89,9 +90,7 @@
             {%- set childrenClasses = item.childrenAttribute('class') is not empty ? [item.childrenAttribute('class')] : [] %}
             {%- set childrenClasses = childrenClasses|merge(['menu_level_' ~ item.level]) %}
             {%- set listAttributes = item.childrenAttributes|merge({'class': childrenClasses|join(' ') }) %}
-            {% if item.label != 'notification' %}
-                {{ block('list') }}
-            {% endif %}
+            {{ block('list') }}
         </li>
     {% endif %}
 {% endblock %}
