@@ -33,7 +33,8 @@
         "sebastian/phpdcd": "^1.0",
         "mayflower/php-codebrowser": "^1.1",
         "phpdocumentor/phpdocumentor": "^2.8",
-        "halleck45/phpmetrics": "*"
+        "halleck45/phpmetrics": "*",
+        "liip/functional-test-bundle": "^1.2"
     },
     "scripts": {
         "post-install-cmd": [
