@@ -41,7 +41,7 @@ class Document
     private $filename;
 
     /**
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable = true)
      */
     private $description;
 
