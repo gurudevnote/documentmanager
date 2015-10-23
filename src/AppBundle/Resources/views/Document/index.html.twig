@@ -3,11 +3,24 @@
 {% block body %}
     <div class="row">
         <div class="col-md-12">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="alert alert-danger" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
             {{ form(uploadForm, {attr:{class:'form-inline', novalidate: 'novalidate'}}) }}
-            <table class="table table-hover">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                 <thead>
                 <tr>
-                    <th width="400">File name</th>
+                    <th width="50"></th>
+                    <th width="500" class="mdl-data-table__cell--non-numeric">File name</th>
                     <th width="100">
                         <div class="dropdown">
                             <a href="javascript:void(0);" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Author <b class="caret"></b></a>
@@ -30,14 +43,14 @@
                             </ul>
                         </div>
                     </th>
-                    <th>upload date</th>
-                    <th>last modified</th>
-                    <th>Share</th>
+                    <th>Upload date</th>
+                    <th>Last modified</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td colspan="6"><h4>My documents ({{ documents | length }})</h4></td>
+                    <td colspan="7" class="mdl-data-table__cell--non-numeric"><h5>My documents ({{ documents | length }})</h5></td>
                 </tr>
                 {% for document in documents  %}
                 {% set defaultClass = '' %}
@@ -45,7 +58,9 @@
                     {% set defaultClass = 'success' %}
                 {% endif %}
                 <tr class="document-row {{ defaultClass }}">
-                    <td>{{document.filename}}</td>
+                    {% set image = 'bundles/app/images/' ~ document.type | lower ~ '.png' %}
+                    <td><img src="{{ asset(image) }}" /></td>
+                    <td class="mdl-data-table__cell--non-numeric"><a href="{{ path('document_details', {'id': document.id}) }}">{{document.filename}}</a></td>
                     <td class="document-username">{{document.user.username}}</td>
                     <td class="document-folder">{{document.folder.name}}</td>
                     <td>{{document.uploadDate | date('Y-m-d')}}</td>
@@ -54,21 +69,24 @@
                         <div class="dropdown">
                             <span class="glyphicon glyphicon-option-vertical" type="button" id="dropdownMenu1" data-toggle="dropdown"></span>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="#">Download</a></li>
-                                <li><a href="{{ path('document_sharing', {'id': document.id}) }}" class="btn-share">Share</a></li>
-                                <li><a href="#">Rename</a></li>
-                                <li><a href="#">Remove</a></li>
+                                <li><a href="#"><i class="material-icons">file_download</i>Download</a></li>
+                                <li><a href="{{ path('document_sharing', {'id': document.id}) }}" class="btn-share"><i class="material-icons">share</i>Share</a></li>
+                                <li><a href="{{ path('edit_document', {'id': document.id}) }}"><i class="material-icons">edit</i>Update</a></li>
+                                <li><a href="{{ path('remove_document', {'id': document.id}) }}"><i class="material-icons">delete</i>Remove</a></li>
                             </ul>
                         </div>
                     </td>
                 </tr>
                 {% endfor %}
+
                 <tr>
-                    <td colspan="6"><h4>Sharing with me ({{ app.user.sharingDocuments | length }})</h4></td>
+                    <td colspan="7" class="mdl-data-table__cell--non-numeric"><h5>Sharing with me ({{ app.user.sharingDocuments | length }})</h5></td>
                 </tr>
                 {% for document in app.user.sharingDocuments  %}
                     <tr class="document-row">
-                        <td>{{document.filename}}</td>
+                        {% set image = 'bundles/app/images/' ~ document.type | lower ~ '.png' %}
+                        <td><img src="{{ asset(image) }}" /></td>
+                        <td class="mdl-data-table__cell--non-numeric"><a href="{{ path('document_details', {'id': document.id}) }}">{{document.filename}}</a></td>
                         <td class="document-username">{{document.user.username}}</td>
                         <td class="document-folder">{{document.folder.name}}</td>
                         <td>{{document.uploadDate | date('Y-m-d')}}</td>
@@ -77,7 +95,7 @@
                         </td>
                     </tr>
                 {% endfor %}
-
+                </tbody>
             </table>
         </div>
     </div>
@@ -86,17 +104,10 @@
 
 {% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-
-    <link rel="stylesheet" href="{{ asset('bundles/app/css/colorbox.css') }}"/>
-{% endblock %}
-
 {% block javascripts %}
     {{ parent() }}
     {% javascripts
         'bundles/app/js/document.js'
-        'bundles/app/js/jquery.colorbox-min.js'
         output='js/complied/document.js'
     %}
     <script src="{{ asset_url }}"></script>

@@ -31,15 +31,10 @@ class FolderController extends Controller
             ->add('save', 'submit', array('label' => 'Upload', 'attr'=>array('class'=>'btn-primary')))
             ->setAction($this->generateUrl('folders'))
             ->getForm();
-        $em = $this->getDoctrine()->getManager()->getRepository("P5:Folder");
         $form->handleRequest($request);
         if($form->isValid()){
 
             $folder->setUser($this->getUser());
-            if ($folder->getParent()) {
-                $folder->setParent($folderRepository->find($folder->getParent()));
-            }
-
             $folder->setUploadDate(new \DateTime());
             $folder->setLastModified(new \DateTime());
 

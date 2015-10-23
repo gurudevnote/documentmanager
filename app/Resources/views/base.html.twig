@@ -9,26 +9,23 @@
 
         <title>{% block title %}Document management{% endblock %}</title>
 
-        {% stylesheets
-        'bundles/admin/plugin/bootstrap/dist/css/bootstrap.min.css'
-        'bundles/admin/plugin/metisMenu/dist/metisMenu.min.css'
-        'bundles/admin/css/timeline.css'
-        'bundles/admin/css/sb-admin-2.css'
-        'bundles/admin/plugin/morrisjs/morris.css'
-        'bundles/admin/plugin/font-awesome/css/font-awesome.min.css'
-        'bundles/app/css/main.css'
-        filter='cssrewrite'
-        %}
-        <link rel="stylesheet" href="{{ asset_url }}"/>
-        {% endstylesheets %}
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
+        {% block stylesheets %}
+            {% stylesheets
+            'bundles/admin/plugin/bootstrap/dist/css/bootstrap.min.css'
+            'bundles/admin/plugin/metisMenu/dist/metisMenu.min.css'
+            'bundles/admin/css/timeline.css'
+            'bundles/admin/css/sb-admin-2.css'
+            'bundles/admin/plugin/morrisjs/morris.css'
+            'bundles/admin/plugin/font-awesome/css/font-awesome.min.css'
+            '//storage.googleapis.com/code.getmdl.io/1.0.5/material.blue-red.min.css'
+            'bundles/app/css/colorbox.css'
+            'bundles/app/css/main.css'
+            filter='cssrewrite'
+            %}
+            <link rel="stylesheet" href="{{ asset_url }}"/>
+            {% endstylesheets %}
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
@@ -77,16 +74,20 @@
 
     </div>
     <!-- /#wrapper -->
-    {% javascripts
-    'bundles/admin/plugin/jquery/dist/jquery.min.js'
-    'bundles/admin/plugin/bootstrap/dist/js/bootstrap.min.js'
-    '//raw.githubusercontent.com/thinh2010/metisMenu/master/dist/metisMenu.js'
-    'bundles/admin/plugin/raphael/raphael-min.js'
-    'bundles/admin/js/sb-admin-2.js'
-    output='js/compiled/main-admin.js'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    {% block javascripts %}
+        {% javascripts
+        'bundles/admin/plugin/jquery/dist/jquery.min.js'
+        'bundles/admin/plugin/bootstrap/dist/js/bootstrap.min.js'
+        'https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js'
+        '//raw.githubusercontent.com/thinh2010/metisMenu/master/dist/metisMenu.js'
+        'bundles/admin/plugin/raphael/raphael-min.js'
+        'bundles/admin/js/sb-admin-2.js'
+        'bundles/app/js/jquery.colorbox-min.js'
+        output='js/compiled/main-admin.js'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}
 
     </body>
 </html>

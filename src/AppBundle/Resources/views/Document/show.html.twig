@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="alert alert-danger" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            <div class="mdl-card mdl-shadow--2dp" style="width: 100%">
+                <div class="mdl-card__title">Details of document</div>
+                <div class="mdl-card__media"></div>
+                <div class="mdl-card__supporting-text">
+                    <p>Filename: {{ document.filename }}</p>
+                    <p>Author: {{ document.user.username }}</p>
+                    <p>Upload date: {{ document.uploadDate | date }}</p>
+                    <p>Folder: {{ document.folder.name }}</p>
+                    <p>Description: {{ document.description | nl2br }}</p>
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                    <a href="{{ path('edit_document', {'id': document.id}) }}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Update</a>
+                </div>
+                <div class="mdl-card__menu">
+                    {% if document.user.id == user.id %}
+                    <button id="btn-share" href="{{ path('document_sharing', {'id': document.id, 'callbackRoute': 'document_details'}) }}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                        <i class="material-icons">share</i>
+                    </button>
+                    {% endif %}
+                    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                        <i class="material-icons">file_download</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#btn-share').colorbox({
+                href: $(this).attr('href'),
+                width: '600px'
+            });
+        })
+    </script>
+{% endblock %}

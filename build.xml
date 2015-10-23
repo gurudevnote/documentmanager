@@ -1,0 +1,114 @@
+<project name="BO HTML5" default="build" basedir="./">
+    <condition property="bat" value=".bat" else="">
+        <os family="windows"/>
+    </condition>
+
+    <target name="clean">
+        <delete dir="${basedir}/build" />
+    </target>
+ 
+    <target name="prepare">
+        <mkdir dir="${basedir}/build/logs" />
+        <mkdir dir="${basedir}/build/codebrowser" />
+        <mkdir dir="${basedir}/build/coverage" />
+        <mkdir dir="${basedir}/build/dependencies" />
+        <mkdir dir="${basedir}/build/phpmd" />
+        <mkdir dir="${basedir}/build/phpcpd" />
+        <mkdir dir="${basedir}/build/phpcs" />
+        <mkdir dir="${basedir}/build/phploc" />
+        <mkdir dir="${basedir}/build/docblox" />
+        <mkdir dir="${basedir}/build/phpmetrics" />
+    </target>
+
+    <target name="phploc">
+        <exec dir="${basedir}" executable="./bin/phploc${bat}" failonerror="false" output="${basedir}/build/phploc/index.html">
+            <arg line="./src --log-xml=${basedir}/build/logs/phploc.xml" />
+        </exec>
+    </target>
+ 
+    <target name="phpcs">
+        <exec dir="${basedir}" executable="./bin/phpcs${bat}" failonerror="false" output="${basedir}/build/phpcs/index.html">
+            <arg line="./src -p -s --extensions=php --standard=Zend --tab-width=4 --report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml" />
+        </exec>
+    </target>
+ 
+    <target name="phpmd">
+        <exec dir="${basedir}" executable="./bin/phpmd${bat}" failonerror="false">
+            <arg line="./src xml codesize,cleancode,design --reportfile ${basedir}/build/logs/phpmd.xml" />
+        </exec>
+    </target>
+
+    <target name="phpmetrics">
+        <exec dir="${basedir}" executable="./bin/phpmetrics${bat}" failonerror="false">
+            <arg line="--report-html=${basedir}/build/phpmetrics/myreport.html src" />
+        </exec>
+    </target>
+ 
+    <target name="phpcpd">
+        <exec dir="${basedir}" executable="./bin/phpcpd${bat}" failonerror="false">
+            <arg line="--log-pmd ${basedir}/build/logs/pmd.xml
+                       --exclude build
+                       --exclude tests
+                       ./src" />
+        </exec>
+        <!--<exec dir="${basedir}/build/logs" executable="./bin/xsltproc" failonerror="false" output="${basedir}/build/phpcpd/index.html">-->
+            <!--<arg line="/var/bamboo-home/cpdhtml.xslt ${basedir}/build/logs/pmd.xml" />-->
+        <!--</exec>-->
+    </target>
+ 
+    <target name="pdepend">
+        <exec dir="${basedir}" executable="./bin/pdepend${bat}" failonerror="false">
+            <arg line="--jdepend-xml=${basedir}/build/logs/jdepend.xml
+                       --jdepend-chart=${basedir}/build/dependencies/jdepend.svg
+                       --overview-pyramid=${basedir}/build/dependencies/pyramid.svg
+                       --optimization=best
+                       --exclude=build,tests
+                       ./src" />
+        </exec>
+        <!-- <exec dir="${basedir}/build/dependencies" executable="cp" failonerror="false">
+            <arg line="${basedir}/path/to/dependencies.html index.html" />
+        </exec> -->
+    </target>
+ 
+    <target name="phpcb">
+        <exec dir="${basedir}" executable="./bin/phpcb${bat}" failonerror="false">
+            <arg line="--log ${basedir}/build/logs --extensions=php --source ${basedir}/src/P5 --output ${basedir}/build/codebrowser" />
+        </exec>
+    </target>
+    <target name="phpunit">
+        <exec dir="${basedir}" executable="./bin/phpunit${bat}" failonerror="false">
+            <arg line="-c app --coverage-html= ${basedir}/build/coverage" />
+        </exec>
+    </target>
+  
+    <!-- <target name="documentation" depends="prepare">
+        <exec dir="${basedir}" executable="docblox" failonerror="false">
+            <arg line="run -d ${basedir}/src -t ${basedir}/build/docblox" />
+        </exec>
+    </target> -->
+
+    <target name="documentation" depends="prepare">
+        <exec dir="${basedir}" executable="./bin/phpdoc${bat}" failonerror="false">
+            <arg line="run -d ${basedir}/src -t ${basedir}/build/docblox" />
+        </exec>
+    </target>
+
+    <!--<target name="copy_doc" depends="documentation">-->
+        <!--<copy todir="/var/www/vhosts/api.visimmo3d.loc/httpdocs/">-->
+            <!--<fileset dir="${basedir}/build/docblox"/>-->
+        <!--</copy>-->
+    <!--</target>-->
+ 
+    <target name="parallel">
+        <parallel>
+            <antcall target="phploc" />
+            <antcall target="phpcs" />
+            <antcall target="phpmd" />
+            <antcall target="phpmetrics" />
+            <!-- <antcall target="phpcpd" /> -->
+            <antcall target="pdepend" />
+        </parallel>
+    </target>
+ 
+    <target name="build" depends="clean,prepare,parallel,phpcpd,documentation,phpcb,phpunit" />
+</project>

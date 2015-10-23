@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% form_theme editForm '@App/Form/form_layout_mdl.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <form action="{{ path('edit_document', {id: document.id}) }}" method="post" class="form-horizontal">
+            <div class="mdl-card mdl-shadow--2dp" style="width: 100%">
+                <div class="mdl-card__title">Edit Document Information</div>
+                <div class="mdl-card__media"></div>
+                <div class="mdl-card__supporting-text">
+                        {{ form_widget(editForm) }}
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                    <a href="{{ path('document_details', {id: document.id}) }}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                        Cancel
+                    </a>
+                    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                        Save
+                    </button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

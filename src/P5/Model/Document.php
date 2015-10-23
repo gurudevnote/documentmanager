@@ -41,6 +41,16 @@ class Document
     private $filename;
 
     /**
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(name="type", type="string", length=255, nullable = false)
+     */
+    private $type;
+
+    /**
      * @ORM\Column(name="upload_date", type="datetime")
      */
     private $uploadDate;
@@ -184,5 +194,35 @@ class Document
         $this->sharingUsers = $sharingUsers;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 
+    /**
+     * @param mixed $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
 }

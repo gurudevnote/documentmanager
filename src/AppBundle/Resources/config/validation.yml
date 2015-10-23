@@ -4,3 +4,5 @@ P5\Model\Document:
       - NotBlank: ~
     folder:
       - NotBlank: ~
+    type:
+      - NotBlank: ~

@@ -29,25 +29,31 @@ class DocumentController extends Controller
             ->orderBy('f.root, f.lft', 'ASC');
         $folders = $query->getQuery()->getResult();
         $document = new Document();
-        $form = $this->createFormBuilder($document)
-            ->add('filename', 'text')
+        $form = $this->createFormBuilder($document, array('attr'=>array('name'=>'upload_form')))
+            ->add('filename', 'text', array('label'=>'Filename'))
+            ->add('type', 'choice', array('choices' => $this->getParameter('document_types'), 'placeholder' => '--Choose a type--'))
             ->add('folder', 'entity', array('choices' => $folders, 'class' => 'P5\Model\Folder', 'property' => 'nameHierarchy', 'placeholder' => '--Choose a folder--'))
-            ->add('save', 'submit', array('label' => 'Upload', 'attr'=>array('class'=>'btn-primary')))
+            ->add('save', 'submit', array('label' => 'Upload', 'attr'=>array('class'=>'mdl-button mdl-js-button mdl-button--raised mdl-button--accent')))
             ->setAction($this->generateUrl('documents'))
             ->getForm();
         $form->handleRequest($request);
         if($form->isValid()){
-
             $document->setUser($this->getUser());
             $document->setFolder($folderRepository->find($document->getFolder()));
             $document->setUploadDate(new \DateTime());
             $document->setLastModified(new \DateTime());
+            $document->setDescription('Upload by ' . $this->getUser()->getEmail());
 
-            $this->get('doctrine.orm.entity_manager')->persist($document);
-            $this->get('doctrine.orm.entity_manager')->flush();
+            $em->persist($document);
+            $em->flush();
 
             $messageCenter = $this->get('p5notification.messagecenter');
             $messageCenter->pushMessage($this->getUser(), 'A new document was uploaded by ' . $this->getUser()->getEmail(), 'document');
+
+            $this->addFlash(
+                'success',
+                'Your document was uploaded successfully!'
+            );
 
             return $this->redirect($this->generateUrl('documents'));
         }
@@ -61,6 +67,7 @@ class DocumentController extends Controller
             'uploadForm' => $form->createView(),
             'authors' => $authors,
             'folders' => $folders,
+            'document_types' => $this->getParameter('document_types'),
         );
     }
 
@@ -73,7 +80,7 @@ class DocumentController extends Controller
     public function sharingAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
+        $callback = $request->get('callbackRoute');
         $userRepository = $em->getRepository("P5:User");
         $documentRepository = $em->getRepository("P5:Document");
 
@@ -109,42 +116,81 @@ class DocumentController extends Controller
 
             $this->get('session')->getFlashBag()->add('success','Sharing document success!');
 
-            return $this->redirect($this->generateUrl('documents'));
+            if($callback){
+                return $this->redirectToRoute($callback, array('id'=>$id));
+            }
+            else{
+                return $this->redirect($this->generateUrl('documents'));
+            }
         }
 
         return array(
             'sharingForm' => $sharingForm->createView(),
+            'callbackRoute' => $callback,
         );
     }
 
     /**
-     * @Route("/document/upload", name="upload_document")
+     * @var int $id
+     * @Route("/remove_document/{id}", name="remove_document")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function saveAction(Request $request){
-        $folderRepository = $this->getDoctrine()->getManager()->getRepository("P5:Folder");
-        $document = new Document();
-        $form = $this->createFormBuilder($document)
-            ->add('filename', 'text')
-            ->add('folder', 'text')
-            ->add('save', 'submit', array('label' => 'Upload', 'attr'=>array('class'=>'btn-primary')))
-            ->setAction($this->generateUrl('upload_document'))
-            ->getForm();
+    public function removeAction($id, Request $request){
+        $em = $this->getDoctrine()->getEntityManager();
+        $documentRepository = $em->getRepository('P5:Document');
+        $document = $documentRepository->find($id);
+        $em->remove($document);
+        $em->flush();
+        $this->get('session')->getFlashBag()->add('success','The document was removed sucessfully!');
+        return $this->redirectToRoute('documents');
+    }
 
+    /**
+     * @var int $id
+     * @Route("/document/{id}", name="document_details")
+     * @Template()
+     * @return array
+     */
+    public function showAction($id, Request $request){
+        $em = $this->getDoctrine()->getEntityManager();
+        $documentRepository = $em->getRepository('P5:Document');
+        $document = $documentRepository->find($id);
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        return array(
+            'document' => $document,
+            'user' => $user,
+        );
+    }
+
+    /**
+     * @var int $id
+     * @Route("/document/edit/{id}", name="edit_document")
+     * @Template()
+     * @return array
+     */
+    public function editAction($id, Request $request){
+        $em = $this->getDoctrine()->getEntityManager();
+        $documentRepository = $em->getRepository('P5:Document');
+        $document = $documentRepository->find($id);
+
+        $form = $this->createFormBuilder($document, array('attr'=>array('name'=>'edit_form')))
+            ->add('filename', 'text', array('label'=>'Filename'))
+            ->add('description', 'textarea', array('label'=>'Description', 'attr'=>array('rows'=>'12')))
+            ->setAction($this->generateUrl('documents'))
+            ->getForm();
         $form->handleRequest($request);
         if($form->isValid()){
-            $document->setUser($this->getUser());
-            $document->setFolder($folderRepository->find($document->getFolder()));
-            $document->setUploadDate(new \DateTime());
-            $document->setLastModified(new \DateTime());
+            $em->persist($document);
+            $em->flush();
+            $this->get('session')->getFlashBag()->add('success','The details of the document was updated successfully!');
 
-            $this->get('doctrine.orm.entity_manager')->persist($document);
-            $this->get('doctrine.orm.entity_manager')->flush();
-        }else {
-            if($request->isMethod('POST')){
-                $request->getSession()->set('upload_form', $form);
-            }
+            return $this->redirectToRoute('document_details', array('id'=>$id));
         }
 
-        return $this->redirect($this->generateUrl('documents'));
+        return array(
+            'document' => $document,
+            'editForm' => $form->createView(),
+        );
     }
 }
