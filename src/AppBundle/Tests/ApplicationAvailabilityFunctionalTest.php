@@ -2,10 +2,25 @@
 // src/AppBundle/Tests/ApplicationAvailabilityFunctionalTest.php
 namespace AppBundle\Tests;
 
+use AppBundle\Tests\RunConsoleCommand;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class ApplicationAvailabilityFunctionalTest extends WebTestCase
 {
+    //TODO: another way to load fixture data only one for run all test function on a class
+    //using trait for doing that
+//    use RunConsoleCommand;
+//
+//    public static function setUpBeforeClass()
+//    {
+//        echo "\n==== LOAD FIXTURE DATA ON SETUP BEFORE CLASS USE TRAI ====\n";
+//        RunConsoleCommand::initKernel();
+//        echo RunConsoleCommand::runConsole('doctrine:database:drop --force');
+//        RunConsoleCommand::runConsole('doctrine:database:create');
+//        RunConsoleCommand::runConsole('doctrine:schema:create');
+//        RunConsoleCommand::runConsole('doctrine:fixture:load -n --fixtures=src/AppBundle/DataFixtures');
+//    }
+
     public function setUp()
     {
         $classes = array(
