@@ -152,6 +152,7 @@ class LoadBasicData implements FixtureInterface, ContainerAwareInterface
             $document->setLastModified(new \DateTime(isset($documentData["last_modified"])?$documentData["last_modified"]:"2014-01-01 10:00:00"));
             $document->setUser($creator);
             $document->setType($documentData['type']);
+            $document->setDescription('Uploaded by ' . $creator->getEmail());
             if($this->arrayHasValue($documentData, 'shareToUsers')) {
                 $shareUsers = new ArrayCollection();
                 //push notification
