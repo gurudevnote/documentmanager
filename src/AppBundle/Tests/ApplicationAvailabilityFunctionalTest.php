@@ -42,7 +42,6 @@ class ApplicationAvailabilityFunctionalTest extends WebTestCase
             array('/admin/user'),
             array('/admin/delete'),
             array('/documents'),
-            array('/document/upload'),
             array('/profile'),
         );
     }
