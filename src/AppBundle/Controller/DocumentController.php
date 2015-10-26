@@ -160,11 +160,18 @@ class DocumentController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $documentRepository = $em->getRepository('P5:Document');
         $document = $documentRepository->find($id);
+        $folder = $document->getFolder();
+        $folderTree = array();
+        $level = $folder->getLvl();
+        for($i=0; $i<=$level; $i++){
+            $folderTree[$i] = $folder->getName();
+            $folder = $folder->getParent();
+        }
 
-        $user = $this->get('security.token_storage')->getToken()->getUser();
         return array(
             'document' => $document,
-            'user' => $user,
+            'user' => $this->get('security.token_storage')->getToken()->getUser(),
+            'folderTree' => array_reverse($folderTree),
         );
     }
 
