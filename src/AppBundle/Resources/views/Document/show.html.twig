@@ -15,6 +15,14 @@
                     {{ flashMessage }}
                 </div>
             {% endfor %}
+            <div>
+                <ol class="breadcrumb">
+                    {% for folder in folderTree %}
+                    <li><a href="#">{{ folder }}</a></li>
+                    {% endfor %}
+                    <li class="active">{{ document.filename }}</li>
+                </ol>
+            </div>
             <div class="mdl-card mdl-shadow--2dp" style="width: 100%">
                 <div class="mdl-card__title">Details of document</div>
                 <div class="mdl-card__media"></div>
