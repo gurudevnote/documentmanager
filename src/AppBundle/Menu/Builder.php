@@ -29,7 +29,7 @@ class Builder extends ContainerAware
             $notifications = array();
             if(count($messages) > 0){
                 foreach($messages as $value){
-                    $notifications[] = $value->getMessage()->getContent();
+                    $notifications[] = $value->getMessage();
                 }
             }
             $menu->addChild('notification', array('extras'=>array('number_notification'=>$mc->getNotificationNumber(), 'subitems'=>$notifications)));

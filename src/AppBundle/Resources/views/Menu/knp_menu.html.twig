@@ -35,7 +35,7 @@
     {% if item.extras.subitems %}
         <ul class="dropdown-menu">
             {% for item in item.extras.subitems %}
-                <li><a href="#">{{ item }}</a></li>
+                <li><a href="{{ path('view_message', {'id': item.id}) }}">{{ item.content }}</a></li>
             {% endfor %}
         </ul>
     {% endif %}
