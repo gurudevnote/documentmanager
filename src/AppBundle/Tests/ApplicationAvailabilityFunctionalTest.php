@@ -21,12 +21,16 @@ class ApplicationAvailabilityFunctionalTest extends WebTestCase
 //        RunConsoleCommand::runConsole('doctrine:fixture:load -n --fixtures=src/AppBundle/DataFixtures');
 //    }
 
+    private  static $isLoadFixture = false;
     public function setUp()
     {
-        $classes = array(
-            'AppBundle\DataFixtures\ORM\LoadBasicData',
-        );
-        $this->loadFixtures($classes);
+        if(self::$isLoadFixture === false) {
+            $classes = array(
+                'AppBundle\DataFixtures\ORM\LoadBasicData',
+            );
+            $this->loadFixtures($classes);
+            self::$isLoadFixture = true;
+        }
     }
 
     /**
