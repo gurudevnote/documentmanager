@@ -16,6 +16,8 @@
                 </div>
             {% endfor %}
             {{ form(uploadForm, {attr:{class:'form-inline', novalidate: 'novalidate'}}) }}
+
+            <h2>My documents ({{ documents | length }})</h2>
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                 <thead>
                 <tr>
@@ -49,9 +51,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td colspan="7" class="mdl-data-table__cell--non-numeric"><h5>My documents ({{ documents | length }})</h5></td>
-                </tr>
                 {% for document in documents  %}
                 {% set defaultClass = '' %}
                 {% if document.shared%}
@@ -77,23 +76,6 @@
                         </div>
                     </td>
                 </tr>
-                {% endfor %}
-
-                <tr>
-                    <td colspan="7" class="mdl-data-table__cell--non-numeric"><h5>Sharing with me ({{ app.user.sharingDocuments | length }})</h5></td>
-                </tr>
-                {% for document in app.user.sharingDocuments  %}
-                    <tr class="document-row">
-                        {% set image = 'bundles/app/images/' ~ document.type | lower ~ '.png' %}
-                        <td><img src="{{ asset(image) }}" /></td>
-                        <td class="mdl-data-table__cell--non-numeric"><a href="{{ path('document_details', {'id': document.id}) }}">{{document.filename}}</a></td>
-                        <td class="document-username">{{document.user.username}}</td>
-                        <td class="document-folder">{{document.folder.name}}</td>
-                        <td>{{document.uploadDate | date('Y-m-d')}}</td>
-                        <td>{{document.lastModified | date('Y-m-d H:i:s')}}</td>
-                        <td>
-                        </td>
-                    </tr>
                 {% endfor %}
                 </tbody>
             </table>

@@ -12,10 +12,17 @@ use Doctrine\ORM\EntityRepository;
 
 class DocumentRepository extends EntityRepository
 {
-    public function getMyDocuments($user) {
-        return $this->createQueryBuilder('d')
-            ->where("d.user = :user")
-            ->setParameter('user', $user)
+    public function getMyDocuments($user, $folder = null) {
+        $query = $this->createQueryBuilder('d')
+            ->where("d.user = :user");
+        $parameters = ['user' => $user];
+        if ($folder != null) {
+//            die(var_dump($folder));
+//            \Doctrine\Common\Util\Debug::dump($folder);
+            $query->where("d.folder = :folder");
+            $parameters = ['folder' => $folder->getId()];
+        }
+        return $query->setParameters($parameters)
             ->getQuery()
             ->execute();
     }

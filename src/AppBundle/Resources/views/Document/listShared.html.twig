@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Share with me</h2>
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <thead>
+            <tr>
+                <th width="50"></th>
+                <th width="500" class="mdl-data-table__cell--non-numeric">File name</th>
+                <th width="100">
+                    <div class="dropdown">
+                        <a href="javascript:void(0);" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Author <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0);" onclick="filterDocuments('all')">All</a></li>
+                            {% for author in authors %}
+                                <li><a href="javascript:void(0);" onclick="filterDocuments('{{ author.username }}')">{{ author.username }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </th>
+                <th>
+                    <div class="dropdown">
+                        <a href="javascript:void(0);" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Folder <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0);" onclick="filterDocuments('all')">All</a></li>
+                            {% for folder in folders %}
+                                <li><a href="javascript:void(0);" onclick="filterDocuments('{{ folder.name }}')">{{ folder.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </th>
+                <th>Upload date</th>
+                <th>Last modified</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for document in app.user.sharingDocuments  %}
+                <tr class="document-row">
+                    {% set image = 'bundles/app/images/' ~ document.type | lower ~ '.png' %}
+                    <td><img src="{{ asset(image) }}" /></td>
+                    <td class="mdl-data-table__cell--non-numeric"><a href="{{ path('document_details', {'id': document.id}) }}">{{document.filename}}</a></td>
+                    <td class="document-username">{{document.user.username}}</td>
+                    <td class="document-folder">{{document.folder.name}}</td>
+                    <td>{{document.uploadDate | date('Y-m-d')}}</td>
+                    <td>{{document.lastModified | date('Y-m-d H:i:s')}}</td>
+                    <td>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
