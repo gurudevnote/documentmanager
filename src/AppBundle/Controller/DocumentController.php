@@ -13,10 +13,10 @@ use P5\Model\Message;
 class DocumentController extends Controller
 {
     /**
-     * @Route("/documents", name="documents")
+     * @Route("/documents/{folder_id}", name="documents", defaults={"folder_id"=null})
      * @Template()
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $folder_id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -34,7 +34,7 @@ class DocumentController extends Controller
             ->add('type', 'choice', array('choices' => $this->getParameter('document_types'), 'placeholder' => '--Choose a type--'))
             ->add('folder', 'entity', array('choices' => $folders, 'class' => 'P5\Model\Folder', 'property' => 'nameHierarchy', 'placeholder' => '--Choose a folder--'))
             ->add('save', 'submit', array('label' => 'Upload', 'attr'=>array('class'=>'mdl-button mdl-js-button mdl-button--raised mdl-button--accent')))
-            ->setAction($this->generateUrl('documents'))
+            ->setAction($this->generateUrl('documents', ['folder_id' => null]))
             ->getForm();
         $form->handleRequest($request);
         if($form->isValid()){
@@ -58,7 +58,14 @@ class DocumentController extends Controller
             return $this->redirect($this->generateUrl('documents'));
         }
 
-        $documents = $documentRepository->getMyDocuments($this->getUser());
+        if ($folder_id != null) {
+            $folder = $folderRepository->find($folder_id);
+            $documents = $documentRepository->getMyDocuments($this->getUser(), $folder);
+        } else {
+            $documents = $documentRepository->getMyDocuments($this->getUser());
+        }
+
+
         $authors = $documentRepository->getAllAuthors();
         $folders = $documentRepository->getAllFolders();
 
@@ -68,6 +75,23 @@ class DocumentController extends Controller
             'authors' => $authors,
             'folders' => $folders,
             'document_types' => $this->getParameter('document_types'),
+        );
+    }
+
+    /**
+     * @Route("/shared-documents", name="list_shared_documents")
+     * @Template()
+     */
+    public function listSharedAction() {
+        $em = $this->getDoctrine()->getManager();
+
+        $documentRepository = $em->getRepository("P5:Document");
+        $authors = $documentRepository->getAllAuthors();
+        $folders = $documentRepository->getAllFolders();
+
+        return array(
+            'authors' => $authors,
+            'folders' => $folders,
         );
     }
 
