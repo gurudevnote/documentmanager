@@ -78,7 +78,7 @@ class Builder extends ContainerAware
                 }
             }
 
-            $parentMenu->addChild($folder->getName(), ['extras' => ['lvl' => $folder->getLvl()], 'route' => 'fos_user_profile_show']);
+            $parentMenu->addChild($folder->getName(), ['extras' => ['lvl' => $folder->getLvl()], 'route' => 'documents', 'routeParameters' => ['folder_id' => $folder->getId()]]);
         }
         $menu->addChild('Share with me', ['route' => 'list_shared_documents']);
 

@@ -1,0 +1,16 @@
+{% form_theme uploadForm '@App/Form/form_layout.html.twig'  %}
+
+<div>
+    {{ form_start(uploadForm, {attr:{novalidate: 'novalidate'}}) }}
+    <div class="modal-header">
+        <h3 class="modal-title" id="shareModalLabel">Add document</h3>
+    </div>
+    <div class="modal-body">
+        {{ form_rest(uploadForm) }}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="parent.$.colorbox.close()">Close</button>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+    {{ form_end(uploadForm) }}
+</div>
