@@ -47,4 +47,17 @@ class DocumentControllerTest extends WebTestCase
             self::$client->getResponse()->getContent()
         );
     }
+
+    public function testRemoveDocument()
+    {
+        $documentRepository = $this->getContainer()->get('doctrine.orm.entity_manager')->getRepository('P5:Document');
+        $documentFilename = '[Derek_Chen-Becker,_Tyler_Weir,_Marius_Danciu]_The Definitive Guide to Lift A Scala-Based Web Framework(BookFi.org).pdf';
+        $document = $documentRepository->findOneByFilename($documentFilename);
+        self::$client->request('POST', '/remove_document/' . $document->getId());
+        $crawler = self::$client->request('GET', '/documents');
+        $this->assertNotContains(
+            $documentFilename,
+            $crawler->html()
+        );
+    }
 }

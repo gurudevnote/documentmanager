@@ -165,7 +165,7 @@ class DocumentController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function removeAction($id, Request $request){
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $documentRepository = $em->getRepository('P5:Document');
         $document = $documentRepository->find($id);
         $em->remove($document);
@@ -181,7 +181,7 @@ class DocumentController extends Controller
      * @return array
      */
     public function showAction($id, Request $request){
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $documentRepository = $em->getRepository('P5:Document');
         $document = $documentRepository->find($id);
         $folder = $document->getFolder();
@@ -206,7 +206,7 @@ class DocumentController extends Controller
      * @return array
      */
     public function editAction($id, Request $request){
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $documentRepository = $em->getRepository('P5:Document');
         $document = $documentRepository->find($id);
 
