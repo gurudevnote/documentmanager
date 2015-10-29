@@ -2,10 +2,23 @@
 // src/AppBundle/Tests/ApplicationAvailabilityFunctionalTest.php
 namespace AppBundle\Tests;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class ApplicationAvailabilityFunctionalTest extends WebTestCase
 {
+
+//    private  static $isLoadFixture = false;
+//    public function setUp()
+//    {
+//        if(self::$isLoadFixture === false) {
+//            $classes = array(
+//                'AppBundle\DataFixtures\ORM\LoadBasicData',
+//            );
+//            $this->loadFixtures($classes);
+//            self::$isLoadFixture = true;
+//        }
+//    }
+
     /**
      * @dataProvider urlAnonymousProvider
      */

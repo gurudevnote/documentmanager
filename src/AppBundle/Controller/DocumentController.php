@@ -124,7 +124,7 @@ class DocumentController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function removeAction($id, Request $request){
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $documentRepository = $em->getRepository('P5:Document');
         $document = $documentRepository->find($id);
         $em->remove($document);
@@ -140,14 +140,21 @@ class DocumentController extends Controller
      * @return array
      */
     public function showAction($id, Request $request){
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $documentRepository = $em->getRepository('P5:Document');
         $document = $documentRepository->find($id);
+        $folder = $document->getFolder();
+        $folderTree = array();
+        $level = $folder->getLvl();
+        for($i=0; $i<=$level; $i++){
+            $folderTree[$i] = $folder;
+            $folder = $folder->getParent();
+        }
 
-        $user = $this->get('security.token_storage')->getToken()->getUser();
         return array(
             'document' => $document,
-            'user' => $user,
+            'user' => $this->get('security.token_storage')->getToken()->getUser(),
+            'folderTree' => array_reverse($folderTree),
         );
     }
 
@@ -158,7 +165,7 @@ class DocumentController extends Controller
      * @return array
      */
     public function editAction($id, Request $request){
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $documentRepository = $em->getRepository('P5:Document');
         $document = $documentRepository->find($id);
 

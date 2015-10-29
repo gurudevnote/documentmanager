@@ -25,34 +25,27 @@ class MessageCenter
         $this->token = $token;
     }
 
-    public function pushMessage($from, $content, $type, $to = array()){
+    public function pushMessage($from, $content, $type, $parameters = array(), $to = array()){
         $message = new Message();
         $message->setUser($from);
         $message->setContent($content);
         $message->setType($type);
-        $toUsers = new ArrayCollection();
-        if(count($to) > 0){
-            foreach($to as $u) {
-                $messageUser = new MessageUser();
-                $messageUser->setToUser($u);
-                $messageUser->setMessage($message);
-                $messageUser->setStatus(false);
-                $this->em->persist($messageUser);
-                $toUsers->add($messageUser);
-            }
-        }
-        else{
+
+        if(count($to) === 0 || !is_array($to)){
             $userRepository = $this->em->getRepository('P5:User');
-            $users = $userRepository->findAll();
-            foreach($users as $u) {
-                $messageUser = new MessageUser();
-                $messageUser->setToUser($u);
-                $messageUser->setMessage($message);
-                $messageUser->setStatus(false);
-                $this->em->persist($messageUser);
-                $toUsers->add($messageUser);
-            }
+            $to = $userRepository->findAll();
         }
+        $toUsers = new ArrayCollection();
+        foreach($to as $u) {
+            if($u->getEmail() === $from->getEmail()) continue;
+            $messageUser = new MessageUser();
+            $messageUser->setToUser($u);
+            $messageUser->setMessage($message);
+            $messageUser->setStatus(false);
+            $this->em->persist($messageUser);
+            $toUsers->add($messageUser);
+        }
+        $message->setParameters($parameters);
         $message->setReceivedUsers($toUsers);
         $message->setSentTime(new \DateTime());
         $this->em->persist($message);
@@ -62,12 +55,18 @@ class MessageCenter
     }
 
     public function getNotificationNumber(){
-        $user = $this->token->getToken()->getUser();
-        return count($user->getReceivedMessages());
+        //return count($this->getNotifications());
+        $mRepository = $this->em->getRepository('P5:MessageUser');
+        $query = $mRepository->createQueryBuilder('mu');
+        $query->select('count(mu)')->where('mu.status = :status')->andWhere('mu.toUser = :user');
+        $query->setParameters(array('status' => false, 'user' => $this->token->getToken()->getUser()));
+        return $query->getQuery()->getSingleScalarResult();
     }
 
     public function getNotifications(){
-        $user = $this->token->getToken()->getUser();
-        return $user->getReceivedMessages();
+        $mRepository = $this->em->getRepository('P5:MessageUser');
+        $messages = $mRepository->findBy(array('toUser'=>$this->token->getToken()->getUser(), 'status'=>false));
+
+        return $messages;
     }
 }

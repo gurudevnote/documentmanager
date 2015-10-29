@@ -29,6 +29,12 @@ users:
     password: 123456
     roles:
       - ROLE_USER
+  disable:
+    email: disable@gmail.com
+    enabled: false
+    password: 123456
+    roles:
+      - ROLE_USER
 folders:
   ebooks:
     creator: hnguyenhuu

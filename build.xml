@@ -22,7 +22,7 @@
 
     <target name="phploc">
         <exec dir="${basedir}" executable="./bin/phploc${bat}" failonerror="false" output="${basedir}/build/phploc/index.html">
-            <arg line="./src --log-xml=${basedir}/build/logs/phploc.xml" />
+            <arg line="./src --log-csv=${basedir}/build/logs/phploc.csv" />
         </exec>
     </target>
  
@@ -46,7 +46,7 @@
  
     <target name="phpcpd">
         <exec dir="${basedir}" executable="./bin/phpcpd${bat}" failonerror="false">
-            <arg line="--log-pmd ${basedir}/build/logs/pmd.xml
+            <arg line="--log-pmd ${basedir}/build/logs/pmd-cpd.xml
                        --exclude build
                        --exclude tests
                        ./src" />
@@ -77,7 +77,7 @@
     </target>
     <target name="phpunit">
         <exec dir="${basedir}" executable="./bin/phpunit${bat}" failonerror="false">
-            <arg line="-c app --coverage-html= ${basedir}/build/coverage" />
+            <arg line="-c app --coverage-html ${basedir}/build/coverage --coverage-clover ${basedir}/build/logs/clover.xml --log-junit ${basedir}/build/logs/junit.xml"  />
         </exec>
     </target>
   

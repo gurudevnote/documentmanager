@@ -20,7 +20,8 @@
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "stof/doctrine-extensions-bundle": "^1.2",
         "doctrine/doctrine-fixtures-bundle": "^2.2",
-        "knplabs/knp-menu-bundle": "~2"
+        "knplabs/knp-menu-bundle": "~2",
+        "doctrine/doctrine-migrations-bundle": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
@@ -33,7 +34,8 @@
         "sebastian/phpdcd": "^1.0",
         "mayflower/php-codebrowser": "^1.1",
         "phpdocumentor/phpdocumentor": "^2.8",
-        "halleck45/phpmetrics": "*"
+        "halleck45/phpmetrics": "*",
+        "liip/functional-test-bundle": "^1.2"
     },
     "scripts": {
         "post-install-cmd": [
