@@ -18,7 +18,7 @@
             <div>
                 <ol class="breadcrumb">
                     {% for folder in folderTree %}
-                    <li><a href="#">{{ folder }}</a></li>
+                    <li><a href="{{ path('documents', {'folder_id': folder.id}) }}">{{ folder.name }}</a></li>
                     {% endfor %}
                     <li class="active">{{ document.filename }}</li>
                 </ol>

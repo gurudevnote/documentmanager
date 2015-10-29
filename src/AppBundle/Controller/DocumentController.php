@@ -188,7 +188,7 @@ class DocumentController extends Controller
         $folderTree = array();
         $level = $folder->getLvl();
         for($i=0; $i<=$level; $i++){
-            $folderTree[$i] = $folder->getName();
+            $folderTree[$i] = $folder;
             $folder = $folder->getParent();
         }
 
