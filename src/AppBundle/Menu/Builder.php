@@ -70,7 +70,15 @@ class Builder extends ContainerAware
         $menu = $factory->createItem('root');
         $menu->addChild('My docs', ['route' => 'documents']);
         foreach($folders as $key => $folder) {
-            $parentName[$folder->getLvl()] = $folder->getName();
+            $documentCount = count($folder->getDocuments());
+            if($documentCount > 0){
+                $documentCount = '('.$documentCount.')';
+            } else {
+                $documentCount = '';
+            }
+            
+            $folderName = $folder->getName() . $documentCount;
+            $parentName[$folder->getLvl()] = $folderName;
             $parentMenu = $menu['My docs'];
             if ($folder->getParent() != null) {
                 for ($i = 0; $i < $folder->getLvl(); $i++) {
@@ -78,7 +86,7 @@ class Builder extends ContainerAware
                 }
             }
 
-            $parentMenu->addChild($folder->getName(), ['extras' => ['lvl' => $folder->getLvl()], 'route' => 'documents', 'routeParameters' => ['folder_id' => $folder->getId()]]);
+            $parentMenu->addChild($folderName, ['extras' => ['lvl' => $folder->getLvl()], 'route' => 'documents', 'routeParameters' => ['folder_id' => $folder->getId()]]);
         }
         $menu->addChild('Share with me', ['route' => 'list_shared_documents']);
 
