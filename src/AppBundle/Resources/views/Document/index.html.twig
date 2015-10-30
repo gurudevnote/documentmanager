@@ -52,7 +52,7 @@
                 {% for document in documents  %}
                 {% set defaultClass = '' %}
                 {% if document.shared%}
-                    {% set defaultClass = 'success' %}
+                    {% set defaultClass = 'shared' %}
                 {% endif %}
                 <tr class="document-row {{ defaultClass }}">
                     {% set image = 'bundles/app/images/' ~ document.type | lower ~ '.png' %}
