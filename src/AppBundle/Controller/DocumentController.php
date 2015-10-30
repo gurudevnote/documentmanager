@@ -100,7 +100,7 @@ class DocumentController extends Controller
 
             //push notification
             $messageCenter = $this->get('p5notification.messagecenter');
-            $messageCenter->pushMessage($this->getUser(), 'A document was shared to you by ' . $this->getUser()->getEmail(), 'document', $doc->getSharingUsers());
+            $messageCenter->pushMessage($this->getUser(), 'A document was shared to you by ' . $this->getUser()->getEmail(), 'document',array('id'=> $doc->getId()), $doc->getSharingUsers());
 
             $this->get('session')->getFlashBag()->add('success','Sharing document success!');
 
