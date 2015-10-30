@@ -29,8 +29,8 @@ class DocumentControllerTest extends WebTestCase
             ->where('f.name = :name')
             ->setParameter('name', 'Drawing' );
         $folderId = $qb->getQuery()->getSingleScalarResult();
-        $crawler = self::$client->request('GET', '/documents');
-        $form = $crawler->selectButton('form[save]')->form();
+        $crawler = self::$client->request('GET', '/add-document');
+        $form = $crawler->selectButton('save')->form();
         $documentName = 'test_document_create_successful';
         // set some values
         $form['form[filename]'] = $documentName;
