@@ -22,46 +22,6 @@ class DocumentController extends Controller
 
         $documentRepository = $em->getRepository("P5:Document");
         $folderRepository = $em->getRepository("P5:Folder");
-        $query = $folderRepository->createQueryBuilder('f')
-            ->select('f')
-            ->where('f.user = :user')
-            ->setParameter('user', $this->getUser())
-            ->orderBy('f.root, f.lft', 'ASC');
-        $folders = $query->getQuery()->getResult();
-        $document = new Document();
-        $form = $this->createFormBuilder($document, array('attr'=>array('name'=>'upload_form')))
-            ->add('filename', 'text', array('label'=>'Filename'))
-            ->add('type', 'choice', array('choices' => $this->getParameter('document_types'), 'placeholder' => '--Choose a type--'))
-            ->add('folder', 'entity', array('choices' => $folders, 'class' => 'P5\Model\Folder', 'property' => 'nameHierarchy', 'placeholder' => '--Choose a folder--'))
-            ->add('save', 'submit', array('label' => 'Upload', 'attr'=>array('class'=>'mdl-button mdl-js-button mdl-button--raised mdl-button--accent')))
-            ->setAction($this->generateUrl('documents', ['folder_id' => null]))
-            ->getForm();
-        $form->handleRequest($request);
-        if($form->isValid()){
-            $document->setUser($this->getUser());
-            $document->setFolder($folderRepository->find($document->getFolder()));
-            $document->setUploadDate(new \DateTime());
-            $document->setLastModified(new \DateTime());
-            $document->setDescription('Upload by ' . $this->getUser()->getEmail());
-
-            $em->persist($document);
-            $em->flush();
-
-            $messageCenter = $this->get('p5notification.messagecenter');
-            $messageCenter->pushMessage(
-                $this->getUser(),
-                'A new document was uploaded by ' . $this->getUser()->getEmail(),
-                'document',
-                array('id'=>$document->getId())
-            );
-
-            $this->addFlash(
-                'success',
-                'Your document was uploaded successfully!'
-            );
-
-            return $this->redirect($this->generateUrl('documents'));
-        }
 
         if ($folder_id != null) {
             $folder = $folderRepository->find($folder_id);
@@ -76,7 +36,6 @@ class DocumentController extends Controller
 
         return array(
             'documents' => $documents,
-            'uploadForm' => $form->createView(),
             'authors' => $authors,
             'folders' => $folders,
             'document_types' => $this->getParameter('document_types'),
@@ -227,6 +186,57 @@ class DocumentController extends Controller
         return array(
             'document' => $document,
             'editForm' => $form->createView(),
+        );
+    }
+
+    /**
+     * @Route("add-document", name="add_document")
+     * @Template()
+     */
+    public function addAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+
+        $documentRepository = $em->getRepository("P5:Document");
+        $folderRepository = $em->getRepository("P5:Folder");
+        $query = $folderRepository->createQueryBuilder('f')
+            ->select('f')
+            ->where('f.user = :user')
+            ->setParameter('user', $this->getUser())
+            ->orderBy('f.root, f.lft', 'ASC');
+        $folders = $query->getQuery()->getResult();
+        $document = new Document();
+        $form = $this->createFormBuilder($document, array('attr'=>array('name'=>'upload_form')))
+            ->add('filename', 'text', array('label'=>'Filename'))
+            ->add('type', 'choice', array('choices' => $this->getParameter('document_types'), 'placeholder' => '--Choose a type--'))
+            ->add('folder', 'entity', array('choices' => $folders, 'class' => 'P5\Model\Folder', 'property' => 'nameHierarchy', 'placeholder' => '--Choose a folder--'))
+            ->setAction($this->generateUrl('add_document'))
+            ->getForm();
+        $form->handleRequest($request);
+        if($form->isValid()){
+            $document->setUser($this->getUser());
+            $document->setFolder($folderRepository->find($document->getFolder()));
+            $document->setUploadDate(new \DateTime());
+            $document->setLastModified(new \DateTime());
+            $document->setDescription('Upload by ' . $this->getUser()->getEmail());
+
+            $em->persist($document);
+            $em->flush();
+
+            $messageCenter = $this->get('p5notification.messagecenter');
+            $messageCenter->pushMessage($this->getUser(), 'A new document was uploaded by ' . $this->getUser()->getEmail(), 'document');
+
+            $this->addFlash(
+                'success',
+                'Your document was uploaded successfully!'
+            );
+
+            return $this->redirect($this->generateUrl('documents'));
+        }
+
+        return array(
+            'uploadForm' => $form->createView(),
+            'folders' => $folders,
+            'document_types' => $this->getParameter('document_types'),
         );
     }
 }

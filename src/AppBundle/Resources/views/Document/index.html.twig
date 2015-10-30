@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-{% form_theme uploadForm '@App/Form/form_layout.html.twig'  %}
 {% block body %}
     <div class="row">
         <div class="col-md-12">
@@ -15,7 +14,6 @@
                     {{ flashMessage }}
                 </div>
             {% endfor %}
-            {{ form(uploadForm, {attr:{class:'form-inline', novalidate: 'novalidate'}}) }}
 
             <h2>My documents ({{ documents | length }})</h2>
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
@@ -66,12 +64,25 @@
                     <td>{{document.lastModified | date('Y-m-d H:i:s')}}</td>
                     <td>
                         <div class="dropdown">
-                            <span class="glyphicon glyphicon-option-vertical" type="button" id="dropdownMenu1" data-toggle="dropdown"></span>
+                            {#<span class="glyphicon glyphicon-option-vertical" type="button" id="dropdownMenu1" data-toggle="dropdown"></span>
                             <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
                                 <li><a href="#"><i class="material-icons">file_download</i>Download</a></li>
-                                <li><a href="{{ path('document_sharing', {'id': document.id}) }}" class="btn-share"><i class="material-icons">share</i>Share</a></li>
+                                <li><a href="{{ path('document_sharing', {'id': document.id}) }}" class="color-box"><i class="material-icons">share</i>Share</a></li>
                                 <li><a href="{{ path('edit_document', {'id': document.id}) }}"><i class="material-icons">edit</i>Update</a></li>
                                 <li><a href="{{ path('remove_document', {'id': document.id}) }}"><i class="material-icons">delete</i>Remove</a></li>
+                            </ul>#}
+                            <!-- Right aligned menu below button -->
+                            <button id="btn-sharing-{{ document.id }}"
+                                    class="mdl-button mdl-js-button mdl-button--icon">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+
+                            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+                                for="btn-sharing-{{ document.id }}">
+                                <li class="mdl-menu__item styles__download"><a class="download-btn download-btn--icon" href="#"><i class="material-icons">file_download</i>Download</a></li>
+                                <li class="mdl-menu__item"><a href="{{ path('document_sharing', {'id': document.id}) }}" class="color-box"><i class="material-icons">share</i>Share</a></li>
+                                <li class="mdl-menu__item"><a href="{{ path('edit_document', {'id': document.id}) }}"><i class="material-icons">edit</i>Update</a></li>
+                                <li class="mdl-menu__item"><a href="{{ path('remove_document', {'id': document.id}) }}"><i class="material-icons">delete</i>Remove</a></li>
                             </ul>
                         </div>
                     </td>
@@ -93,11 +104,5 @@
         output='js/complied/document.js'
     %}
     <script src="{{ asset_url }}"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.btn-share').colorbox({'width': '600px'});
-        })
-    </script>
     {% endjavascripts %}
 {% endblock %}

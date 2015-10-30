@@ -60,4 +60,12 @@ class FolderController extends Controller
     {
         return array();
     }
+
+    /**
+     * @Route("add-folder", name="add_folder")
+     * @Template()
+     */
+    public function addAction() {
+
+    }
 }

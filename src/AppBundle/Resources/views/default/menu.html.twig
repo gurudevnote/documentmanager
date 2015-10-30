@@ -1,6 +1,25 @@
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
         <ul id="side-menu" class="nav in">
+            <li class="sidebar-search text-center">
+                <!-- Colored FAB button with ripple -->
+                <div>
+                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" id="add">
+                        <i class="material-icons">add</i>
+                    </button>
+                    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+                        for="add">
+                        <li class="mdl-menu__item color-box" href="{{ path('add_document') }}">
+                            <i class="glyphicon glyphicon-duplicate"></i> Document
+                        </li>
+                        <li class="mdl-menu__item color-box" href="{{ path('add_folder') }}">
+                            <i class=" glyphicon glyphicon-folder-open"></i> Folder
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- /input-group -->
+            </li>
             {{ knp_menu_render('AppBundle:Builder:leftMenu',  {'template': 'AppBundle:Menu:knp_left_menu.html.twig', 'currentClass' : 'active'}) }}
         </ul>
     </div>
