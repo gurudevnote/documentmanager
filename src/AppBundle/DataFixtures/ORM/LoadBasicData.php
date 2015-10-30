@@ -153,13 +153,15 @@ class LoadBasicData implements FixtureInterface, ContainerAwareInterface
             $document->setUser($creator);
             $document->setType($documentData['type']);
             $document->setDescription('Uploaded by ' . $creator->getEmail());
+            $this->em->persist($document);
+            $this->em->flush();
             if($this->arrayHasValue($documentData, 'shareToUsers')) {
                 $shareUsers = new ArrayCollection();
                 //push notification
                 foreach($documentData['shareToUsers'] as $shareUsername) {
                     $shareUsers->add($this->userManager->findUserByUsername($shareUsername));
                 }
-                $messageCenter->pushMessage($creator, 'A document was shared to you by ' . $creator->getEmail(), 'document', $shareUsers->getValues());
+                $messageCenter->pushMessage($creator, 'A document was shared to you by ' . $creator->getEmail(), 'document', array('id'=> $document->getId()), $shareUsers->getValues());
                 $document->setSharingUsers($shareUsers);
             }
             $this->em->persist($document);
