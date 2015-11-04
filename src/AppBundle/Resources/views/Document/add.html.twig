@@ -1,5 +1,6 @@
+{% extends 'popup.html.twig' %}
 {% form_theme uploadForm '@App/Form/form_layout.html.twig'  %}
-
+{% block body %}
 <div>
     {{ form_start(uploadForm, {attr:{novalidate: 'novalidate'}}) }}
     <div class="modal-header">
@@ -14,3 +15,4 @@
     </div>
     {{ form_end(uploadForm) }}
 </div>
+{% endblock %}

@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Collections\ArrayCollection;
 use P5\Model\Message;
+use Symfony\Component\HttpFoundation\Response;
 
 class DocumentController extends Controller
 {
@@ -230,7 +231,10 @@ class DocumentController extends Controller
                 'Your document was uploaded successfully!'
             );
 
-            return $this->redirect($this->generateUrl('documents'));
+            //return $this->redirect($this->generateUrl('documents'));
+            //close iframe
+            //return new Response('<script language="JavaScript">parent.$.colorbox.close()</script>');
+            return new Response('<script language="JavaScript">parent.location.href="'. $this->generateUrl('documents') .'"</script>');
         }
 
         return array(
