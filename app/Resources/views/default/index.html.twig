@@ -9,6 +9,13 @@
                 <p>Number my document: {{ app.user.documents | length }}</p>
                 <p>Number shared documents to me: {{ app.user.sharingDocuments | length }}</p>
             </div>
+            {% else %}
+            <div>
+                <p style="font-weight: bold">user/pass demo: <br></p>
+                hnguyenhuu/123456<br/>
+                thoangtrong/123456<br/>
+                tnguyenle/123456<br/>
+            </div>
             {% endif  %}
         </div>
     </div>

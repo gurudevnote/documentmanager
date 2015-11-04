@@ -39,3 +39,5 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/documents, role: ROLE_USER }
+        - { path: ^/add-document, role: ROLE_USER}
+        - { path: ^/add-folder, role: ROLE_USER}

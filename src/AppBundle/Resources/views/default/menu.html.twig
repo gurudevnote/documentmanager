@@ -1,6 +1,7 @@
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
         <ul id="side-menu" class="nav in">
+            {% if app.user %}
             <li class="sidebar-search text-center">
                 <!-- Colored FAB button with ripple -->
                 <div>
@@ -20,6 +21,7 @@
 
                 <!-- /input-group -->
             </li>
+            {% endif %}
             {{ knp_menu_render('AppBundle:Builder:leftMenu',  {'template': 'AppBundle:Menu:knp_left_menu.html.twig', 'currentClass' : 'active'}) }}
         </ul>
     </div>
