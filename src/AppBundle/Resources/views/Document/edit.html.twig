@@ -1,5 +1,15 @@
 {% extends 'base.html.twig' %}
 {% form_theme editForm '@App/Form/form_layout_mdl.html.twig' %}
+{% block title %}Edit document: {{ document.filename }}{% endblock %}
+{% block google_tags_datalayer %}
+    <script>
+        dataLayer = [{
+            'pageCategory': 'signup',
+            'visitorType': 'high-value',
+            'editDocument': '{{ document.filename }}'
+        }];
+    </script>
+{% endblock %}
 {% block body %}
     <div class="row">
         <div class="col-md-2"></div>
