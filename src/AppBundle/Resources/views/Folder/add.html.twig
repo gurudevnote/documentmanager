@@ -1,0 +1,18 @@
+{% extends 'popup.html.twig' %}
+{% form_theme form '@App/Form/form_layout.html.twig'  %}
+{% block body %}
+<div>
+    {{ form_start(form, {attr:{novalidate: 'novalidate'}}) }}
+    <div class="modal-header">
+        <h3 class="modal-title" id="shareModalLabel">Add folder</h3>
+    </div>
+    <div class="modal-body">
+        {{ form_rest(form) }}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="parent.$.colorbox.close()">Close</button>
+        <button type="submit" name="save" class="btn btn-primary">Add</button>
+    </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

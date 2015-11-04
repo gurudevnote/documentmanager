@@ -6,3 +6,7 @@ P5\Model\Document:
       - NotBlank: ~
     type:
       - NotBlank: ~
+P5\Model\Folder:
+  properties:
+    name:
+      - NotBlank: ~
