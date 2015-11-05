@@ -24,9 +24,10 @@ class DocumentController extends Controller
         $documentRepository = $em->getRepository("P5:Document");
         $folderRepository = $em->getRepository("P5:Folder");
 
+        $currentFolder = null;
         if ($folder_id != null) {
-            $folder = $folderRepository->find($folder_id);
-            $documents = $documentRepository->getMyDocuments($this->getUser(), $folder);
+            $currentFolder = $folderRepository->find($folder_id);
+            $documents = $documentRepository->getMyDocuments($this->getUser(), $currentFolder);
         } else {
             $documents = $documentRepository->getMyDocuments($this->getUser());
         }
@@ -34,13 +35,18 @@ class DocumentController extends Controller
 
         $authors = $documentRepository->getAllAuthors();
         $folders = $documentRepository->getAllFolders();
-
-        return array(
+        $parameters = array(
             'documents' => $documents,
             'authors' => $authors,
             'folders' => $folders,
             'document_types' => $this->getParameter('document_types'),
         );
+
+        if($currentFolder != null) {
+            $parameters['currentFolder'] = $currentFolder;
+        }
+
+        return $parameters;
     }
 
     /**

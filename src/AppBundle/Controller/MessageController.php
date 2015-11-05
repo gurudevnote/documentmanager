@@ -36,8 +36,16 @@ class MessageController extends Controller
                     return $this->redirectToRoute('documents');
                 }
                 break;
-            default:
+            case 'folder':
+                if($message->getParameters()){
+                    return $this->redirectToRoute('documents', (array)$message->getParameters());
+                }
+                else{
+                    return $this->redirectToRoute('folders');
+                }
                 break;
+            default:
+                return $this->redirectToRoute('documents');
         }
     }
 }

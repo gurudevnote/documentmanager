@@ -3,11 +3,11 @@
 {% block title %}Edit document: {{ document.filename }}{% endblock %}
 {% block google_tags_datalayer %}
     <script>
-        dataLayer = [{
-            'pageCategory': 'signup',
-            'visitorType': 'high-value',
-            'editDocument': '{{ document.filename }}'
-        }];
+        dataLayer.push({
+            'documentFolder': '{{ document.folder.name }}',
+            'actionType': 'edit document',
+            'document': '{{ document.filename }}'
+        });
     </script>
 {% endblock %}
 {% block body %}
