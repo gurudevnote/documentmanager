@@ -1,5 +1,14 @@
 {% extends 'base.html.twig' %}
 {% block title %}{{ document.filename }}{% endblock %}
+{% block google_tags_datalayer %}
+    <script>
+        dataLayer.push({
+            'documentFolder': '{{ document.folder.name }}',
+            'actionType': 'view document',
+            'document': '{{ document.filename }}'
+        });
+    </script>
+{% endblock %}
 {% block body %}
     <div class="row">
         <div class="col-md-2"></div>

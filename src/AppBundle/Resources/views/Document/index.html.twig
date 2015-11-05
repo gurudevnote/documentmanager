@@ -1,4 +1,19 @@
 {% extends 'base.html.twig' %}
+{% block title %}
+    {% if currentFolder is defined %}
+        Documents in folder: {{ currentFolder.name }}
+    {% endif %}
+{% endblock %}
+{% block google_tags_datalayer %}
+    {% if currentFolder is defined %}
+    <script>
+        dataLayer.push({
+            'folder': '{{ currentFolder.name }}',
+            'actionType': 'view folder',
+        });
+    </script>
+    {% endif %}
+{% endblock %}
 {% block body %}
     <div class="row">
         <div class="col-md-12">
@@ -14,8 +29,11 @@
                     {{ flashMessage }}
                 </div>
             {% endfor %}
-
-            <h2>My documents ({{ documents | length }})</h2>
+            {% if currentFolder is defined %}
+                <h2>My documents ({{ documents | length }})  of folder {{ currentFolder.name }}</h2>
+            {% else %}
+                <h2>My documents ({{ documents | length }})</h2>
+            {% endif %}
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                 <thead>
                 <tr>
@@ -59,7 +77,7 @@
                     <td><img src="{{ asset(image) }}" /></td>
                     <td class="mdl-data-table__cell--non-numeric"><a href="{{ path('document_details', {'id': document.id}) }}">{{document.filename}}</a></td>
                     <td class="document-username">{{document.user.username}}</td>
-                    <td class="document-folder">{{document.folder.name}}</td>
+                    <td class="document-folder"><a href="{{ path('documents', {folder_id: document.folder.id}) }}">{{document.folder.name}}</a></td>
                     <td>{{document.uploadDate | date('Y-m-d')}}</td>
                     <td>{{document.lastModified | date('Y-m-d H:i:s')}}</td>
                     <td>
