@@ -72,7 +72,7 @@ class FolderController extends Controller
             $this->get('doctrine.orm.entity_manager')->flush();
 
             $messageCenter = $this->get('p5notification.messagecenter');
-            $messageCenter->pushMessage($this->getUser(), 'A new folder was uploaded by ' . $this->getUser()->getEmail(), 'folder');
+            $messageCenter->pushMessage($this->getUser(), 'A new folder was uploaded by ' . $this->getUser()->getEmail(), 'folder',array('folder_id' => $folder->getId()));
             $this->get('session')->getFlashBag()->add('success','The folder is created successfully!');
             return new Response('<script language="JavaScript">parent.location.href="'. $this->generateUrl('folders') .'"</script>');
         }
