@@ -5,7 +5,8 @@
         dataLayer.push({
             'documentFolder': '{{ document.folder.name }}',
             'actionType': 'view document',
-            'document': '{{ document.filename }}'
+            'document': '{{ document.filename }}',
+            'documentType': '{{ document.type }}'
         });
     </script>
 {% endblock %}
