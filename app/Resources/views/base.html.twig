@@ -29,6 +29,9 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <script language="javascript">
             var dataLayer = [{pageType: 'front page'}];
+            {% if app.user %}
+            dataLayer.push({docLoginUser: '{{app.user.username }}'} );
+            {% endif %}
         </script>
     </head>
     <body>
