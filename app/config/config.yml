@@ -114,3 +114,7 @@ stof_doctrine_extensions:
             tree: true
 #            translatable: true
 #            softdeleteable: true
+
+knp_paginator:
+    template:
+        pagination: AppBundle:Pagination:foundation_v5_pagination.html.twig
