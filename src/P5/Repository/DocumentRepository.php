@@ -22,9 +22,7 @@ class DocumentRepository extends EntityRepository
             $query->where("d.folder = :folder");
             $parameters = ['folder' => $folder->getId()];
         }
-        return $query->setParameters($parameters)
-            ->getQuery()
-            ->execute();
+        return $query->setParameters($parameters);
     }
     /*
      * Get all authors in the document table

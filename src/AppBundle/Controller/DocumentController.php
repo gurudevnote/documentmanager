@@ -27,11 +27,13 @@ class DocumentController extends Controller
         $currentFolder = null;
         if ($folder_id != null) {
             $currentFolder = $folderRepository->find($folder_id);
-            $documents = $documentRepository->getMyDocuments($this->getUser(), $currentFolder);
+            $query = $documentRepository->getMyDocuments($this->getUser(), $currentFolder);
         } else {
-            $documents = $documentRepository->getMyDocuments($this->getUser());
+            $query = $documentRepository->getMyDocuments($this->getUser());
         }
 
+        $paginator = $this->get('knp_paginator');
+        $documents = $paginator->paginate($query , $request->get('page', 1), 10);
 
         $authors = $documentRepository->getAllAuthors();
         $folders = $documentRepository->getAllFolders();
@@ -53,16 +55,20 @@ class DocumentController extends Controller
      * @Route("/shared-documents", name="list_shared_documents")
      * @Template()
      */
-    public function listSharedAction() {
+    public function listSharedAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
         $documentRepository = $em->getRepository("P5:Document");
         $authors = $documentRepository->getAllAuthors();
         $folders = $documentRepository->getAllFolders();
 
+        $paginator = $this->get('knp_paginator');
+        $documents = $paginator->paginate($this->getUser()->getSharingDocuments() , $request->get('page', 1), 10);
+
         return array(
             'authors' => $authors,
             'folders' => $folders,
+            'documents' => $documents,
         );
     }
 

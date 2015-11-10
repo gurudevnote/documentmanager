@@ -30,9 +30,9 @@
                 </div>
             {% endfor %}
             {% if currentFolder is defined %}
-                <h2>My documents ({{ documents | length }})  of folder {{ currentFolder.name }}</h2>
+                <h2>My documents ({{ documents.getTotalItemCount }})  of folder {{ currentFolder.name }}</h2>
             {% else %}
-                <h2>My documents ({{ documents | length }})</h2>
+                <h2>My documents ({{ documents.getTotalItemCount }})</h2>
             {% endif %}
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                 <thead>
@@ -108,6 +108,10 @@
                 {% endfor %}
                 </tbody>
             </table>
+
+            <div class="paginator">
+                {{ knp_pagination_render(documents) }}
+            </div>
         </div>
     </div>
 
