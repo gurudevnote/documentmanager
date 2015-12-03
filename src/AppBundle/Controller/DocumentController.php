@@ -33,7 +33,7 @@ class DocumentController extends Controller
         }
 
         $paginator = $this->get('knp_paginator');
-        $documents = $paginator->paginate($query , $request->get('page', 1), 10);
+        $documents = $paginator->paginate($query , $request->query->getInt('page', 1), $request->query->getInt('size', 10));
 
         $authors = $documentRepository->getAllAuthors();
         $folders = $documentRepository->getAllFolders();
@@ -63,7 +63,7 @@ class DocumentController extends Controller
         $folders = $documentRepository->getAllFolders();
 
         $paginator = $this->get('knp_paginator');
-        $documents = $paginator->paginate($this->getUser()->getSharingDocuments() , $request->get('page', 1), 10);
+        $documents = $paginator->paginate($this->getUser()->getSharingDocuments() , $request->query->getInt('page', 1), $request->query->getInt('size', 10));
 
         return array(
             'authors' => $authors,
