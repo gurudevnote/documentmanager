@@ -22,8 +22,8 @@ class FolderControllerTest extends WebTestCase
 
     public function testCreateFolder()
     {
-        $crawler = self::$client->request('GET', '/folders');
-        $form = $crawler->selectButton('form[save]')->form();
+        $crawler = self::$client->request('GET', '/add-folder');
+        $form = $crawler->selectButton('save')->form();
         $folderName = 'test_folder_create_successful';
         // set some values
         $form['form[name]'] = $folderName;
@@ -44,7 +44,8 @@ class FolderControllerTest extends WebTestCase
             ->setParameter('name', 'Drawing' );
         $parentId = $qb->getQuery()->getSingleScalarResult();
 
-        $form = $crawler->selectButton('form[save]')->form();
+        $crawler = self::$client->request('GET', '/add-folder');
+        $form = $crawler->selectButton('save')->form();
         $folderName = 'test_folder_create_successful_set_parent';
         $form['form[name]'] = $folderName;
         $form['form[parent]'] = $parentId;

@@ -41,7 +41,8 @@ class DocumentControllerTest extends WebTestCase
         self::$client->submit($form);
 
 
-        self::$client->request('GET', '/documents');
+
+        self::$client->request('GET', '/documents?size=1000');
         $this->assertContains(
             $documentName,
             self::$client->getResponse()->getContent()
@@ -54,7 +55,7 @@ class DocumentControllerTest extends WebTestCase
         $documentFilename = '[Derek_Chen-Becker,_Tyler_Weir,_Marius_Danciu]_The Definitive Guide to Lift A Scala-Based Web Framework(BookFi.org).pdf';
         $document = $documentRepository->findOneByFilename($documentFilename);
         self::$client->request('POST', '/remove_document/' . $document->getId());
-        $crawler = self::$client->request('GET', '/documents');
+        $crawler = self::$client->request('GET', '/documents?size=1000');
         $this->assertNotContains(
             $documentFilename,
             $crawler->html()
