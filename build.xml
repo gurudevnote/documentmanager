@@ -110,7 +110,7 @@
         <property name="sonar.projectVersion" value="${display_version}" />
         <!-- <property name="sonar.language" value="php" /> -->
         <property name="sonar.sources" value="src,app,web" />
-        <property name="sonar.exclusions" value="app/logs/**,app/cache/**,web/bundles/**,web/css/**,web/js/**,src/AdminBundle/Resources/public/plugin/***" />
+        <property name="sonar.exclusions" value="app/logs/**/*,app/cache/**/*,web/bundles/**/*,web/css/**/*,web/js/**/*,src/AdminBundle/Resources/public/plugin/**/*" />
      
         <!-- Execute the SonarQube analysis -->
         <sonar:sonar />
@@ -127,5 +127,5 @@
         </parallel>
     </target>
  
-    <target name="build" depends="clean,prepare,parallel,phpcpd,documentation,phpcb,phpunit" />
+    <target name="build" depends="clean,prepare,parallel,phpcpd,documentation,phpcb,phpunit,sonar" />
 </project>
