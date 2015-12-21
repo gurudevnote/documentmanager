@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9c58291a064f60b087ec1a2e93421588",
-    "content-hash": "2f8bb8eab74512be17b9ae1d698ce984",
+    "hash": "54282db4dd2138947d1498dd82446995",
+    "content-hash": "8ce13ebf9b977f9f87fcb712899a8b5e",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1413,16 +1413,16 @@
         },
         {
             "name": "knplabs/knp-menu",
-            "version": "v2.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpMenu.git",
-                "reference": "c6ad49933babd06a27b2f962a3469601ec9038b8"
+                "reference": "18253a4467d60614735321387f250b0bc7b0ecad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/c6ad49933babd06a27b2f962a3469601ec9038b8",
-                "reference": "c6ad49933babd06a27b2f962a3469601ec9038b8",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/18253a4467d60614735321387f250b0bc7b0ecad",
+                "reference": "18253a4467d60614735321387f250b0bc7b0ecad",
                 "shasum": ""
             },
             "require": {
@@ -1431,7 +1431,8 @@
             "require-dev": {
                 "pimple/pimple": "~1.0",
                 "silex/silex": "~1.0",
-                "symfony/phpunit-bridge": "~2.7",
+                "symfony/phpunit-bridge": "~2.7|~3.0",
+                "symfony/routing": "~2.3|~3.0",
                 "twig/twig": "~1.16|~2.0"
             },
             "suggest": {
@@ -1474,7 +1475,7 @@
                 "menu",
                 "tree"
             ],
-            "time": "2015-09-20 08:23:47"
+            "time": "2015-12-05 17:59:31"
         },
         {
             "name": "knplabs/knp-menu-bundle",
@@ -2109,16 +2110,16 @@
         },
         {
             "name": "symfony/assetic-bundle",
-            "version": "v2.7.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/assetic-bundle.git",
-                "reference": "d885ec8451d5a7b077bda81bb19ac9fbff9cdc76"
+                "reference": "d444bd055c8292ad021dbca33480959281341508"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/assetic-bundle/zipball/d885ec8451d5a7b077bda81bb19ac9fbff9cdc76",
-                "reference": "d885ec8451d5a7b077bda81bb19ac9fbff9cdc76",
+                "url": "https://api.github.com/repos/symfony/assetic-bundle/zipball/d444bd055c8292ad021dbca33480959281341508",
+                "reference": "d444bd055c8292ad021dbca33480959281341508",
                 "shasum": ""
             },
             "require": {
@@ -2175,7 +2176,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2015-11-17 09:45:47"
+            "time": "2015-12-03 18:35:30"
         },
         {
             "name": "symfony/monolog-bundle",
@@ -7279,7 +7280,9 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "friendsofsymfony/user-bundle": 20
+        "symfony/assetic-bundle": 20,
+        "friendsofsymfony/user-bundle": 20,
+        "knplabs/knp-menu": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
