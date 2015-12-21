@@ -1,4 +1,4 @@
-<project name="BO HTML5" default="build" basedir="./">
+<project name="Symfony2 app demo" default="build" basedir="./" xmlns:sonar="antlib:org.sonar.ant">
     <condition property="bat" value=".bat" else="">
         <os family="windows"/>
     </condition>
@@ -98,6 +98,23 @@
             <!--<fileset dir="${basedir}/build/docblox"/>-->
         <!--</copy>-->
     <!--</target>-->
+
+    <!-- Define the SonarQube target -->
+    <target name="sonar" depends="prepare">
+        <!-- Define the SonarQube global properties (the most usual way is to pass these properties via the command line) -->
+        <property name="sonar.host.url" value="http://localhost:9000" />        
+        
+        <!-- Define the SonarQube project properties -->
+        <property name="sonar.projectKey" value="org.codehaus.sonar:symfomy-demo-app" />
+        <property name="sonar.projectName" value="symfomy-demo-app" />
+        <property name="sonar.projectVersion" value="${display_version}" />
+        <!-- <property name="sonar.language" value="php" /> -->
+        <property name="sonar.sources" value="src,app,web" />
+        <property name="sonar.exclusions" value="app/logs/**,app/cache/**,web/bundles/**,web/css/**,web/js/**,src/AdminBundle/Resources/public/plugin/***" />
+     
+        <!-- Execute the SonarQube analysis -->
+        <sonar:sonar />
+    </target>
  
     <target name="parallel">
         <parallel>
