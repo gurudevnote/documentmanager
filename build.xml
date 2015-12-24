@@ -77,7 +77,7 @@
     </target>
     <target name="phpunit">
         <exec dir="${basedir}" executable="./bin/phpunit${bat}" failonerror="false">
-            <arg line="-c app --coverage-html ${basedir}/build/coverage --coverage-clover ${basedir}/build/logs/clover.xml --log-junit ${basedir}/build/logs/junit.xml"  />
+            <arg line="-c app --coverage-html ${basedir}/build/coverage --coverage-clover ${basedir}/build/logs/clover.xml --log-junit ${basedir}/build/logs/junit.xml --coverage-xml ${basedir}/build/coverage" />
         </exec>
     </target>
   
@@ -100,7 +100,7 @@
     <!--</target>-->
 
     <!-- Define the SonarQube target -->
-    <target name="sonar" depends="prepare">
+    <target name="sonar" depends="prepare,phpunit">
         <!-- Define the SonarQube global properties (the most usual way is to pass these properties via the command line) -->
         <property name="sonar.host.url" value="http://localhost:9000" />        
         
@@ -110,7 +110,11 @@
         <property name="sonar.projectVersion" value="${display_version}" />
         <!-- <property name="sonar.language" value="php" /> -->
         <property name="sonar.sources" value="src,app,web" />
-        <property name="sonar.exclusions" value="app/logs/**/*,app/cache/**/*,web/bundles/**/*,web/css/**/*,web/js/**/*,src/AdminBundle/Resources/public/plugin/**/*" />
+        <property name="sonar.exclusions" value="app/logs/**/*,app/cache/**/*,web/bundles/**/*,web/css/**/*,web/js/**/*,src/AdminBundle/Resources/public/plugin/**/*,src/**/Tests/**" />
+        <property name="sonar.tests" value="src/AppBundle/Tests,src/AdminBundle/Tests" />
+        <property name="sonar.php.tests.reportPath" value="${basedir}/build/logs/junit.xml"/>
+        <property name="sonar.php.coverage.reportPath" value="${basedir}/build/logs/clover.xml"/>
+        <property name="sonar.php.coverage.overallReportPath" value="${basedir}/build/logs/clover.xml"/>
      
         <!-- Execute the SonarQube analysis -->
         <sonar:sonar />
