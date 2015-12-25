@@ -40,7 +40,8 @@
         "liip/functional-test-bundle": "^1.2",
         "clue/graph-composer": "*",
         "leaphub/phpcs-symfony2-standard": "^2.0",
-        "fabpot/php-cs-fixer": "^1.11"
+        "fabpot/php-cs-fixer": "^1.11",
+        "pdepend/pdepend": "^2.2"
     },
     "scripts": {
         "post-install-cmd": [
