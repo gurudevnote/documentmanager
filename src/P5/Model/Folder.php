@@ -3,14 +3,13 @@
  * Created by PhpStorm.
  * User: thaiht
  * Date: 10/2/15
- * Time: 11:40 AM
+ * Time: 11:40 AM.
  */
-
 namespace P5\Model;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
+
 /**
  * @Gedmo\Tree(type="nested")FolderRepository
  * @ORM\Entity(repositoryClass="P5\Repository\FolderRepository")
@@ -113,27 +112,31 @@ class Folder
         $this->documents = $documents;
     }
 
-    public function setName($value) {
+    public function setName($value)
+    {
         $this->name = $value;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
     public function getNameHierarchy()
     {
-        $prefix = "";
-        for ($i=1; $i<= $this->lvl; $i++){
+        $prefix = '';
+        for ($i = 1; $i <= $this->lvl; ++$i) {
             //$prefix .= "&nbsp;&nbsp;&nbsp;&nbsp;";
-            $prefix .= "----";
+            $prefix .= '----';
         }
-        return $prefix . $this->name ."(".count($this->documents).")";
+
+        return $prefix.$this->name.'('.count($this->documents).')';
     }
 
     public function getParentName()
     {
         $parent = $this->getParent();
+
         return $parent->getName();
     }
 
@@ -171,53 +174,60 @@ class Folder
 
     public function __toString()
     {
-        $prefix = "";
-        for ($i=1; $i<= $this->lvl; $i++){
-            $prefix .= "&nbsp;&nbsp;&nbsp;&nbsp;";
+        $prefix = '';
+        for ($i = 1; $i <= $this->lvl; ++$i) {
+            $prefix .= '&nbsp;&nbsp;&nbsp;&nbsp;';
             //$prefix .= "----";
         }
-        return $prefix . $this->name ."(".count($this->documents).")";
+
+        return $prefix.$this->name.'('.count($this->documents).')';
     }
 
     /**
      * @return mixed
      */
-    public function getUploadDate() {
+    public function getUploadDate()
+    {
         return $this->uploadDate;
     }
 
     /**
      * @param mixed $uploadDate
      */
-    public function setUploadDate($uploadDate) {
+    public function setUploadDate($uploadDate)
+    {
         $this->uploadDate = $uploadDate;
     }
 
     /**
      * @return mixed
      */
-    public function getLastModified() {
+    public function getLastModified()
+    {
         return $this->lastModified;
     }
 
     /**
      * @param mixed $lastModified
      */
-    public function setLastModified($lastModified) {
+    public function setLastModified($lastModified)
+    {
         $this->lastModified = $lastModified;
     }
 
     /**
      * @return mixed
      */
-    public function getLvl() {
+    public function getLvl()
+    {
         return $this->lvl;
     }
 
     /**
      * @param mixed $lvl
      */
-    public function setLvl($lvl) {
+    public function setLvl($lvl)
+    {
         $this->lvl = $lvl;
     }
 }

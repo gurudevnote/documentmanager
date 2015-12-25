@@ -24,11 +24,10 @@ class DefaultControllerTest extends WebTestCase
         //$client->request('GET', '/login');
         $crawler = $client->followRedirect();
         $this->assertContains(
-            "Invalid credentials",
+            'Invalid credentials',
             $crawler->html()
         );
     }
-
 
     public function testAccountIsDisabled()
     {
@@ -47,7 +46,7 @@ class DefaultControllerTest extends WebTestCase
 
         $crawler = $client->followRedirect();
         $this->assertContains(
-            "Account is disabled",
+            'Account is disabled',
             $crawler->html()
         );
     }

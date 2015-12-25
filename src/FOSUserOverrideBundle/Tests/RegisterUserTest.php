@@ -1,6 +1,9 @@
 <?php
+
 namespace FOSUserOverrideBundle\Tests;
+
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
 class RegisterUserTest  extends WebTestCase
 {
     public function testRegisterSuccessful()
@@ -21,12 +24,12 @@ class RegisterUserTest  extends WebTestCase
         $client->submit($form);
         $crawler = $client->followRedirect();
         $this->assertContains(
-            "The user has been created successfully",
+            'The user has been created successfully',
             $crawler->html()
         );
 
         $this->assertContains(
-            "register_user",
+            'register_user',
             $crawler->html()
         );
     }
@@ -49,7 +52,7 @@ class RegisterUserTest  extends WebTestCase
         $crawler = $client->submit($form);
 
         $this->assertContains(
-            "Please enter an email",
+            'Please enter an email',
             $crawler->html()
         );
 
@@ -68,7 +71,7 @@ class RegisterUserTest  extends WebTestCase
         $crawler = $client->submit($form);
 
         $this->assertContains(
-            "The email is not valid",
+            'The email is not valid',
             $crawler->html()
         );
     }

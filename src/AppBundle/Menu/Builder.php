@@ -14,6 +14,7 @@ class Builder extends ContainerAware
         $menu->addChild('Home', array('route' => 'homepage'));
         $menu->addChild('Documents', array('route' => 'documents'));
         $menu->addChild('Folders', array('route' => 'folders'));
+
         return $menu;
     }
 
@@ -27,36 +28,35 @@ class Builder extends ContainerAware
             $mc = $this->container->get('p5notification.messagecenter');
             $messages = $mc->getNotifications();
             $notifications = array();
-            if(count($messages) > 0){
-                foreach($messages as $value){
+            if (count($messages) > 0) {
+                foreach ($messages as $value) {
                     $notifications[] = $value->getMessage();
                 }
             }
-            $menu->addChild('notification', array('extras'=>array('number_notification'=>$mc->getNotificationNumber(), 'subitems'=>$notifications)));
-
+            $menu->addChild('notification', array('extras' => array('number_notification' => $mc->getNotificationNumber(), 'subitems' => $notifications)));
 
             $user = $this->container->get('security.token_storage')->getToken()->getUser();
             if ($authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
-                $menu->addChild('Administrator', array('route'=>'admin_homepage'));
+                $menu->addChild('Administrator', array('route' => 'admin_homepage'));
             }
             $avatar = $user->getAvatar();
-            if($avatar == null || $avatar == '') {
-                $avatar =  $this->container->get('templating.helper.assets')->getUrl('bundles/app/images/avatarDefault.png');
+            if ($avatar == null || $avatar == '') {
+                $avatar = $this->container->get('templating.helper.assets')->getUrl('bundles/app/images/avatarDefault.png');
             }
             $menu->addChild($user->getEmail(), array('uri' => '#'));
-            $menu->addChild('avatar', array('uri'=> $avatar));
+            $menu->addChild('avatar', array('uri' => $avatar));
             $menu['avatar']->addChild('My profile', array('route' => 'fos_user_profile_show'));
             $menu['avatar']->addChild('Edit profile', array('route' => 'fos_user_profile_edit'));
             $menu['avatar']->addChild('Logout', array('route' => 'fos_user_security_logout'));
-        }
-        else{
-            $menu->addChild('Login', array('route'=>'fos_user_security_login'));
+        } else {
+            $menu->addChild('Login', array('route' => 'fos_user_security_login'));
         }
 
         return $menu;
     }
 
-    public function leftMenu(FactoryInterface $factory, array $options) {
+    public function leftMenu(FactoryInterface $factory, array $options)
+    {
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $em = $this->container->get('doctrine')->getManager();
         $folderRepository = $em->getRepository('P5:Folder');
@@ -69,19 +69,19 @@ class Builder extends ContainerAware
 
         $menu = $factory->createItem('root');
         $menu->addChild('My docs', ['route' => 'documents']);
-        foreach($folders as $key => $folder) {
+        foreach ($folders as $key => $folder) {
             $documentCount = count($folder->getDocuments());
-            if($documentCount > 0){
+            if ($documentCount > 0) {
                 $documentCount = '('.$documentCount.')';
             } else {
                 $documentCount = '';
             }
-            
-            $folderName = $folder->getName() . $documentCount;
+
+            $folderName = $folder->getName().$documentCount;
             $parentName[$folder->getLvl()] = $folderName;
             $parentMenu = $menu['My docs'];
             if ($folder->getParent() != null) {
-                for ($i = 0; $i < $folder->getLvl(); $i++) {
+                for ($i = 0; $i < $folder->getLvl(); ++$i) {
                     $parentMenu = $parentMenu[$parentName[$i]];
                 }
             }

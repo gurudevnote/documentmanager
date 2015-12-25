@@ -1,12 +1,10 @@
 <?php
 
-
 namespace FOSUserOverrideBundle\Controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use FOS\UserBundle\Controller\ProfileController as FOSProfileController;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
@@ -19,6 +17,7 @@ class ProfileController extends FOSProfileController
 {
     /**
      * @param Request $request
+     *
      * @return RedirectResponse
      * @Template()
      */
@@ -43,7 +42,7 @@ class ProfileController extends FOSProfileController
         $formFactory = $this->get('fos_user.profile.form.factory');
 
         $form = $formFactory->createForm();
-        $form->add('avatar', 'text', array('label'=>'Avatar URL'));
+        $form->add('avatar', 'text', array('label' => 'Avatar URL'));
         $form->setData($user);
 
         $form->handleRequest($request);
@@ -68,7 +67,7 @@ class ProfileController extends FOSProfileController
         }
 
         return $this->render('FOSUserBundle:Profile:edit.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ));
     }
 }

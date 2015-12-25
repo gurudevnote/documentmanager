@@ -1,11 +1,10 @@
 <?php
+
 namespace P5\Model;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
-use P5\Model\Document;
 
 /**
  * @ORM\Entity
@@ -70,28 +69,32 @@ class User extends BaseUser
     /**
      * @return mixed
      */
-    public function getAddress() {
+    public function getAddress()
+    {
         return $this->address;
     }
 
     /**
      * @param mixed $address
      */
-    public function setAddress($address) {
+    public function setAddress($address)
+    {
         $this->address = $address;
     }
 
     /**
      * @return mixed
      */
-    public function getSharingDocuments() {
+    public function getSharingDocuments()
+    {
         return $this->sharingDocuments;
     }
 
     /**
      * @param mixed $sharingDocuments
      */
-    public function hasSharingDocuments(Document $sharingDocuments) {
+    public function hasSharingDocuments(Document $sharingDocuments)
+    {
         $this->getSharingDocuments()->contains($sharingDocuments);
     }
 
@@ -190,5 +193,4 @@ class User extends BaseUser
     {
         $this->avatar = $avatar;
     }
-
 }

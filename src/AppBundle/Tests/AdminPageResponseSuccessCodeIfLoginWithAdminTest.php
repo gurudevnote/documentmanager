@@ -1,10 +1,13 @@
 <?php
+
 namespace AppBundle\Tests;
+
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
 class AdminPageResponseSuccessCodeIfLoginWithAdminTest  extends WebTestCase
 {
-    private  static $client = null;
-    public static function  setUpBeforeClass()
+    private static $client = null;
+    public static function setUpBeforeClass()
     {
         //self::$client = static::createClient(array('environment' => 'test', 'debug' => true));
         self::$client = static::createClient();

@@ -6,8 +6,7 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class ApplicationAvailabilityFunctionalTest extends WebTestCase
 {
-
-//    private  static $isLoadFixture = false;
+    //    private  static $isLoadFixture = false;
 //    public function setUp()
 //    {
 //        if(self::$isLoadFixture === false) {

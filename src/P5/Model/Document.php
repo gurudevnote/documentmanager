@@ -3,13 +3,11 @@
  * Created by PhpStorm.
  * User: thaiht
  * Date: 10/1/15
- * Time: 4:12 PM
+ * Time: 4:12 PM.
  */
-
 namespace P5\Model;
 
 use Doctrine\ORM\Mapping as ORM;
-use P5\Model\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -157,32 +155,37 @@ class Document
     /**
      * @return mixed
      */
-    public function getSharingUsers() {
+    public function getSharingUsers()
+    {
         return $this->sharingUsers;
     }
 
-    public function isShared(){
+    public function isShared()
+    {
         return count($this->sharingUsers) > 0;
     }
 
     /**
      * @param mixed $user
      */
-    public function hasSharingUsers(User $user) {
+    public function hasSharingUsers(User $user)
+    {
         return $this->getSharingUsers()->contains($user);
     }
 
     /**
      * @return mixed
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
      * @param mixed $id
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 

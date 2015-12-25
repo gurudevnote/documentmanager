@@ -3,14 +3,11 @@
  * Created by PhpStorm.
  * User: thaiht
  * Date: 10/1/15
- * Time: 4:12 PM
+ * Time: 4:12 PM.
  */
-
 namespace P5\Model;
 
 use Doctrine\ORM\Mapping as ORM;
-use P5\Model\User;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="P5\Repository\MessageRepository")

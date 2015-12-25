@@ -1,10 +1,12 @@
 <?php
+
 namespace P5NotificationBundle\DependencyInjection;
 
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
+
 class P5NotificationExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)

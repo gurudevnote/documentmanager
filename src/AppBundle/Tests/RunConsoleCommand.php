@@ -1,9 +1,9 @@
 <?php
 
 namespace AppBundle\Tests;
+
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 require_once __DIR__.'/../../../app/AppKernel.php';
 
@@ -28,16 +28,16 @@ trait RunConsoleCommand
         return self::$traitKernel->getContainer()->get($serviceId);
     }
 
-    public static function runConsole($command, Array $options = array())
+    public static function runConsole($command, array $options = array())
     {
-        if(self::$traitApplication == null)
-        {
+        if (self::$traitApplication == null) {
             self::initKernel();
         }
 
-        $options["-e"] = "test";
-        $options["-q"] = null;
+        $options['-e'] = 'test';
+        $options['-q'] = null;
         $options = array_merge($options, array('command' => $command));
+
         return self::$traitApplication->run(new ArrayInput($options));
     }
 }

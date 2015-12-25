@@ -20,7 +20,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Default menu
+     * Default menu.
      */
     public function menuAction()
     {
@@ -34,7 +34,7 @@ class DefaultController extends Controller
 
         $options = array(
             'decorate' => true,
-            'rootOpen' => function($tree) {
+            'rootOpen' => function ($tree) {
                 $class = 'nav-second-level';
                 if ($tree['0']['lvl'] == 1) {
                     $class = 'nav-third-level';
@@ -45,27 +45,29 @@ class DefaultController extends Controller
                 if ($tree['0']['lvl'] == 3) {
                     $class = 'nav-fifth-level';
                 }
+
                 return '<ul class="nav '.$class.'">';
             },
             'rootClose' => '</ul>',
             'childOpen' => '<li>',
             'childClose' => '</li>',
-            'nodeDecorator' => function($node) {
+            'nodeDecorator' => function ($node) {
                 $html = '<a href="/documents/'.$node['id'].'">'.$node['name'];
                 if (count($node['__children']) > 0) {
                     $html .= '<span class="fa arrow"></span></a>';
                 } else {
                     $html .= '</a>';
                 }
+
                 return $html;
-            }
+            },
         );
         $folders = $query->getQuery()->getArrayResult();
 //        die(var_dump($folders));
         $foldersHtml = $folderRepository->buildTree($folders, $options);
 //        $foldersHtml = $folderRepository->childrenHierarchy(null, false, $options);
         return $this->render('@App/default/menu.html.twig', [
-            'foldersHtml' => $foldersHtml
+            'foldersHtml' => $foldersHtml,
         ]);
     }
 }

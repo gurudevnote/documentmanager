@@ -1,11 +1,13 @@
 <?php
+
 namespace AppBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+
 class FolderControllerTest extends WebTestCase
 {
-    private  static $client = null;
-    public static function  setUpBeforeClass()
+    private static $client = null;
+    public static function setUpBeforeClass()
     {
         self::$client = static::createClient();
         $crawler = self::$client->request('GET', '/login');
@@ -41,7 +43,7 @@ class FolderControllerTest extends WebTestCase
         $qb = $repository->createQueryBuilder('f')
             ->select('f.id')
             ->where('f.name = :name')
-            ->setParameter('name', 'Drawing' );
+            ->setParameter('name', 'Drawing');
         $parentId = $qb->getQuery()->getSingleScalarResult();
 
         $crawler = self::$client->request('GET', '/add-folder');

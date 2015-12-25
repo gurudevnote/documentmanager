@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AdminBundle\Controller;
 
 use P5\Model\User;
@@ -10,7 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AdminBundle\Form\UserType;
 
-class UsersController extends Controller {
+class UsersController extends Controller
+{
     /**
      * @Route("/user", name="admin_user_list")
      * @Template()
@@ -25,7 +25,6 @@ class UsersController extends Controller {
 
     public function createAction(Request $request)
     {
-
     }
 
     /**
@@ -49,22 +48,20 @@ class UsersController extends Controller {
 
     /**
      * Displays a form to create a new User entity.
-     *
      */
     public function newAction()
     {
         $user = new Event();
-        $form   = $this->createCreateForm($user);
+        $form = $this->createCreateForm($user);
 
         return $this->render('P5:User:new.html.twig', array(
             'user' => $user,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         ));
     }
 
     /**
      * Finds and displays a Event entity.
-     *
      */
     public function showAction($slug)
     {
@@ -79,7 +76,7 @@ class UsersController extends Controller {
         $deleteForm = $this->createDeleteForm($user->getId());
 
         return $this->render('P5:User:show.html.twig', array(
-            'user'      => $user,
+            'user' => $user,
             'delete_form' => $deleteForm->createView(),        ));
     }
 
@@ -95,7 +92,7 @@ class UsersController extends Controller {
         $form = $this->createForm(new UserType(), $user, array(
             'action' => $this->generateUrl('admin_user_edit', array('id' => $user->getId())),
             'method' => 'PUT',
-            'validation_groups' => array('admin_edit_user')
+            'validation_groups' => array('admin_edit_user'),
         ));
 
         $form->add('submit', 'submit', array('label' => 'Update', 'attr' => ['class' => 'btn btn-primary']));
@@ -104,6 +101,7 @@ class UsersController extends Controller {
     }
     /**
      * Displays a form to edit an existing Event entity.
+     *
      * @Route("/user/{id}/edit", name="admin_user_edit")
      * @Template()
      */
@@ -130,19 +128,20 @@ class UsersController extends Controller {
         if ($editForm->isValid()) {
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success','Update user success');
+            $this->get('session')->getFlashBag()->add('success', 'Update user success');
 
             return $this->redirect($this->generateUrl('admin_user_list'));
         }
 
         return array(
-            'user'      => $user,
-            'edit_form'   => $editForm->createView(),
+            'user' => $user,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
     /**
      * Deletes a User entity.
+     *
      * @Route("/delete", name="admin_user_delete")
      */
     public function deleteAction(Request $request, $id)
@@ -158,7 +157,6 @@ class UsersController extends Controller {
                 throw $this->createNotFoundException('Unable to find User entity.');
             }
 
-
             $em->remove($user);
             $em->flush();
         }
@@ -166,14 +164,15 @@ class UsersController extends Controller {
         return $this->redirect($this->generateUrl('admin_user'));
     }
 
-
     /**
      * @param string $id
      * @param string $format
+     *
      * @return url
      * @Route("/{id}/enable.{format}", name="admin_user_set_enable")
      */
-    public function changeEnable($id, $format = 'html') {
+    public function changeEnable($id, $format = 'html')
+    {
         $userManager = $this->get('fos_user.user_manager');
         $user = $userManager->findUserBy(['id' => $id]);
         if ($user->isEnabled()) {
