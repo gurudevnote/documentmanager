@@ -27,8 +27,8 @@
     </target>
  
     <target name="phpcs">
-        <exec dir="${basedir}" executable="./bin/phpcs${bat}" failonerror="false" output="${basedir}/build/phpcs/index.html">
-            <arg line="./src -p -s --extensions=php --standard=Zend --tab-width=4 --report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml" />
+        <exec dir="${basedir}" executable="./bin/phpcs${bat}" failonerror="false" >
+            <arg line="./src -p -s --extensions=php --standard=vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/ --tab-width=4 --report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml" />
         </exec>
     </target>
  
@@ -111,10 +111,15 @@
         <!-- <property name="sonar.language" value="php" /> -->
         <property name="sonar.sources" value="src,app,web" />
         <property name="sonar.exclusions" value="app/logs/**/*,app/cache/**/*,web/bundles/**/*,web/css/**/*,web/js/**/*,src/AdminBundle/Resources/public/plugin/**/*,src/**/Tests/**" />
-        <property name="sonar.tests" value="src/AppBundle/Tests,src/AdminBundle/Tests" />
+        <property name="sonar.tests" value="src/AppBundle/Tests,src/AdminBundle/Tests,src/FOSUserOverrideBundle/Tests" />
         <property name="sonar.php.tests.reportPath" value="${basedir}/build/logs/junit.xml"/>
         <property name="sonar.php.coverage.reportPath" value="${basedir}/build/logs/clover.xml"/>
         <property name="sonar.php.coverage.overallReportPath" value="${basedir}/build/logs/clover.xml"/>
+        <property name="sonar.phpCodesniffer.analyzeOnly" value="true"/>
+        <property name="sonar.phpCodeSniffer.reportPath" value="${basedir}/build/logs/checkstyle.xml"/>
+
+        <property name="sonar.php.codesniffer.analyzeOnly" value="true"/>
+        <property name="sonar.php.codeSniffer.reportPath" value="${basedir}/build/logs/checkstyle.xml"/>
      
         <!-- Execute the SonarQube analysis -->
         <sonar:sonar />

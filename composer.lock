@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8379da1476b7892adcf2c43606067aa2",
-    "content-hash": "dd2bb4b4afb1766bb24265f9fa777d6a",
+    "hash": "1d69c21a5341e62dde07ab589145e8a7",
+    "content-hash": "d20f3900c2e86e5227eab471ac4a2063",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -4532,6 +4532,43 @@
             "description": "A parsing and comparison library for semantic versioning.",
             "homepage": "http://github.com/kherge/Version",
             "time": "2012-08-16 17:13:03"
+        },
+        {
+            "name": "leaphub/phpcs-symfony2-standard",
+            "version": "v2.0.3",
+            "target-dir": "leaphub/phpcs/Symfony2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/leaphub/phpcs-symfony2-standard.git",
+                "reference": "3a69d4c86585b474f434cc0422569f372038147c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/leaphub/phpcs-symfony2-standard/zipball/3a69d4c86585b474f434cc0422569f372038147c",
+                "reference": "3a69d4c86585b474f434cc0422569f372038147c",
+                "shasum": ""
+            },
+            "require": {
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A PHP_CodeSniffer standard for Symfony 2 applications",
+            "homepage": "https://github.com/leaphub/phpcs-symfony2-standard",
+            "keywords": [
+                "Coding Standard",
+                "phpcs",
+                "symfony 2"
+            ],
+            "time": "2015-03-25 10:07:53"
         },
         {
             "name": "liip/functional-test-bundle",
